@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "retro64:block/castlestairs" },
+    "facing=south": { "model": "retro64:block/castlestairs", "y":  180},
+    "facing=west": { "model": "retro64:block/castlestairs", "y":  270},
+    "facing=east": { "model": "retro64:block/castlestairs", "y":  90}
+  }
+}
