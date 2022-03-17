@@ -30,7 +30,7 @@ public class LibSM64 {
     public static final int SM64_GEO_MAX_TRIANGLES = 2048;
     static boolean isGlobalInit;
 
-    static final int supportedVer=1;
+    static final int supportedVer=2;
 
     public final int SM64_MAX_HEALTH = 8;
 
