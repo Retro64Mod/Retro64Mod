@@ -10,6 +10,6 @@
   "menu.retro64.ok": "I understand",
   "menu.retro64.genericWarn": "Please refer to the installation instructions. The mod may not work correctly in this state, or the game might crash.",
   "menu.retro64.warnNoDLL": "You are missing sm64.dll.",
-  "menu.retro64.warnWrongVersion": "You have the wrong version of sm64.dll.",
+  "menu.retro64.warnWrongVersion": "You have the wrong version of sm64.dll, it might need to be compiled again.",
   "menu.retro64.warnMissingROM": "You are missing the ROM file."
 }
