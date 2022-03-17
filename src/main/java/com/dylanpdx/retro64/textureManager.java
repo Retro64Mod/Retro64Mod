@@ -112,6 +112,8 @@ public class textureManager {
 
         var iio=getSkinInputStream(skinLoc);
         var nativeImg=NativeImage.read(iio);
+        if (nativeImg.getHeight()!=64)
+            return null;
         NativeImage skinAtlas = new NativeImage(320,64,true);
         for (int i = 0; i < 64; i++) {
             for (int j = 0; j < 64; j++) {
@@ -158,6 +160,8 @@ public class textureManager {
                 public void onSkinTextureAvailable(MinecraftProfileTexture.Type p_118857_, ResourceLocation p_118858_, MinecraftProfileTexture p_118859_) {
                     try {
                         var etex=extendSkinTexture(p_118858_);
+                        if (etex==null)
+                            etex=getSteveTexture();
                         textureMap.put(pname,etex);
                     } catch (IOException e) {
                         e.printStackTrace();
