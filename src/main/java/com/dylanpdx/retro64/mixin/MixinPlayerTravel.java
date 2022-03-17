@@ -19,6 +19,8 @@ public class MixinPlayerTravel {
     @Inject(at=@At("HEAD"),method="Lnet/minecraft/world/entity/player/Player;travel(Lnet/minecraft/world/phys/Vec3;)V", cancellable = true)
     private void plrTravel(CallbackInfo ci){
         var thisPlr = ((Player)(Object)this);
+        if (!thisPlr.isLocalPlayer())
+            return;
         if (RemoteMCharHandler.getIsMChar(thisPlr)){
             try {
                 m_tryCheckInsideBlocks.invoke(thisPlr);
