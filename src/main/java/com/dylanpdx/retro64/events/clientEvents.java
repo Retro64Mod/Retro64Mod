@@ -284,6 +284,8 @@ public class clientEvents {
             return;
         LocalPlayer plr = Minecraft.getInstance().player;
         ClientLevel world = Minecraft.getInstance().level;
+        if (plr.isOnFire())
+            plr.clearFire();
         var mchar = SM64EnvManager.selfMChar;
 
         if (world.isClientSide && Minecraft.getInstance().getSingleplayerServer()!=null && !Minecraft.getInstance().getSingleplayerServer().isPublished() && Minecraft.getInstance().isPaused())
