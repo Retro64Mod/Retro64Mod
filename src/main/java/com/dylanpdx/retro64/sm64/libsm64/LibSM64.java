@@ -7,19 +7,15 @@ import com.dylanpdx.retro64.sm64.SM64MCharAction;
 import com.dylanpdx.retro64.textureManager;
 import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.math.Vector3f;
-import com.sun.jna.Memory;
 import net.minecraft.world.phys.Vec3;
 import org.apache.commons.lang3.SystemUtils;
 
-import java.io.ByteArrayInputStream;
-import java.io.DataInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.logging.Logger;
 
 public class LibSM64 {
 

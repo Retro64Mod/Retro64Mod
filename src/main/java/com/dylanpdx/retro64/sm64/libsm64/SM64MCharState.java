@@ -1,5 +1,4 @@
 package com.dylanpdx.retro64.sm64.libsm64;
-import com.dylanpdx.retro64.SM64EnvManager;
 import com.dylanpdx.retro64.sm64.SM64MCharActionFlags;
 import com.sun.jna.Structure;
 import java.util.Arrays;

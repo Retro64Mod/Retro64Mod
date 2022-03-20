@@ -3,10 +3,10 @@ package com.dylanpdx.retro64;
 import com.mojang.blaze3d.platform.NativeImage;
 import net.minecraft.client.Minecraft;
 
-import java.io.DataInputStream;
-import java.io.File;
+// import java.io.DataInputStream;
+// import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
+// import java.io.InputStream;
 
 import static com.dylanpdx.retro64.sm64.libsm64.LibSM64.SM64_TEXTURE_HEIGHT;
 import static com.dylanpdx.retro64.sm64.libsm64.Libsm64Library.SM64_TEXTURE_WIDTH;

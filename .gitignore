@@ -21,6 +21,9 @@ build
 eclipse
 run
 
+# may contain system specific files
+.vscode
+
 # Files from Forge MDK
 forge*changelog.txt
 

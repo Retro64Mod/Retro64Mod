@@ -2,7 +2,6 @@ package com.dylanpdx.retro64;
 
 import net.minecraft.world.phys.Vec3;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class surfaceItem {

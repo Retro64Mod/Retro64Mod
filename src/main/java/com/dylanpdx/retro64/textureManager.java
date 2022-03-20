@@ -1,6 +1,6 @@
 package com.dylanpdx.retro64;
 
-import com.mojang.authlib.GameProfile;
+// import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import com.mojang.blaze3d.platform.NativeImage;
 import net.minecraft.client.Minecraft;
@@ -15,7 +15,7 @@ import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 import java.io.*;
 import java.nio.file.Paths;
 import java.util.HashMap;
-import java.util.UUID;
+// import java.util.UUID;
 
 public class textureManager {
 

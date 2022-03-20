@@ -153,6 +153,7 @@ public class SM64EnvManager {
                 digest.update(buffer, 0, n);
             }
         }
+        fis.close();
         return digest.digest();
     }
 
