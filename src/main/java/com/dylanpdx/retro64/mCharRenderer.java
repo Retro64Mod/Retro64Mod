@@ -61,7 +61,7 @@ public class mCharRenderer {
         {
             //Minecraft.getInstance().textureManager.register()
             //DynamicTexture t;
-            RenderSystem.setShaderTexture(0,textureManager.getTextureForModel(mChar.state.currentModel).getId());
+            RenderSystem.setShaderTexture(0,textureManager.getTextureForModel(mChar.state.currentModel,plr).getId());
             //RenderSystem.setShaderLights(new Vector3f(0,1,0),new Vector3f(0,1,0));
             int j =0;
             for (int i = 0;i< mChar.getVertices().length-9;i+=9) {

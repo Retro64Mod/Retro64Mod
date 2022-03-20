@@ -25,7 +25,7 @@ public class RenType extends RenderType {
             //.setLightmapState(RenderStateShard.LIGHTMAP)
             .createCompositeState(false));
 
-    public static final RenderType debugRenderType = create("lines", DefaultVertexFormat.POSITION_COLOR_NORMAL, VertexFormat.Mode.LINES, 256,false,true,
+    public static final RenderType debugRenderType = create("lines", DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.LINES, 256,false,true,
     RenderType.CompositeState.builder().setShaderState(RENDERTYPE_LINES_SHADER).setLineState(new RenderStateShard.LineStateShard(OptionalDouble.of(50)))
             .setLineState(new LineStateShard(OptionalDouble.empty())).setLayeringState(VIEW_OFFSET_Z_LAYERING)
             .setTransparencyState(TRANSLUCENT_TRANSPARENCY).setOutputState(ITEM_ENTITY_TARGET).setWriteMaskState(COLOR_DEPTH_WRITE).setCullState(NO_CULL).createCompositeState(false));

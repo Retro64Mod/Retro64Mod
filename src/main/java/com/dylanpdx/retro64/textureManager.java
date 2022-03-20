@@ -31,12 +31,12 @@ public class textureManager {
     //static GameProfile dpf = new GameProfile(UUID.fromString("d949016b-245f-4762-9d9a-59d972bc694e"),"SuperMChar");
 
 
-    public static AbstractTexture getTextureForModel(int modelID){
+    public static AbstractTexture getTextureForModel(int modelID, Player player){
         return switch (modelID) {
             case 0 -> getMCharTexture();
             case 1 -> getLuigiTexture();
-            case 2 -> getPlayerTexture(Minecraft.getInstance().player);//Minecraft.getInstance().getTextureManager().getTexture(steveTexture);
-            case 3 -> getPlayerTexture(Minecraft.getInstance().player);//Minecraft.getInstance().getTextureManager().getTexture(steveTexture);
+            case 2 -> getPlayerTexture(player);//Minecraft.getInstance().getTextureManager().getTexture(steveTexture);
+            case 3 -> getPlayerTexture(player);//Minecraft.getInstance().getTextureManager().getTexture(steveTexture);
             default -> null;
         };
     }

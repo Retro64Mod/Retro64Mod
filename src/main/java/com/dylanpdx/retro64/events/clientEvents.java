@@ -26,6 +26,7 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.block.BlockModelShaper;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -97,11 +98,11 @@ public class clientEvents {
                     if (elytraCheck && (SM64EnvManager.selfMChar.state.flags & eState) != eState)
                     {
                         LibSM64.MCharChangeState(SM64EnvManager.selfMChar.id, eState);
-                        LibSM64.MCharChangeAction(SM64EnvManager.selfMChar.id, SM64MCharAction.ACT_PUTTING_ON_CAP.id);
+                        //LibSM64.MCharChangeAction(SM64EnvManager.selfMChar.id, SM64MCharAction.ACT_PUTTING_ON_CAP.id);
                     }
                     else if (!elytraCheck && (SM64EnvManager.selfMChar.state.flags & eState) == eState)
                     {
-                        LibSM64.MCharChangeAction(SM64EnvManager.selfMChar.id, SM64MCharAction.ACT_PUTTING_ON_CAP.id);
+                        //LibSM64.MCharChangeAction(SM64EnvManager.selfMChar.id, SM64MCharAction.ACT_PUTTING_ON_CAP.id);
                         LibSM64.MCharChangeState(SM64EnvManager.selfMChar.id, (SM64MCharStateFlags.MCHAR_CAP_ON_HEAD.getValue() | SM64MCharStateFlags.MCHAR_NORMAL_CAP.getValue()));
                     }
                 }
@@ -191,7 +192,7 @@ public class clientEvents {
                         cB=1;
                 }
                 for (int i = 0; i < surf.vertices.length; i += 3)
-                    buffer.vertex(p.pose(),surf.vertices[i]/LibSM64.SCALE_FACTOR,(surf.vertices[i+1]/LibSM64.SCALE_FACTOR)+0.01f,surf.vertices[i+2]/LibSM64.SCALE_FACTOR).color(cR,cG,cB,1f).normal(0,1,0).endVertex();
+                    buffer.vertex(p.pose(),surf.vertices[i]/LibSM64.SCALE_FACTOR,(surf.vertices[i+1]/LibSM64.SCALE_FACTOR)+0.01f,surf.vertices[i+2]/LibSM64.SCALE_FACTOR).color(cR,cG,cB,1f).endVertex();
             }
             stack.popPose();
             Minecraft.getInstance().renderBuffers().bufferSource().endBatch(rt);
@@ -330,10 +331,8 @@ public class clientEvents {
         // update movement
         updatePlayerMovement(plr,joystickMult);
 
-
         /*if (Keybinds.getDebugToggle().consumeClick()){
             debug = !debug;
-            //Minecraft.getInstance().setScreen(new SMC64DialogOverlay(new TextComponent("")));
         }*/
 
         // sleep handling
@@ -456,14 +455,20 @@ public class clientEvents {
 
         for (BlockPos bp:nearbyBlockPos) {
             BlockPos nearbyBlock=bp.immutable();
+            if (world.getBlockState(nearbyBlock).isAir())
+                continue;
             BlockState nearbyBlockState = world.getBlockState(nearbyBlock);
             List<Vec3> collisionVertices = new ArrayList<>();
 
             BakedModel blockModel = Minecraft.getInstance().getModelManager().getModel(BlockModelShaper.stateToModelLocation(nearbyBlockState));
+
             List<Vec3> blockModelQuads = Utils.getAllQuads(blockModel,nearbyBlockState,Minecraft.getInstance().level.random);
 
             for (Vec3 quad :blockModelQuads) {
                 collisionVertices.add(quad.add(nearbyBlock.getX(),nearbyBlock.getY(),nearbyBlock.getZ()));
+            }
+            if (collisionVertices.size()==0){
+                continue;
             }
 
             if (!nearbyBlockState.isAir()){
