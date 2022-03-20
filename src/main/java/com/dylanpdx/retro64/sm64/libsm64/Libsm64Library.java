@@ -5,8 +5,6 @@ import com.sun.jna.Native;
 import com.sun.jna.NativeLibrary;
 import com.sun.jna.Pointer;
 
-import org.apache.commons.lang3.SystemUtils;
-
 import java.nio.ByteBuffer;
 public interface Libsm64Library extends Library {
 	public static final String JNA_LIBRARY_NAME = LibSM64.getLibPath().getAbsolutePath();

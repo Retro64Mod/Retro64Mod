@@ -5,7 +5,6 @@ import net.minecraft.client.gui.screens.TitleScreen;
 import org.apache.commons.io.FileUtils;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -16,7 +15,6 @@ public class BuildUtils {
     private static String baseArgs;
     private static String repoDir;
     private static String portPath;
-    private static String logDir;
     public static boolean buildComplete=false;
 
 

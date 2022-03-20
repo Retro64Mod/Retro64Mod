@@ -3,7 +3,6 @@ package com.dylanpdx.retro64;
 import com.dylanpdx.retro64.capabilities.smc64Capability;
 import com.dylanpdx.retro64.capabilities.smc64CapabilityInterface;
 import com.mojang.math.Quaternion;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.resources.model.BakedModel;
@@ -12,7 +11,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.phys.shapes.VoxelShape;
 
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
@@ -105,9 +103,9 @@ public class Utils {
 
 
     public static double QuatToYaw(Quaternion q){
-        double yaw = Math.atan2(2.0*(q.j()*q.k() + q.r()*q.i()), q.r()*q.r() - q.i()*q.i() - q.j()*q.j() + q.k()*q.k());
+        // double yaw = Math.atan2(2.0*(q.j()*q.k() + q.r()*q.i()), q.r()*q.r() - q.i()*q.i() - q.j()*q.j() + q.k()*q.k());
         double pitch = Math.asin(-2.0*(q.i()*q.k() - q.r()*q.j()));
-        double roll = Math.atan2(2.0*(q.i()*q.j() + q.r()*q.k()), q.r()*q.r() + q.i()*q.i() - q.j()*q.j() - q.k()*q.k());
+        // double roll = Math.atan2(2.0*(q.i()*q.j() + q.r()*q.k()), q.r()*q.r() + q.i()*q.i() - q.j()*q.j() - q.k()*q.k());
         return pitch;
     }
 

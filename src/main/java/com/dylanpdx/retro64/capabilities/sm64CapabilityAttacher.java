@@ -29,10 +29,6 @@ public class sm64CapabilityAttacher {
             return smc64Capability.INSTANCE.orEmpty(cap, optionalData);
         }
 
-        void invalidate(){
-            this.optionalData.invalidate();
-        }
-
         @Override
         public CompoundTag serializeNBT() {
             return backend.serializeNBT();

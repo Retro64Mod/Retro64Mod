@@ -13,10 +13,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
-import net.minecraft.network.chat.TextComponent;
+// import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.client.gui.ForgeIngameGui;
-import net.minecraftforge.client.gui.IIngameOverlay;
+// import net.minecraftforge.client.gui.ForgeIngameGui;
+// import net.minecraftforge.client.gui.IIngameOverlay;
 
 public class SMC64DialogOverlay extends Screen {
 
@@ -118,7 +118,6 @@ public class SMC64DialogOverlay extends Screen {
     }
 
     public void tickDialog(){
-        int lowerBound;
         // https://github.com/n64decomp/sm64/blob/1372ae1bb7cbedc03df366393188f4f05dcfc422/src/game/ingame_menu.c#L1716
         switch (gDialogBoxState) {
             case DIALOG_STATE_OPENING:

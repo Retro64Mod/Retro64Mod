@@ -1,7 +1,6 @@
 package com.dylanpdx.retro64.events;
 
 import com.dylanpdx.retro64.RemoteMCharHandler;
-import com.dylanpdx.retro64.Utils;
 import com.dylanpdx.retro64.capabilities.capabilitySyncManager;
 import com.dylanpdx.retro64.networking.SM64PacketHandler;
 import com.dylanpdx.retro64.networking.damagePacket;

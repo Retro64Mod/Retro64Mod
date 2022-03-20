@@ -1,14 +1,8 @@
 package com.dylanpdx.retro64.networking;
 
-import com.dylanpdx.retro64.RemoteMCharHandler;
-import com.dylanpdx.retro64.Utils;
-import com.mojang.math.Quaternion;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.server.ServerLifecycleHooks;
 
 import java.util.function.BiConsumer;
 import java.util.function.Function;

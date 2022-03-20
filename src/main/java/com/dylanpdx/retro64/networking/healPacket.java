@@ -1,7 +1,6 @@
 package com.dylanpdx.retro64.networking;
 
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.world.phys.Vec3;
 
 import java.util.function.BiConsumer;
 import java.util.function.Function;

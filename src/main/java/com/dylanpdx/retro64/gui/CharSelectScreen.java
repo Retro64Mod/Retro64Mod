@@ -2,7 +2,7 @@ package com.dylanpdx.retro64.gui;
 
 import com.dylanpdx.retro64.ModelData;
 import com.dylanpdx.retro64.SM64EnvManager;
-import com.google.common.collect.Lists;
+// import com.google.common.collect.Lists;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Quaternion;
 import net.minecraft.client.gui.components.Button;
@@ -11,12 +11,12 @@ import net.minecraft.network.chat.*;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import java.util.List;
+// import java.util.List;
 
 @OnlyIn(Dist.CLIENT)
 public class CharSelectScreen extends Screen {
-    private Component deathScore;
-    private final List<Button> exitButtons = Lists.newArrayList();
+    // private Component deathScore;
+    // private final List<Button> exitButtons = Lists.newArrayList();
 
     public CharSelectScreen() {
         super(Component.nullToEmpty("charSelect"));
