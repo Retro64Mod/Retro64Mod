@@ -12,9 +12,7 @@ Currently, the only implemented cap is the Wing Cap, which can be accessed by eq
 # Compilation instructions for Windows
 !! First ensure you have installed a JDK above v17, you can find a good one [here](https://adoptium.net/?variant=openjdk17&jvmVariant=hotspot).
 
-To compile Retro64 on Windows, first download MrCrayfish's Controllable mod version 0.15.1 and rename it to "controllable-0.15.1.jar"
-After you've renamed the file, in the root of this project, create a folder called "libs" and drag the Controllable jar in.
-Once you have setup the Controllable jar, open Powershell/CMD and run `./gradlew.bat build`
+To compile Retro64 on Windows, open Powershell/CMD and run `./gradlew.bat build`
 It will begin compiling the mod and if it successfully compiles, you can find the output at build/reobfJar/output.jar
 
 # Compilation instructions for Linux
