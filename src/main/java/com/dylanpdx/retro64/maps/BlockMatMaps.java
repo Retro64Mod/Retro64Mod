@@ -29,6 +29,7 @@ public class BlockMatMaps {
         REPLACE_COLLISION_MATS=new ArrayList<>();
         REPLACE_COLLISION_MATS.add("minecraft:iron_bars");
         REPLACE_COLLISION_MATS.add("minecraft:lava");
+        REPLACE_COLLISION_MATS.add("minecraft:barrier");
 
         FLAT_COLLISION_MATS=new ArrayList<>();
         FLAT_COLLISION_MATS.add("minecraft:fire");

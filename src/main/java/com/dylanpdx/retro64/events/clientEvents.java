@@ -473,9 +473,6 @@ public class clientEvents {
             for (Vec3 quad :blockModelQuads) {
                 collisionVertices.add(quad.add(nearbyBlock.getX(),nearbyBlock.getY(),nearbyBlock.getZ()));
             }
-            if (collisionVertices.size()==0){
-                continue;
-            }
 
             if (!nearbyBlockState.isAir()){
                 var blockName=nearbyBlockState.getBlock().getRegistryName().toString();
