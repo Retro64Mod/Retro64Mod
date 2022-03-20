@@ -1,5 +1,6 @@
 package com.dylanpdx.retro64;
 
+import com.dylanpdx.retro64.sm64.libsm64.Libsm64Library;
 import com.mojang.blaze3d.platform.NativeImage;
 import net.minecraft.client.Minecraft;
 
@@ -8,15 +9,13 @@ import net.minecraft.client.Minecraft;
 import java.io.IOException;
 // import java.io.InputStream;
 
-import static com.dylanpdx.retro64.sm64.libsm64.LibSM64.SM64_TEXTURE_HEIGHT;
-import static com.dylanpdx.retro64.sm64.libsm64.Libsm64Library.SM64_TEXTURE_WIDTH;
 
 
 public class TexGenerator {
 
     public static NativeImage convertRawTexToMChar(NativeImage img){
-        NativeImage mCharBg = new NativeImage(SM64_TEXTURE_WIDTH, SM64_TEXTURE_HEIGHT, false);
-        mCharBg.fillRect(0, 0, SM64_TEXTURE_WIDTH, SM64_TEXTURE_HEIGHT, 0x00000000); // fill entire image with transparent black
+        NativeImage mCharBg = new NativeImage(Libsm64Library.SM64_TEXTURE_WIDTH, Libsm64Library.SM64_TEXTURE_HEIGHT, false);
+        mCharBg.fillRect(0, 0, Libsm64Library.SM64_TEXTURE_WIDTH, Libsm64Library.SM64_TEXTURE_HEIGHT, 0x00000000); // fill entire image with transparent black
         mCharBg.fillRect(0,0,64,32,0xFF000000);
         mCharBg.fillRect(64,0,32,32,0xFFFF0000);
         mCharBg.fillRect(96,0,94,32,0xFF0000FF);
@@ -47,8 +46,8 @@ public class TexGenerator {
      */
     public static NativeImage convertMCharTexToLuigi(NativeImage img){
         // duplicate the img first
-        NativeImage luigiBg = new NativeImage(SM64_TEXTURE_WIDTH, SM64_TEXTURE_HEIGHT, false);
-        luigiBg.fillRect(0, 0, SM64_TEXTURE_WIDTH, SM64_TEXTURE_HEIGHT, 0x00000000); // fill entire image with transparent black
+        NativeImage luigiBg = new NativeImage(Libsm64Library.SM64_TEXTURE_WIDTH, Libsm64Library.SM64_TEXTURE_HEIGHT, false);
+        luigiBg.fillRect(0, 0, Libsm64Library.SM64_TEXTURE_WIDTH, Libsm64Library.SM64_TEXTURE_HEIGHT, 0x00000000); // fill entire image with transparent black
         overlayImage(luigiBg, img);
         try {
             var LAtlasInput = Minecraft.getInstance().getResourceManager().getResource(textureManager.luigiAtlas).getInputStream();

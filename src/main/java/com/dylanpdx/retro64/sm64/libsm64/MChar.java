@@ -70,10 +70,10 @@ public class MChar {
         state = new SM64MCharState();
         inputs= new SM64MCharInputs();
         outGeometry= new SM64MCharGeometryBuffers();
-        outGeometry.position = allocateVector3Array(LibSM64.SM64_GEO_MAX_TRIANGLES*3); // 3 vector3f per triangle
-        outGeometry.normal = allocateVector3Array(LibSM64.SM64_GEO_MAX_TRIANGLES*3); // 3 vector3f per triangle
-        outGeometry.color = allocateVector3Array(LibSM64.SM64_GEO_MAX_TRIANGLES*3); // 3 vector3f per triangle
-        outGeometry.uv = allocateVector2Array(LibSM64.SM64_GEO_MAX_TRIANGLES*3); // 3 vector2f per triangle
+        outGeometry.position = allocateVector3Array(Libsm64Library.SM64_GEO_MAX_TRIANGLES*3); // 3 vector3f per triangle
+        outGeometry.normal = allocateVector3Array(Libsm64Library.SM64_GEO_MAX_TRIANGLES*3); // 3 vector3f per triangle
+        outGeometry.color = allocateVector3Array(Libsm64Library.SM64_GEO_MAX_TRIANGLES*3); // 3 vector3f per triangle
+        outGeometry.uv = allocateVector2Array(Libsm64Library.SM64_GEO_MAX_TRIANGLES*3); // 3 vector2f per triangle
         rotPointer=new Memory(3*2); // 3 shorts, 2 bytes per short
 
         fixedUpdate();

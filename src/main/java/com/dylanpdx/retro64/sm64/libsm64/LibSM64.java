@@ -17,13 +17,13 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import static com.dylanpdx.retro64.sm64.libsm64.Libsm64Library.SM64_TEXTURE_HEIGHT;
+import static com.dylanpdx.retro64.sm64.libsm64.Libsm64Library.SM64_TEXTURE_WIDTH;
+
 public class LibSM64 {
 
     public static final float SCALE_FACTOR = 110;
 
-    public static final int SM64_TEXTURE_WIDTH = 64 * 11;
-    public static final int SM64_TEXTURE_HEIGHT = 64;
-    public static final int SM64_GEO_MAX_TRIANGLES = 2048;
     static boolean isGlobalInit;
 
     static final int supportedVer=2;

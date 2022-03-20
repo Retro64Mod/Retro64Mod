@@ -12,7 +12,7 @@ public interface Libsm64Library extends Library {
 	public static final Libsm64Library INSTANCE = (Libsm64Library)Native.loadLibrary(Libsm64Library.JNA_LIBRARY_NAME, Libsm64Library.class);
 	public static final int SM64_TEXTURE_WIDTH = 64 * 11;
 	public static final int SM64_TEXTURE_HEIGHT = 64;
-	public static final int SM64_GEO_MAX_TRIANGLES = 2048;
+	public static final int SM64_GEO_MAX_TRIANGLES = 1300;
 
 	char SEQ_PLAYER_LEVEL=            0;  // Level background music
 	char SEQ_PLAYER_ENV=              1;  // Misc music like the puzzle jingle
