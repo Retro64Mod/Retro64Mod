@@ -452,9 +452,15 @@ public class clientEvents {
         // get area around player
         Iterable<BlockPos> nearbyBlockPos = BlockPos.betweenClosed(playerPos.offset(-1,-2,-1),playerPos.offset(1,2,1));
         ArrayList<surfaceItem> surfaces = new ArrayList<>(); // surfaces to send to libsm64
-
+        var worldBorder=world.getWorldBorder();
         for (BlockPos bp:nearbyBlockPos) {
             BlockPos nearbyBlock=bp.immutable();
+
+            if (nearbyBlock.getX() > worldBorder.getMaxX() || nearbyBlock.getX() < worldBorder.getMinX() || nearbyBlock.getZ() > worldBorder.getMaxZ() || nearbyBlock.getZ() < worldBorder.getMinZ())
+            {
+                surfaces.add(new surfaceItem(new Vec3(nearbyBlock.getX(),nearbyBlock.getY(),nearbyBlock.getZ()),true,false,(byte)0, SM64TerrainType.Stone));
+                continue;
+            }
             if (world.getBlockState(nearbyBlock).isAir())
                 continue;
             BlockState nearbyBlockState = world.getBlockState(nearbyBlock);
