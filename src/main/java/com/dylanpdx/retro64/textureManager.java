@@ -1,6 +1,5 @@
 package com.dylanpdx.retro64;
 
-// import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import com.mojang.blaze3d.platform.NativeImage;
 import net.minecraft.client.Minecraft;
@@ -15,7 +14,6 @@ import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 import java.io.*;
 import java.nio.file.Paths;
 import java.util.HashMap;
-// import java.util.UUID;
 
 public class textureManager {
 
@@ -27,8 +25,6 @@ public class textureManager {
     static DynamicTexture luigiTexture;
     static ResourceLocation luigiAtlas = new ResourceLocation(Retro64.MOD_ID,"textures/model/luigi_atlas.png");
     static ResourceLocation steveAtlas = new ResourceLocation(Retro64.MOD_ID,"textures/model/steve.png");
-    //static ResourceLocation steveTexture = new ResourceLocation(Retro64.MOD_ID,"textures/model/steve.png");
-    //static GameProfile dpf = new GameProfile(UUID.fromString("d949016b-245f-4762-9d9a-59d972bc694e"),"SuperMChar");
 
 
     public static AbstractTexture getTextureForModel(int modelID, Player player){
@@ -112,14 +108,18 @@ public class textureManager {
 
         var iio=getSkinInputStream(skinLoc);
         var nativeImg=NativeImage.read(iio);
-        if (nativeImg.getHeight()!=64)
-            return null;
         NativeImage skinAtlas = new NativeImage(320,64,true);
-        for (int i = 0; i < 64; i++) {
-            for (int j = 0; j < 64; j++) {
-                skinAtlas.setPixelRGBA(j,i,nativeImg.getPixelRGBA(j,i));
+        for (int y = 0; y < nativeImg.getHeight(); y++) {
+            for (int x = 0; x < nativeImg.getWidth(); x++) {
+                skinAtlas.setPixelRGBA(x,y,nativeImg.getPixelRGBA(x,y));
             }
         }
+        if (nativeImg.getHeight()==32){
+            // convert texture by copying over arm/leg
+            TexGenerator.overlayImage(skinAtlas,nativeImg,16,48,0,16,16,16);
+            TexGenerator.overlayImage(skinAtlas,nativeImg,32,48,40,16,16,16);
+        }
+
         skinAtlas = TexGenerator.appendSteveStuffToTex(skinAtlas);
 
         //skinAtlas.writeToFile(new File("skinAtlas.png"));
@@ -159,6 +159,8 @@ public class textureManager {
                 @Override
                 public void onSkinTextureAvailable(MinecraftProfileTexture.Type p_118857_, ResourceLocation p_118858_, MinecraftProfileTexture p_118859_) {
                     try {
+                        if (p_118857_ != MinecraftProfileTexture.Type.SKIN)
+                            return;
                         var etex=extendSkinTexture(p_118858_);
                         if (etex==null)
                             etex=getSteveTexture();
