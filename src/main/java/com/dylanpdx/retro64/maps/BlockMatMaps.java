@@ -18,6 +18,9 @@ public class BlockMatMaps {
         SOLID_MATS = new HashMap<String, Byte>();
         SOLID_MATS.put("minecraft:magma_block", SM64SurfaceType.Burning);
         SOLID_MATS.put("minecraft:iron_bars", SM64SurfaceType.Hangable);
+        SOLID_MATS.put("minecraft:ice", SM64SurfaceType.Slippery);
+        SOLID_MATS.put("minecraft:packed_ice", SM64SurfaceType.VerySlippery);
+        SOLID_MATS.put("minecraft:blue_ice", SM64SurfaceType.VerySlippery);
 
         NONSOLID_MATS=new HashMap<>();
         NONSOLID_MATS.put("minecraft:lava", SM64SurfaceType.Burning);
