@@ -1,0 +1,15 @@
+{
+  "block.retro64.castlestairs": "お城の階段",
+  "key.retro64.actKey": "アクションキー",
+  "key.retro64.mMenu": "Retro64メニュー",
+  "key.retro64.mToggle": "Retro64モードの切り替え",
+  "key.categories.retro64": "Retro64",
+  "charSelect.retro64.name": "選択したキャラクター: $1",
+  "charSelect.retro64.prev": "前へ",
+  "charSelect.retro64.next": "次へ",
+  "menu.retro64.ok": "理解しました",
+  "menu.retro64.genericWarn": "インストール手順を参照してください。 この状態ではModが正しく機能しないか、ゲームがクラッシュする可能性があります。",
+  "menu.retro64.warnNoDLL": "sm64.dllが見つかりませんでした。",
+  "menu.retro64.warnWrongVersion": "sm64.dllのバージョンが間違えているため、再度コンパイルする必要があります。",
+  "menu.retro64.warnMissingROM": "ROMファイルが見つかりませんでした。"
+}
