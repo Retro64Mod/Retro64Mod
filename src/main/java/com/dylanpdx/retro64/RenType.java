@@ -25,6 +25,22 @@ public class RenType extends RenderType {
             //.setLightmapState(RenderStateShard.LIGHTMAP)
             .createCompositeState(false));
 
+    public static final RenderType mcharRenderType_culling = create("solid",
+            DefaultVertexFormat.POSITION_COLOR_TEX,
+            VertexFormat.Mode.TRIANGLES,
+            256,
+            false,
+            true,
+            RenderType.CompositeState.builder()
+                    .setLightmapState(LIGHTMAP)
+                    .setShaderState(RenderStateShard.POSITION_COLOR_TEX_SHADER)
+                    .setWriteMaskState(COLOR_DEPTH_WRITE)
+                    .setTransparencyState(NO_TRANSPARENCY)
+                    .setOutputState(MAIN_TARGET)
+                    .setCullState(CULL)
+                    //.setLightmapState(RenderStateShard.LIGHTMAP)
+                    .createCompositeState(false));
+
     public static final RenderType debugRenderType = create("lines", DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.LINES, 256,false,true,
     RenderType.CompositeState.builder().setShaderState(RENDERTYPE_LINES_SHADER).setLineState(new RenderStateShard.LineStateShard(OptionalDouble.of(50)))
             .setLineState(new LineStateShard(OptionalDouble.empty())).setLayeringState(VIEW_OFFSET_Z_LAYERING)
@@ -33,8 +49,8 @@ public class RenType extends RenderType {
         super(p_173178_, p_173179_, p_173180_, p_173181_, p_173182_, p_173183_, p_173184_, p_173185_);
     }
 
-    public static RenderType getMcharRenderType(){
-        return mcharRenderType;
+    public static RenderType getMcharRenderType(boolean culling){
+        return culling ? mcharRenderType_culling : mcharRenderType;
     }
 
     public static RenderType getDebugRenderType(){

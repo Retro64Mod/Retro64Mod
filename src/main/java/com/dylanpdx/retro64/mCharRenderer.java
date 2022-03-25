@@ -39,7 +39,7 @@ public class mCharRenderer {
             return;
         PoseStack st = rpe.getPoseStack();
         MultiBufferSource buff = rpe.getMultiBufferSource();
-        VertexConsumer vc = buff.getBuffer(RenType.getMcharRenderType());
+        VertexConsumer vc = buff.getBuffer(RenType.getMcharRenderType(mChar.state.currentModel==ModelData.VIBRI.getIndex())); // lazy fix for vibri model, enable culling
         st.pushPose();
         PoseStack.Pose p = st.last();
         Player plr = rpe.getPlayer();
