@@ -4,7 +4,8 @@ public enum ModelData {
     MCHAR("",""),
     LUIGI("Luigi","Twitter: @FluffaLuigi"),
     STEVE("Steve","Twitter: @sanikkat"),
-    ALEX("Alex","Twitter: @sanikkat");
+    ALEX("Alex","Twitter: @sanikkat"),
+    NECOARC("Neco-Arc","Sketchfab: @paperbandit");
 
     ModelData(String name,String credit){
         this.name = name;
@@ -21,5 +22,5 @@ public enum ModelData {
 
     private final String name;
     private final String credit;
-    public static final int modelCount=4;
+    public static final int modelCount=5;
 }
