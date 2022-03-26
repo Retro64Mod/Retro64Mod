@@ -10,6 +10,8 @@ import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -202,6 +204,11 @@ public class SM64EnvManager {
         var romFile = getROMFile();
         if (romFile == null) {
             return;
+        }
+        if (!romFile.getName().equals("baserom.us.z64")){
+            var newPath=Path.of("mods","baserom.us.z64");
+            Files.move(romFile.toPath(),newPath);
+            romFile=newPath.toFile();
         }
 
         try {

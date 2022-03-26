@@ -55,7 +55,11 @@ public class LibSM64 {
     }
 
     public static File getLibPath(){
-        return new java.io.File("mods/sm64"+(SystemUtils.IS_OS_WINDOWS ? ".dll":".so"));
+        if (SystemUtils.IS_OS_WINDOWS){
+            return new File("mods/sm64.dll");
+        }else{
+            return new File("mods/libsm64.so");
+        }
     }
 
     public static void GlobalInit(String romPath,String assetsPath) throws IOException {
