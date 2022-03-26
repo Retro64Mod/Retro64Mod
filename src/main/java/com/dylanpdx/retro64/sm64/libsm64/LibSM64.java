@@ -26,7 +26,7 @@ public class LibSM64 {
 
     static boolean isGlobalInit;
 
-    static final int supportedVer=2;
+    static final int supportedVer=3;
 
     public final int SM64_MAX_HEALTH = 8;
 
