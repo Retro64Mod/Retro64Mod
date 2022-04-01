@@ -3,6 +3,7 @@ package com.dylanpdx.retro64;
 import com.dylanpdx.retro64.capabilities.smc64Capability;
 import com.dylanpdx.retro64.capabilities.smc64CapabilityInterface;
 import com.mojang.math.Quaternion;
+import com.mojang.math.Vector3f;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.resources.model.BakedModel;
@@ -215,5 +216,9 @@ public class Utils {
         //quaternion.z = 0.5f * num5;
         //quaternion.w = (m01 - m10) * num2;
         return quaternion;
+    }
+
+    public static Quaternion QuaternionLookRotation(Vector3f forward, Vector3f up){
+        return QuaternionLookRotation(new Vec3(forward.x(),forward.y(),forward.z()),new Vec3(up.x(),up.y(),up.z()));
     }
 }

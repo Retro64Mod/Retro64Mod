@@ -577,7 +577,8 @@ public class clientEvents {
         var cam_fwd = plr.getLookAngle().yRot((float)Math.toRadians(90));//Objects.requireNonNull(Minecraft.getInstance().getCameraEntity()).getForward();
         var cam_pos=Minecraft.getInstance().getCameraEntity().position();
         SM64EnvManager.updateControls(cam_fwd,cam_pos, joystickMult
-        ,Keybinds.getActKey().isDown(),plr.input.jumping,plr.input.shiftKeyDown,plr.input.up,plr.input.left,plr.input.down,plr.input.right);
+        ,Keybinds.getActKey().isDown(),plr.input.jumping,plr.input.shiftKeyDown,plr.input.up,plr.input.left,plr.input.down,plr.input.right
+        ,Keybinds.getCUp().isDown(),Keybinds.getCDown().isDown(),Keybinds.getCLeft().isDown(),Keybinds.getCRight().isDown());
     }
 
     /**

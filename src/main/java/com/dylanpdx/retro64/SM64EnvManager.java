@@ -110,10 +110,14 @@ public class SM64EnvManager {
     }
 
     public static void updateControls(Vec3 cam_fwd,Vec3 camPos,float joystickMult, boolean act_pressed,boolean jump_pressed, boolean crouch_pressed,
-                                      boolean W_pressed, boolean A_pressed, boolean S_pressed, boolean D_pressed){
+                                      boolean W_pressed, boolean A_pressed, boolean S_pressed, boolean D_pressed,boolean UP_pressed,boolean DOWN_pressed,boolean LEFT_pressed,boolean RIGHT_pressed){
         selfMChar.inputs.buttonB= (byte) (act_pressed?1:0);
         selfMChar.inputs.buttonA= (byte) (jump_pressed?1:0);
         selfMChar.inputs.buttonZ= (byte) (crouch_pressed?1:0);
+        selfMChar.inputs.buttonU= (byte) (UP_pressed?1:0);
+        selfMChar.inputs.buttonD= (byte) (DOWN_pressed?1:0);
+        selfMChar.inputs.buttonL= (byte) (LEFT_pressed?1:0);
+        selfMChar.inputs.buttonR= (byte) (RIGHT_pressed?1:0);
         selfMChar.inputs.stickX=0;
         selfMChar.inputs.stickY=0;
         Vec2 v2=null;
