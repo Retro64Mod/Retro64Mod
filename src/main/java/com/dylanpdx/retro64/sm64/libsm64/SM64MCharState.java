@@ -8,6 +8,10 @@ public class SM64MCharState extends Structure {
 	public float[] position = new float[3];
 	/** C type : float[3] */
 	public float[] velocity = new float[3];
+	/** C type : float[3] */
+	public float[] camPos = new float[3];
+	/** C type : float[3] */
+	public float[] camFocus = new float[3];
 	public float faceAngle;
 	public short health;
 	public int flags;
@@ -17,7 +21,7 @@ public class SM64MCharState extends Structure {
 		super();
 	}
 	protected List<String> getFieldOrder() {
-		return Arrays.asList("position", "velocity", "faceAngle", "health", "flags", "action","currentModel");
+		return Arrays.asList("position", "velocity","camPos","camFocus", "faceAngle", "health", "flags", "action","currentModel");
 	}
 
 	public SM64MCharState(float position[], float velocity[], float faceAngle, short health, int flags, int action, int currentModel) {

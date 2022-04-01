@@ -13,11 +13,12 @@ public class SM64MCharInputs extends Structure {
 	public byte buttonA;
 	public byte buttonB;
 	public byte buttonZ;
+	public byte buttonL,buttonR,buttonU,buttonD;
 	public SM64MCharInputs() {
 		super();
 	}
 	protected List<String> getFieldOrder() {
-		return Arrays.asList("camLookX", "camLookZ","cameraPosition", "stickX", "stickY", "buttonA", "buttonB", "buttonZ");
+		return Arrays.asList("camLookX", "camLookZ","cameraPosition", "stickX", "stickY", "buttonA", "buttonB", "buttonZ", "buttonL", "buttonR", "buttonU", "buttonD");
 	}
 	public SM64MCharInputs(float camLookX, float camLookZ, float stickX, float stickY, byte buttonA, byte buttonB, byte buttonZ) {
 		super();
