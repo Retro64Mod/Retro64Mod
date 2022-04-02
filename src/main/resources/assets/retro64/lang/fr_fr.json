@@ -1,7 +1,7 @@
 {
-  "block.retro64.castlestairs": "Castle Stairs",
-  "key.retro64.actKey": "Action Key",
-  "key.retro64.mMenu": "Retro64 Menu",
+  "block.retro64.castlestairs": "Éscalier du chateau",
+  "key.retro64.actKey": "touche d'action",
+  "key.retro64.mMenu": "Menu de Retro64",
   "key.retro64.mToggle": "Activer le mode Retro64",
   "key.categories.retro64": "Retro64",
   "charSelect.retro64.name": "Personnage choisi: $1",
@@ -10,6 +10,6 @@
   "menu.retro64.ok": "j'ai compris",
   "menu.retro64.genericWarn": "Veuillez vous référer aux instructions d'installation. Dans cet état, il est possible que le mod ne fonctionne pas correctement ou que le jeu plante.",
   "menu.retro64.warnNoDLL": "sm64.dll est manquant.",
-  "menu.retro64.warnWrongVersion": "Vous avez ma mauvaise vertion de sm64.dll, vous devriez peut-être le recompiler.",
+  "menu.retro64.warnWrongVersion": "Vous avez ma mauvaise version de sm64.dll, vous devriez peut-être le recompiler.",
   "menu.retro64.warnMissingROM": "Le fichier ROM est manquant."
 }
