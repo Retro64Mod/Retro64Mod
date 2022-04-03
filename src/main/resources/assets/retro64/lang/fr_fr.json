@@ -5,11 +5,11 @@
   "key.retro64.mToggle": "Activer/Désactiver le mode Retro64 ",
   "key.categories.retro64": "Retro64",
   "charSelect.retro64.name": "Personnage sélectionné: $1",
-  "charSelect.retro64.prev": "Précédent",
+  "charSelect.retro64.prev": "Avant",
   "charSelect.retro64.next": "Suivant",
   "menu.retro64.ok": "Je comprends",
-  "menu.retro64.genericWarn": "S'il vous pourez, reférer vous aux instructions d'installation. Le mod peut ne pas fonctionner correctement dans ce statut, ou le jeux risque de crasher.",
-  "menu.retro64.warnNoDLL": "Vous manquez sm64.dll.",
-  "menu.retro64.warnWrongVersion": "Vous avez la mauvaise version de sm64.dll, il est possible que vous ayez besoin de le recompiler.",
-  "menu.retro64.warnMissingROM": "Vous manquez le fichier ROM."
-}
+  "menu.retro64.genericWarn": "Veuillez vous référer aux instructions d'installation. Dans cet état, il est possible que le mod ne fonctionne pas correctement ou que le jeu plante.",
+  "menu.retro64.warnNoDLL": "sm64.dll est manquant.",
+  "menu.retro64.warnWrongVersion": "Vous avez ma mauvaise version de sm64.dll, vous devriez peut-être le recompiler.",
+  "menu.retro64.warnMissingROM": "Le fichier ROM est manquant."
+} 
