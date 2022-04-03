@@ -5,8 +5,7 @@
   "refmap": "retro64.refmap.json",
   "mixins": [
     "MixinCamera",
-    "MixinPlayerTravel",
-    "MixinCameraPos"
+    "MixinPlayerTravel"
   ],
   "client": [
   ],

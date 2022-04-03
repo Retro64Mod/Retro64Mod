@@ -2,6 +2,7 @@ package com.dylanpdx.retro64;
 
 import com.dylanpdx.retro64.capabilities.smc64Capability;
 import com.dylanpdx.retro64.capabilities.smc64CapabilityInterface;
+import com.mojang.math.Matrix4f;
 import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3f;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -142,6 +143,69 @@ public class Utils {
         return player.getCapability(smc64Capability.INSTANCE).map(smc64->{
             return smc64;
         }).orElse(null);
+    }
+
+    public static Quaternion lookAt(Vector3f from,Vector3f to){
+        Vector3f dir = new Vector3f(to.x()-from.x(),to.y()-from.y(),to.z()-from.z());
+        dir.normalize();
+        Vector3f right = new Vector3f(0,1,0);right.cross(dir);
+        Vector3f up = new Vector3f(dir.x(),dir.y(),dir.z());up.cross(right);
+        Matrix4f matrix = new Matrix4f(
+                new float[]{
+                        right.x(), right.y(), right.z(), from.x(),
+                        up.x(), up.y(), up.z(), from.y(),
+                        dir.x(), dir.y(), dir.z(), from.z(),
+                        0, 0, 0, 1
+                }
+        );
+
+        var quat = matrixToQuaternion(right.x(),right.y(),right.z(),up.x(),up.y(),up.z(), dir.x(), dir.y(), dir.z());
+        return quat;
+    }
+
+    public static float[] lookAtPitchYaw(Vector3f from,Vector3f to){
+        Vector3f dir = new Vector3f(to.x()-from.x(),to.y()-from.y(),to.z()-from.z());
+        dir.normalize();
+        var yaw = Math.atan(dir.x()/-dir.y());
+        var pitch = Math.atan(Math.sqrt(dir.x()*dir.x()+dir.y()*dir.y())/dir.z());
+        return new float[]{(float) pitch, (float) yaw};
+    }
+
+    public static Quaternion matrixToQuaternion(float m00, float m01, float m02, float m10, float m11, float m12, float m20, float m21, float m22){
+        float trace = m00 + m11 + m22;
+        float s;
+        float x;
+        float y;
+        float z;
+        float w;
+        if (trace > 0) {
+            s = 0.5f / (float) Math.sqrt(trace + 1.0f);
+            w = 0.25f / s;
+            x = (m12 - m21) * s;
+            y = (m20 - m02) * s;
+            z = (m01 - m10) * s;
+        } else {
+            if (m00 > m11 && m00 > m22) {
+                s = (float) Math.sqrt(1.0f + m00 - m11 - m22) * 2.0f;
+                w = (m01 + m10) / s;
+                x = 0.25f * s;
+                y = (m20 + m02) / s;
+                z = (m12 - m21) / s;
+            } else if (m11 > m22) {
+                s = (float) Math.sqrt(1.0f + m11 - m00 - m22) * 2.0f;
+                w = (m12 + m21) / s;
+                x = (m01 + m10) / s;
+                y = 0.25f * s;
+                z = (m20 - m02) / s;
+            } else {
+                s = (float) Math.sqrt(1.0f + m22 - m00 - m11) * 2.0f;
+                w = (m20 + m02) / s;
+                x = (m12 + m21) / s;
+                y = (m01 + m10) / s;
+                z = 0.25f * s;
+            }
+        }
+        return new Quaternion(x,y,z,w);
     }
 
     public static DataInputStream dataStreamAtPos(byte[] data, int pos, int length){

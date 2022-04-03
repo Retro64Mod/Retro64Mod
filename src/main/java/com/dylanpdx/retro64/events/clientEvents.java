@@ -9,14 +9,15 @@ import com.dylanpdx.retro64.networking.SM64PacketHandler;
 import com.dylanpdx.retro64.networking.attackPacket;
 import com.dylanpdx.retro64.networking.mCharPacket;
 import com.dylanpdx.retro64.sm64.*;
-import com.dylanpdx.retro64.sm64.libsm64.LibSM64;
-import com.dylanpdx.retro64.sm64.libsm64.LibSM64SurfUtils;
-import com.dylanpdx.retro64.sm64.libsm64.Libsm64Library;
-import com.dylanpdx.retro64.sm64.libsm64.MChar;
+import com.dylanpdx.retro64.sm64.libsm64.*;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Matrix4f;
 import com.mojang.math.Quaternion;
+import com.mojang.math.Transformation;
 import com.mojang.math.Vector3f;
 import net.minecraft.Util;
+import net.minecraft.client.Camera;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.TitleScreen;
@@ -34,10 +35,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.client.event.RenderLevelLastEvent;
-import net.minecraftforge.client.event.RenderPlayerEvent;
-import net.minecraftforge.client.event.ScreenOpenEvent;
+import net.minecraftforge.client.event.*;
 import net.minecraftforge.client.gui.ForgeIngameGui;
 import net.minecraftforge.client.gui.IIngameOverlay;
 import net.minecraftforge.client.gui.OverlayRegistry;
@@ -45,6 +43,7 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 import net.minecraftforge.network.NetworkHooks;
 
 import java.io.IOException;
@@ -151,52 +150,64 @@ public class clientEvents {
             if (Minecraft.getInstance().options.getCameraType() == CameraType.THIRD_PERSON_FRONT){
                 Minecraft.getInstance().options.setCameraType(CameraType.FIRST_PERSON);
             }
-        }
-        // render debug
-        if (isDebug()){
-            var stack = event.getPoseStack();
-            var rt = RenType.getDebugRenderType();
-            var buffer = Minecraft.getInstance().renderBuffers().bufferSource().getBuffer(rt);
-            stack.pushPose();
-            Vec3 cam = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
-            stack.translate(-cam.x, -cam.y, -cam.z);
-            PoseStack.Pose p = stack.last();
-            for (var surf : SM64EnvManager.surfaces){
-                float cR=0;
-                float cG=0;
-                float cB=0;
-                switch (surf.type){
-                    case (short)SM64SurfaceType.Burning:
-                        cR=1;
-                        cG=0;
-                        cB=0;
-                        break;
-                    case (short)SM64SurfaceType.Hangable:
-                        cR=1;
-                        cG=0;
-                        cB=1;
-                        break;
-                    case (short)SM64SurfaceType.Ice:
-                        cR=0;
-                        cG=1;
-                        cB=1;
-                        break;
-                    case (short)SM64SurfaceType.ShallowQuicksand:
-                        cR=.3f;
-                        cG=.3f;
-                        cB=.3f;
-                        break;
-                    default:
-                        cR=1;
-                        cG=1;
-                        cB=1;
+
+            // render debug
+            if (true/*isDebug()*/){
+                var stack = event.getPoseStack();
+                var rt = RenType.getDebugRenderType();
+                var buffer = Minecraft.getInstance().renderBuffers().bufferSource().getBuffer(rt);
+                stack.pushPose();
+                Vec3 cam = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
+                stack.translate(-cam.x, -cam.y, -cam.z);
+                PoseStack.Pose p = stack.last();
+                for (var surf : SM64EnvManager.surfaces){
+                    float cR=0;
+                    float cG=0;
+                    float cB=0;
+                    switch (surf.type){
+                        case (short)SM64SurfaceType.Burning:
+                            cR=1;
+                            cG=0;
+                            cB=0;
+                            break;
+                        case (short)SM64SurfaceType.Hangable:
+                            cR=1;
+                            cG=0;
+                            cB=1;
+                            break;
+                        case (short)SM64SurfaceType.Ice:
+                            cR=0;
+                            cG=1;
+                            cB=1;
+                            break;
+                        case (short)SM64SurfaceType.ShallowQuicksand:
+                            cR=.3f;
+                            cG=.3f;
+                            cB=.3f;
+                            break;
+                        default:
+                            cR=1;
+                            cG=1;
+                            cB=1;
+                    }
+                    drawSurf(buffer, p, surf, cR, cG, cB);
                 }
-                for (int i = 0; i < surf.vertices.length; i += 3)
-                    buffer.vertex(p.pose(),surf.vertices[i]/LibSM64.SCALE_FACTOR,(surf.vertices[i+1]/LibSM64.SCALE_FACTOR)+0.01f,surf.vertices[i+2]/LibSM64.SCALE_FACTOR).color(cR,cG,cB,1f).endVertex();
+                var camPos = SM64EnvManager.selfMChar.state.camPos;
+                var camFocus = SM64EnvManager.selfMChar.state.camFocus;
+                for (var boxSurf : LibSM64SurfUtils.block((camPos[2]/LibSM64.SCALE_FACTOR)+.5f,(camPos[1]/LibSM64.SCALE_FACTOR)+.5f,(camPos[0]/LibSM64.SCALE_FACTOR)+.5f))
+                    drawSurf(buffer, p, boxSurf, 1, 0, 1);
+                for (var boxSurf : LibSM64SurfUtils.block((camFocus[2]/LibSM64.SCALE_FACTOR)+.5f,(camFocus[1]/LibSM64.SCALE_FACTOR)+.5f,(camFocus[0]/LibSM64.SCALE_FACTOR)+.5f))
+                    drawSurf(buffer, p, boxSurf, 1, 1, 0);
+                stack.popPose();
+                Minecraft.getInstance().renderBuffers().bufferSource().endBatch(rt);
             }
-            stack.popPose();
-            Minecraft.getInstance().renderBuffers().bufferSource().endBatch(rt);
         }
+
+    }
+
+    private void drawSurf(VertexConsumer buffer, PoseStack.Pose p, SM64Surface surf, float cR, float cG, float cB) {
+        for (int i = 0; i < surf.vertices.length; i += 3)
+            buffer.vertex(p.pose(), surf.vertices[i]/LibSM64.SCALE_FACTOR,(surf.vertices[i+1]/LibSM64.SCALE_FACTOR)+0.01f, surf.vertices[i+2]/LibSM64.SCALE_FACTOR).color(cR, cG, cB,1f).endVertex();
     }
 
     @SubscribeEvent
@@ -652,5 +663,34 @@ public class clientEvents {
             }
         }
         initScreenDone = true;
+    }
+
+    @SubscribeEvent
+    public void cameraSetup(EntityViewRenderEvent.CameraSetup event){
+        try {
+            if (!RemoteMCharHandler.getIsMChar(Minecraft.getInstance().player))
+                return;
+            var camPos = SM64EnvManager.selfMChar.state.camPos;
+            var camLook = SM64EnvManager.selfMChar.state.camFocus;
+            var camPosV3 = new Vector3f(camPos[0], camPos[1], camPos[2]);
+            var camLookV3 = new Vector3f(camLook[0], camLook[1], camLook[2]);
+            camPosV3 = PUFixer.convertToMC(camPosV3);
+            camLookV3 = PUFixer.convertToMC(camLookV3);
+            var camPosFromLook = camLookV3.copy();
+            camPosFromLook.sub(camPosV3);
+            camPosFromLook.mul(1f);
+            var newPos = camLookV3.copy();
+            newPos.add(camPosFromLook);
+
+            var transform = Utils.lookAtPitchYaw(camPosV3,camLookV3);
+
+            mappingsConvert.m_cameraSetPosition.invoke(event.getCamera(), camPosV3.x(), camPosV3.y(), camPosV3.z());
+            //event.setPitch(transform[0]);
+            //event.setYaw(transform[1]);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
     }
 }

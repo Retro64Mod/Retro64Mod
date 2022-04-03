@@ -32,7 +32,7 @@ public class PUFixer {
      */
     public static Vector3f convertToMC(Vector3f pos)
     {
-        pos.mul(1/LibSM64.SCALE_FACTOR);
+        pos.mul(1f/LibSM64.SCALE_FACTOR);
         return pos;
     }
 }

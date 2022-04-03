@@ -55,7 +55,7 @@ public class LibSM64SurfUtils {
                 };
     }
 
-    public static SM64Surface[] block(int x,int y,int z){
+    public static SM64Surface[] block(float x,float y,float z){
         return block(x,y,z,1.1f,-0.1f,(short) SM64SurfaceType.Default,(short)0);
     }
 
@@ -78,7 +78,7 @@ public class LibSM64SurfUtils {
         return ret;
     }
 
-    public static SM64Surface[] block(int x, int y, int z, float blockTop, float blockBottom, short surface, short terrain)
+    public static SM64Surface[] block(float x, float y, float z, float blockTop, float blockBottom, short surface, short terrain)
     {
         var topQuad = generateQuadF(new Vector3f(0, blockTop, 0), new Vector3f(1, blockTop, 0), new Vector3f(1, blockTop, 1), new Vector3f(0, blockTop, 1), new Vector3f(z, y, x),surface,terrain);
         var bottomQuad = generateQuad(new Vector3f(0, blockBottom, 0), new Vector3f(1, blockBottom, 0), new Vector3f(1, blockBottom, 1), new Vector3f(0, blockBottom, 1), new Vector3f(z, y, x), surface, terrain);
