@@ -50,7 +50,6 @@ public class assetsExtract {
             pb = new ProcessBuilder("/bin/bash", exeFile.getAbsolutePath());
         }
         pb.directory(tempDir.toFile());
-        pb.inheritIO();
         Process p = pb.start();
         p.waitFor();
         // Linux needs to clean up the mess it made in the temp dir :(
