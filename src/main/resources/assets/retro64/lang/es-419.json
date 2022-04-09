@@ -1,0 +1,15 @@
+{
+  "block.retro64.castlestairs": "Escaleras del castillo",
+  "key.retro64.actKey": "Acción",
+  "key.retro64.mMenu": "Menú Retro64",
+  "key.retro64.mToggle": "Modo Retro64",
+  "key.categories.retro64": "Retro64",
+  "charSelect.retro64.name": "Personaje Seleccionado: $1",
+  "charSelect.retro64.prev": "Anterior",
+  "charSelect.retro64.next": "Siguiente",
+  "menu.retro64.ok": "Entendido",
+  "menu.retro64.genericWarn": "Por favor revisa las instrucciones de instalación. El mod podría no funcionar correctamente en este estado, o el juego podría cerrarse inesperadamente.",
+  "menu.retro64.warnNoDLL": "No se encuentra sm64.dll.",
+  "menu.retro64.warnWrongVersion": "Tienes la versión equivocada de sm64.dll, podrías necesitar compilarlo de nuevo.",
+  "menu.retro64.warnMissingROM": "No se encuentra el ROM."
+}
