@@ -4,7 +4,6 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "retro64.refmap.json",
   "mixins": [
-    "MixinCamera",
     "MixinPlayerTravel"
   ],
   "client": [
