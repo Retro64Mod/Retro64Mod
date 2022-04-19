@@ -29,6 +29,7 @@ import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -676,17 +677,23 @@ public class clientEvents {
             var camLookV3 = new Vector3f(camLook[0], camLook[1], camLook[2]);
             camPosV3 = PUFixer.convertToMC(camPosV3);
             camLookV3 = PUFixer.convertToMC(camLookV3);
-            var camPosFromLook = camLookV3.copy();
-            camPosFromLook.sub(camPosV3);
-            camPosFromLook.mul(1f);
-            var newPos = camLookV3.copy();
-            newPos.add(camPosFromLook);
 
-            var transform = Utils.lookAtPitchYaw(camPosV3,camLookV3);
+            double d0 = camLookV3.x() - camPosV3.x();
+            double d1 = camLookV3.y() - camPosV3.y();
+            double d2 = camLookV3.z() - camPosV3.z();
+            double d3 = Math.sqrt(d0 * d0 + d2 * d2);
+            float xRot=Mth.wrapDegrees((float)(-(Mth.atan2(d1, d3) * (double)(180F / (float)Math.PI))));
+            float yRot=Mth.wrapDegrees((float)(Mth.atan2(d2, d0) * (double)(180F / (float)Math.PI)) - 90.0F);
+            event.setYaw(yRot);
+            event.setPitch(xRot);
+
+            var plr = Minecraft.getInstance().player;
+            var diff = new Vector3f(camPosV3.x() - (float)plr.position().x(), camPosV3.y() - (float)plr.position().y(), camPosV3.z() - (float)plr.position().z());
+            camPosV3.sub(diff);
+            diff.mul(0.5f);
+            camPosV3.add(diff);
 
             mappingsConvert.m_cameraSetPosition.invoke(event.getCamera(), camPosV3.x(), camPosV3.y(), camPosV3.z());
-            //event.setPitch(transform[0]);
-            //event.setYaw(transform[1]);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
