@@ -28,6 +28,11 @@ public class textureManager {
     static ResourceLocation necoarcAtlas = new ResourceLocation(Retro64.MOD_ID,"textures/model/necoarc_atlas.png");
     static ResourceLocation vibriAtlas = new ResourceLocation(Retro64.MOD_ID,"textures/model/vibri_atlas.png");
 
+    public static ResourceLocation cameraIcon = new ResourceLocation(Retro64.MOD_ID,"textures/ui/camera_icon.png");
+    public static ResourceLocation cameraViewIcon = new ResourceLocation(Retro64.MOD_ID,"textures/ui/camera_viewer_icon.png");
+    public static ResourceLocation cameraXIcon= new ResourceLocation(Retro64.MOD_ID,"textures/ui/camera_x_icon.png");
+    public static ResourceLocation cameraUPIcon= new ResourceLocation(Retro64.MOD_ID,"textures/ui/camera_up_icon.png");
+    public static ResourceLocation cameraDNIcon= new ResourceLocation(Retro64.MOD_ID,"textures/ui/camera_dn_icon.png");
 
     public static AbstractTexture getTextureForModel(int modelID, Player player){
         return switch (modelID) {

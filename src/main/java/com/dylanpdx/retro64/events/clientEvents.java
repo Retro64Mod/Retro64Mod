@@ -3,6 +3,7 @@ package com.dylanpdx.retro64.events;
 import com.dylanpdx.retro64.*;
 import com.dylanpdx.retro64.gui.LibLoadWarnScreen;
 import com.dylanpdx.retro64.gui.CharSelectScreen;
+import com.dylanpdx.retro64.gui.SMC64CameraOverlay;
 import com.dylanpdx.retro64.gui.SMC64HeartOverlay;
 import com.dylanpdx.retro64.maps.BlockMatMaps;
 import com.dylanpdx.retro64.networking.SM64PacketHandler;
@@ -58,6 +59,7 @@ import java.util.List;
  */
 public class clientEvents {
     public static final IIngameOverlay MCHAR_HP_ELEMENT= OverlayRegistry.registerOverlayTop("retro64_hearts", new SMC64HeartOverlay());
+    public static final IIngameOverlay MCHAR_CAM_ELEMENT = OverlayRegistry.registerOverlayTop("retro64_camera", new SMC64CameraOverlay());
     //public static final IIngameOverlay MCHAR_DIALOG_ELEMENT= OverlayRegistry.registerOverlayTop("retro64_dialog", new SMC64DialogOverlay());
     static boolean clickDebounce=false;
     static boolean debug=false; // displays debug info
