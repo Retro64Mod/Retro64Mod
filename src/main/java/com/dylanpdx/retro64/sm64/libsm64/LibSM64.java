@@ -62,6 +62,22 @@ public class LibSM64 {
         }
     }
 
+    public static void GlobalInitAudioBin(File romFile,File audioBinFile) throws IOException {
+        byte[] romData = Files.readAllBytes(romFile.toPath());
+        if (audioBinFile == null || !audioBinFile.exists()){
+            GlobalInit(romData,null,null,null,null);
+            return;
+        }
+        ByteBuffer textureData = ByteBuffer.allocate(4 * SM64_TEXTURE_WIDTH * SM64_TEXTURE_HEIGHT);
+        byte[] audioBin = audioBinFile.exists() ? Files.readAllBytes(audioBinFile.toPath()) : null;
+        Libsm64Library.INSTANCE.sm64_global_init_audioBin(ByteBuffer.wrap(romData),ByteBuffer.wrap(audioBin),textureData,null);
+
+        genTextureData(textureData);
+
+        Retro64.LOGGER.info("GlobalInit done");
+        isGlobalInit = true;
+    }
+
     public static void GlobalInit(String romPath,String assetsPath) throws IOException {
         // read all bytes from file at romPath
         File f = new File(romPath);
@@ -94,6 +110,13 @@ public class LibSM64 {
                 bank_sets.length, sequences_bin.length, sound_data_ctl.length, sound_data_tbl.length,
                 textureData,null);
 
+        genTextureData(textureData);
+
+        Retro64.LOGGER.info("GlobalInit done");
+        isGlobalInit = true;
+    }
+
+    private static void genTextureData(ByteBuffer textureData) {
         NativeImage image = new NativeImage(SM64_TEXTURE_WIDTH, SM64_TEXTURE_HEIGHT, false);
         for (int ix = 0; ix < SM64_TEXTURE_WIDTH; ix++)
         {
@@ -109,9 +132,6 @@ public class LibSM64 {
         }
         var mtex=TexGenerator.convertRawTexToMChar(image);
         textureManager.setMCharTexture(mtex);
-
-        Retro64.LOGGER.info("GlobalInit done");
-        isGlobalInit = true;
     }
 
     public static void GlobalTerminate(){

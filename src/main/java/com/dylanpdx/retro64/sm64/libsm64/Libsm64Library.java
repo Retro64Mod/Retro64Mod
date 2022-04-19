@@ -22,6 +22,7 @@ public interface Libsm64Library extends Library {
 	};
 
 	void sm64_global_init(ByteBuffer rom,ByteBuffer bank_sets,ByteBuffer sequences_bin,ByteBuffer sound_data_ctl,ByteBuffer sound_data_tbl,int bank_set_len,int sequences_len,int ctl_len,int tbl_len, ByteBuffer outTexture, Libsm64Library.SM64DebugPrintFunctionPtr debugPrintFunction);
+	void sm64_global_init_audioBin(ByteBuffer rom,ByteBuffer audioData,ByteBuffer outTexture, Libsm64Library.SM64DebugPrintFunctionPtr debugPrintFunction);
 	void sm64_global_terminate();
 	void sm64_static_surfaces_load(SM64Surface[] surfaceArray, int numSurfaces);
 	int sm64_mChar_create(float x, float y, float z);

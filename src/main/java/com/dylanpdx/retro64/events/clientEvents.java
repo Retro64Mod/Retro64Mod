@@ -135,7 +135,7 @@ public class clientEvents {
                                 (float)Math.toRadians(0),
                                 (float)Math.toRadians(180)- SM64EnvManager.selfMChar.state.faceAngle,
                                 (float)Math.toRadians(0)));
-            mCharRenderer.renderMChar(rpe, SM64EnvManager.selfMChar);
+            mCharRenderer.renderMChar(rpe, SM64EnvManager.selfMChar,rpe.getPackedLight());
             rpe.setCanceled(true); // prevent vanilla rendering
         }
     }
