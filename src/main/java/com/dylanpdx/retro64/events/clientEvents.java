@@ -62,6 +62,8 @@ public class clientEvents {
     static boolean clickDebounce=false;
     static boolean debug=false; // displays debug info
     static boolean initScreenDone =false;
+    static Vector3f customCamPos=new Vector3f();
+    static Vector3f customCamFwd= new Vector3f();
 
     @SubscribeEvent
     public void gameTick(TickEvent.ClientTickEvent event){
@@ -153,7 +155,7 @@ public class clientEvents {
             }
 
             // render debug
-            if (true/*isDebug()*/){
+            if (isDebug()){
                 var stack = event.getPoseStack();
                 var rt = RenType.getDebugRenderType();
                 var buffer = Minecraft.getInstance().renderBuffers().bufferSource().getBuffer(rt);
@@ -465,10 +467,24 @@ public class clientEvents {
 
         // get area around player
         Iterable<BlockPos> nearbyBlockPos = BlockPos.betweenClosed(playerPos.offset(-1,-2,-1),playerPos.offset(1,2,1));
+        // if using custom cam{
+        BlockPos camPos = new BlockPos(customCamPos.x(),customCamPos.y(),customCamPos.z());
+        Iterable<BlockPos> blocksAroundCamera = BlockPos.betweenClosed(camPos.offset(-1,-2,-1),camPos.offset(1,2,1));
+        // }
+
+        ArrayList<BlockPos> blockPosList = new ArrayList<>();
+        for (BlockPos pos: nearbyBlockPos) {
+            blockPosList.add(pos.immutable());
+        }
+        // if using custom cam {
+        for (BlockPos pos: blocksAroundCamera) {
+            blockPosList.add(pos.immutable());
+        }
+        // }
         ArrayList<surfaceItem> surfaces = new ArrayList<>(); // surfaces to send to libsm64
         var worldBorder=world.getWorldBorder();
-        for (BlockPos bp:nearbyBlockPos) {
-            BlockPos nearbyBlock=bp.immutable();
+        for (BlockPos bp:blockPosList) {
+            BlockPos nearbyBlock=bp;//.immutable();
 
             if (nearbyBlock.getX() > worldBorder.getMaxX() || nearbyBlock.getX() < worldBorder.getMinX() || nearbyBlock.getZ() > worldBorder.getMaxZ() || nearbyBlock.getZ() < worldBorder.getMinZ())
             {
@@ -586,8 +602,9 @@ public class clientEvents {
      * @param joystickMult the joystick multiplier, used for potion effects
      */
     private static void updatePlayerMovement(LocalPlayer plr,float joystickMult) {
-        var cam_fwd = plr.getLookAngle().yRot((float)Math.toRadians(90));//Objects.requireNonNull(Minecraft.getInstance().getCameraEntity()).getForward();
-        var cam_pos=Minecraft.getInstance().getCameraEntity().position();
+        var cam_fwd = new Vec3(customCamFwd.x(),customCamFwd.y(),customCamFwd.z());//plr.getLookAngle().yRot((float)Math.toRadians(90));
+        var cam_pos=new Vec3(customCamPos.x(),customCamPos.y(),customCamPos.z());//Minecraft.getInstance().getCameraEntity().position();
+
         SM64EnvManager.updateControls(cam_fwd,cam_pos, joystickMult
         ,Keybinds.getActKey().isDown(),plr.input.jumping,plr.input.shiftKeyDown,plr.input.up,plr.input.left,plr.input.down,plr.input.right
         ,Keybinds.getCUp().isDown(),Keybinds.getCDown().isDown(),Keybinds.getCLeft().isDown(),Keybinds.getCRight().isDown());
@@ -690,10 +707,11 @@ public class clientEvents {
             var plr = Minecraft.getInstance().player;
             var diff = new Vector3f(camPosV3.x() - (float)plr.position().x(), camPosV3.y() - (float)plr.position().y(), camPosV3.z() - (float)plr.position().z());
             camPosV3.sub(diff);
-            diff.mul(0.5f);
+            diff.mul(0.7f);
             camPosV3.add(diff);
 
             mappingsConvert.m_cameraSetPosition.invoke(event.getCamera(), camPosV3.x(), camPosV3.y(), camPosV3.z());
+            customCamPos=camPosV3;
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
