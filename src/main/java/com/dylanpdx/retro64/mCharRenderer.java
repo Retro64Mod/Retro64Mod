@@ -20,7 +20,7 @@ public class mCharRenderer {
         if (RemoteMCharHandler.mChars.containsKey(otherPlr)){
             // render mChar for other player
             MChar otherMChar = RemoteMCharHandler.mChars.get(otherPlr);
-            renderMChar(rpe,otherMChar,rpe.getPackedLight());
+            renderMChar(rpe,otherMChar);
         }
         rpe.setCanceled(true);
     }
@@ -29,9 +29,10 @@ public class mCharRenderer {
      * Renders the character of the player
      * If the player is crouching, it un-does the offset, referencing {@link net.minecraft.client.renderer.entity.player.PlayerRenderer#getRenderOffset(AbstractClientPlayer, float)}
      */
-    public static void renderMChar(RenderPlayerEvent rpe,MChar mChar,int packedLight){
+    public static void renderMChar(RenderPlayerEvent rpe,MChar mChar){
         if (mChar == null || mChar.id == -1)
             return;
+        int packedLight = rpe.getPackedLight();
         PoseStack st = rpe.getPoseStack();
         MultiBufferSource buff = rpe.getMultiBufferSource();
         VertexConsumer vc = buff.getBuffer(RenType.getMcharRenderType(mChar.state.currentModel==ModelData.VIBRI.getIndex())); // lazy fix for vibri model, enable culling

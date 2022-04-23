@@ -1,8 +1,8 @@
 package com.dylanpdx.retro64.events;
 
 import com.dylanpdx.retro64.*;
-import com.dylanpdx.retro64.gui.LibLoadWarnScreen;
 import com.dylanpdx.retro64.gui.CharSelectScreen;
+import com.dylanpdx.retro64.gui.LibLoadWarnScreen;
 import com.dylanpdx.retro64.gui.SMC64HeartOverlay;
 import com.dylanpdx.retro64.maps.BlockMatMaps;
 import com.dylanpdx.retro64.networking.SM64PacketHandler;
@@ -26,7 +26,6 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.block.BlockModelShaper;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -136,7 +135,7 @@ public class clientEvents {
                                 (float)Math.toRadians(0),
                                 (float)Math.toRadians(180)- SM64EnvManager.selfMChar.state.faceAngle,
                                 (float)Math.toRadians(0)));
-            mCharRenderer.renderMChar(rpe, SM64EnvManager.selfMChar,rpe.getPackedLight());
+            mCharRenderer.renderMChar(rpe, SM64EnvManager.selfMChar);
             rpe.setCanceled(true); // prevent vanilla rendering
         }
     }
