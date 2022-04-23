@@ -36,5 +36,5 @@ jobs:
         arguments: build
     - uses: actions/upload-artifact@v3
       with:
-        name: sm64-windows
+        name: retro64-mod-jar
         path: build/libs/retro64*.jar
