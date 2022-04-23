@@ -1,10 +1,7 @@
 package com.dylanpdx.retro64.sm64.libsm64;
 
-import com.dylanpdx.retro64.Retro64;
-import com.dylanpdx.retro64.TexGenerator;
-import com.dylanpdx.retro64.Utils;
+import com.dylanpdx.retro64.*;
 import com.dylanpdx.retro64.sm64.SM64MCharAction;
-import com.dylanpdx.retro64.textureManager;
 import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.math.Vector3f;
 import net.minecraft.world.phys.Vec3;
@@ -54,30 +51,6 @@ public class LibSM64 {
         MCHAR_UNKNOWN_31 = 0x80000000;
     }
 
-    public static File getLibPath(){
-        if (SystemUtils.IS_OS_WINDOWS){
-            return new File("mods/sm64.dll");
-        }else{
-            return new File("mods/libsm64.so");
-        }
-    }
-
-    public static void GlobalInitAudioBin(File romFile,File audioBinFile) throws IOException {
-        byte[] romData = Files.readAllBytes(romFile.toPath());
-        if (audioBinFile == null || !audioBinFile.exists()){
-            GlobalInit(romData,null,null,null,null);
-            return;
-        }
-        ByteBuffer textureData = ByteBuffer.allocate(4 * SM64_TEXTURE_WIDTH * SM64_TEXTURE_HEIGHT);
-        byte[] audioBin = audioBinFile.exists() ? Files.readAllBytes(audioBinFile.toPath()) : null;
-        Libsm64Library.INSTANCE.sm64_global_init_audioBin(ByteBuffer.wrap(romData),ByteBuffer.wrap(audioBin),textureData,null);
-
-        genTextureData(textureData);
-
-        Retro64.LOGGER.info("GlobalInit done");
-        isGlobalInit = true;
-    }
-
     public static void GlobalInit(String romPath,String assetsPath) throws IOException {
         // read all bytes from file at romPath
         File f = new File(romPath);
@@ -105,14 +78,14 @@ public class LibSM64 {
             sound_data_ctl = new byte[0];
             sound_data_tbl = new byte[0];
         }
+        Retro64.LOGGER.info("GlobalInit");
         Libsm64Library.INSTANCE.sm64_global_init(
                 ByteBuffer.wrap(rom), ByteBuffer.wrap(bank_sets), ByteBuffer.wrap(sequences_bin), ByteBuffer.wrap(sound_data_ctl), ByteBuffer.wrap(sound_data_tbl),
                 bank_sets.length, sequences_bin.length, sound_data_ctl.length, sound_data_tbl.length,
                 textureData,null);
-
+        Retro64.LOGGER.info("GlobalInit done");
         genTextureData(textureData);
 
-        Retro64.LOGGER.info("GlobalInit done");
         isGlobalInit = true;
     }
 
@@ -220,7 +193,8 @@ public class LibSM64 {
     }
 
     public static boolean libFileExists(){
-        return getLibPath().exists();
+        Retro64.LOGGER.info("Checking for libsm64 library");
+        return binExtract.getLibPath()!=null;
     }
 
 }
