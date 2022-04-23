@@ -129,7 +129,6 @@ public class mCharRenderer {
         vertex(vc,p,_1[0],_1[1],_1[2],c_1[0],c_1[1],c_1[2],1,uv_1[0],uv_1[1],0,light,norm_1[0],norm_1[1],norm_1[2]);
         vertex(vc,p,_2[0],_2[1],_2[2],c_2[0],c_2[1],c_2[2],1,uv_2[0],uv_2[1],0,light,norm_2[0],norm_2[1],norm_2[2]);
         vertex(vc,p,_3[0],_3[1],_3[2],c_3[0],c_3[1],c_3[2],1,uv_3[0],uv_3[1],0,light,norm_3[0],norm_3[1],norm_3[2]);
-        vertex(vc,p,_1[0],_1[1],_1[2],c_1[0],c_1[1],c_1[2],1,uv_1[0],uv_1[1],0,light,norm_1[0],norm_1[1],norm_1[2]);
     }
 
     static void vertex(VertexConsumer vc,PoseStack.Pose p, float pX, float pY, float pZ, float pRed, float pGreen, float pBlue, float pAlpha, float pTexU, float pTexV, int pOverlayUV, int pLightmapUV, float pNormalX, float pNormalY, float pNormalZ) {
