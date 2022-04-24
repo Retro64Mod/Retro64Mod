@@ -6,6 +6,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 
@@ -77,7 +78,7 @@ public class mCharRenderer {
                         new float[]{mChar.getNormals()[i], mChar.getNormals()[i + 1], mChar.getNormals()[i + 2]},
                         new float[]{mChar.getNormals()[i + 3], mChar.getNormals()[i + 4], mChar.getNormals()[i + 5]},
                         new float[]{mChar.getNormals()[i + 6], mChar.getNormals()[i + 7], mChar.getNormals()[i + 8]}
-                        ,packedLight,textureManager.getTextureWidth(mChar.state.currentModel),textureManager.getTextureHeight(mChar.state.currentModel)
+                        ,packedLight,textureManager.getTextureWidth(mChar.state.currentModel),textureManager.getTextureHeight(mChar.state.currentModel), LivingEntityRenderer.getOverlayCoords(rpe.getPlayer(), 0f)
                 );
                 j+=6;
             }
@@ -107,7 +108,7 @@ public class mCharRenderer {
                               float[]c_1,float[]c_2,float[]c_3,
                               float[] uv_1,float[] uv_2,float[] uv_3,
                               float[] norm_1,float[] norm_2,float[] norm_3,
-                              int light,float tWidth,float tHeight){
+                              int light,float tWidth,float tHeight,int overlay){
         if (uv_1[0] != 1 && uv_1[1] != 1 && uv_2[0] != 1 && uv_2[1] != 1 && uv_3[0] != 1 && uv_3[1] != 1) {
             c_1 = new float[]{1, 1, 1};
             c_2 = new float[]{1, 1, 1};
@@ -127,16 +128,16 @@ public class mCharRenderer {
         uv_3[0]+=uOffset;
         uv_3[1]+=vOffset;
 
-        vertex(vc,p,_1[0],_1[1],_1[2],c_1[0],c_1[1],c_1[2],1,uv_1[0],uv_1[1],0,light,norm_1[0],norm_1[1],norm_1[2]);
-        vertex(vc,p,_2[0],_2[1],_2[2],c_2[0],c_2[1],c_2[2],1,uv_2[0],uv_2[1],0,light,norm_2[0],norm_2[1],norm_2[2]);
-        vertex(vc,p,_3[0],_3[1],_3[2],c_3[0],c_3[1],c_3[2],1,uv_3[0],uv_3[1],0,light,norm_3[0],norm_3[1],norm_3[2]);
+        vertex(vc,p,_1[0],_1[1],_1[2],c_1[0],c_1[1],c_1[2],1,uv_1[0],uv_1[1],overlay,light,norm_1[0],norm_1[1],norm_1[2]);
+        vertex(vc,p,_2[0],_2[1],_2[2],c_2[0],c_2[1],c_2[2],1,uv_2[0],uv_2[1],overlay,light,norm_2[0],norm_2[1],norm_2[2]);
+        vertex(vc,p,_3[0],_3[1],_3[2],c_3[0],c_3[1],c_3[2],1,uv_3[0],uv_3[1],overlay,light,norm_3[0],norm_3[1],norm_3[2]);
     }
 
     static void vertex(VertexConsumer vc,PoseStack.Pose p, float pX, float pY, float pZ, float pRed, float pGreen, float pBlue, float pAlpha, float pTexU, float pTexV, int pOverlayUV, int pLightmapUV, float pNormalX, float pNormalY, float pNormalZ) {
         vc.vertex(p.pose(),pX, pY, pZ);
         vc.color(pRed, pGreen, pBlue, pAlpha);
         vc.uv(pTexU, pTexV);
-        vc.overlayCoords(0x000003);
+        vc.overlayCoords(pOverlayUV);
         vc.uv2(pLightmapUV);
         vc.normal(pNormalX, pNormalY, pNormalZ);
         vc.endVertex();
