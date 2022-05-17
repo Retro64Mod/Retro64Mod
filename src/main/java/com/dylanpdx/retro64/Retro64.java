@@ -5,11 +5,14 @@ import com.dylanpdx.retro64.events.clientControllerEvents;
 import com.dylanpdx.retro64.events.clientEvents;
 import com.dylanpdx.retro64.events.serverEvents;
 import com.dylanpdx.retro64.networking.SM64PacketHandler;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
@@ -21,6 +24,7 @@ import java.util.logging.Logger;
 @Mod("retro64")
 public class Retro64
 {
+    private static final RenderType CUTOUT = RenderType.cutout();
     public static final String MOD_ID="retro64";
     public static boolean hasControllerSupport=false;
     public static final Logger LOGGER = Logger.getLogger(MOD_ID);
@@ -30,6 +34,7 @@ public class Retro64
         bothEvents bEvent=new bothEvents();
         // Register the setup method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setupClient);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(bEvent::registerCapabilities);
         RegistryHandler.init();
         SM64PacketHandler.registerPackets(); //
@@ -66,6 +71,12 @@ public class Retro64
     private void setup(final FMLCommonSetupEvent event)
     {
         // some preinit code
+    }
+
+    private void setupClient(final FMLClientSetupEvent event)
+    {
+        ItemBlockRenderTypes.setRenderLayer(RegistryHandler.CASTLE_STAIRS.get(), CUTOUT);
+
     }
 
 
