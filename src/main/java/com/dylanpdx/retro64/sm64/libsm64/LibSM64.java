@@ -5,7 +5,6 @@ import com.dylanpdx.retro64.sm64.SM64MCharAction;
 import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.math.Vector3f;
 import net.minecraft.world.phys.Vec3;
-import org.apache.commons.lang3.SystemUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -51,15 +50,11 @@ public class LibSM64 {
         MCHAR_UNKNOWN_31 = 0x80000000;
     }
 
-    public static void GlobalInit(String romPath,String assetsPath) throws IOException {
+    public static void GlobalInit(String romPath) throws IOException {
         // read all bytes from file at romPath
         File f = new File(romPath);
         byte[] romData = Files.readAllBytes(f.toPath());
-        byte[] bank_sets = assetsPath != null ? Files.readAllBytes(new File(assetsPath + "/bank_sets").toPath()) : null;
-        byte[] sequences_bin = assetsPath != null ? Files.readAllBytes(new File(assetsPath + "/sequences.bin").toPath()) : null;
-        byte[] sound_data_ctl = assetsPath != null ? Files.readAllBytes(new File(assetsPath + "/sound_data.ctl").toPath()) : null;
-        byte[] sound_data_tbl = assetsPath != null ? Files.readAllBytes(new File(assetsPath + "/sound_data.tbl").toPath()) : null;
-        GlobalInit(romData,bank_sets,sequences_bin,sound_data_ctl,sound_data_tbl);
+        GlobalInit(romData);
 
         ArrayList<SM64Surface> surfs = new ArrayList<>();
         surfs.addAll(Arrays.asList(LibSM64SurfUtils.block(0, 4, 0)));
@@ -70,19 +65,11 @@ public class LibSM64 {
         LibSM64.StaticSurfacesLoad(surfs.toArray(new SM64Surface[0]));
     }
 
-    public static void GlobalInit(byte[] rom,byte[] bank_sets,byte[] sequences_bin,byte[] sound_data_ctl,byte[] sound_data_tbl) throws IOException {
+    public static void GlobalInit(byte[] rom) throws IOException {
         ByteBuffer textureData = ByteBuffer.allocate(4 * SM64_TEXTURE_WIDTH * SM64_TEXTURE_HEIGHT);
-        if (bank_sets == null || sequences_bin == null || sound_data_ctl == null || sound_data_tbl == null) {
-            bank_sets = new byte[0];
-            sequences_bin = new byte[0];
-            sound_data_ctl = new byte[0];
-            sound_data_tbl = new byte[0];
-        }
         Retro64.LOGGER.info("GlobalInit");
         Libsm64Library.INSTANCE.sm64_global_init(
-                ByteBuffer.wrap(rom), ByteBuffer.wrap(bank_sets), ByteBuffer.wrap(sequences_bin), ByteBuffer.wrap(sound_data_ctl), ByteBuffer.wrap(sound_data_tbl),
-                bank_sets.length, sequences_bin.length, sound_data_ctl.length, sound_data_tbl.length,
-                textureData,null);
+                ByteBuffer.wrap(rom),textureData,null);
         Retro64.LOGGER.info("GlobalInit done");
         genTextureData(textureData);
 

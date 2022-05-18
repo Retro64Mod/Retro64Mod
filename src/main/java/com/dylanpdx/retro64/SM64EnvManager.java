@@ -211,17 +211,7 @@ public class SM64EnvManager {
             romFile=newPath.toFile();
         }
 
-        try {
-            var extractedFilesDir = assetsExtract.extractToTmp(romFile);
-            if (extractedFilesDir == null) {
-                Retro64.LOGGER.info("Could not extract sound assets");
-            }
-            LibSM64.GlobalInit(romFile.getPath(),extractedFilesDir);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            // init faiiled, stop loading
-            throw new IOException("ROM loading failed");
-        }
+        LibSM64.GlobalInit(romFile.getPath());
 
         initialized = true;
     }
