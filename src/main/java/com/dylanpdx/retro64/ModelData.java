@@ -39,5 +39,5 @@ public enum ModelData {
     private final String credit;
     private final String creditURL;
     private final int index;
-    public static final int modelCount=6;
+    public static final int modelCount=7;
 }
