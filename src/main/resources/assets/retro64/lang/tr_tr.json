@@ -1,0 +1,15 @@
+{
+  "block.retro64.castlestairs": "Şato Merdiveni",
+  "key.retro64.actKey": "Eylem Tuşu",
+  "key.retro64.mMenu": "Retro64 Menüsü",
+  "key.retro64.mToggle": "Retro64 Modunu tetikle",
+  "key.categories.retro64": "Retro64",
+  "charSelect.retro64.name": "Seçili Karakter: $1",
+  "charSelect.retro64.prev": "Önceki",
+  "charSelect.retro64.next": "Sonraki",
+  "menu.retro64.ok": "Anladım",
+  "menu.retro64.genericWarn": "Lütfen kurulum talimatlarına uyun. Mod bu durumda düzgün çalışmayabilir, yada oyun çökebilir.",
+  "menu.retro64.warnNoDLL": "sm64.dll eksik.",
+  "menu.retro64.warnWrongVersion": "sm64.dll'in başka bir sürümüne sahipsiniz, yeniden kompile edilmesi gerekebilir.",
+  "menu.retro64.warnMissingROM": "ROM dosyası eksik."
+}
