@@ -21,6 +21,8 @@ public class BlockMatMaps {
         SOLID_MATS.put("minecraft:ice", SM64SurfaceType.Slippery);
         SOLID_MATS.put("minecraft:packed_ice", SM64SurfaceType.VerySlippery);
         SOLID_MATS.put("minecraft:blue_ice", SM64SurfaceType.VerySlippery);
+        SOLID_MATS.put("retro64:deep_quicksand", SM64SurfaceType.DeepQuicksand);
+        SOLID_MATS.put("retro64:instant_quicksand", SM64SurfaceType.InstantQuicksand);
 
         NONSOLID_MATS=new HashMap<>();
         NONSOLID_MATS.put("minecraft:lava", SM64SurfaceType.Burning);

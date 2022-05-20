@@ -1,5 +1,8 @@
 {
+  "itemGroup.retro64Tab": "Retro64",
   "block.retro64.castlestairs": "Castle Stairs",
+  "block.retro64.deep_quicksand": "Deep Quicksand",
+  "block.retro64.instant_quicksand": "Instant Quicksand",
   "key.retro64.actKey": "Action Key",
   "key.retro64.mMenu": "Retro64 Menu",
   "key.retro64.mToggle": "Toggle Retro64 Mode",

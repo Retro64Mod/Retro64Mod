@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "retro64:block/instant_quicksand",
+    "particle": "retro64:block/instant_quicksand"
+  }
+}
