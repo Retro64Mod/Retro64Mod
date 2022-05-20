@@ -73,11 +73,13 @@ public class Retro64
     private void setup(final FMLCommonSetupEvent event)
     {
         // some preinit code
+        Retro64GameRules.register();
     }
 
     private void setupClient(final FMLClientSetupEvent event)
     {
         ItemBlockRenderTypes.setRenderLayer(RegistryHandler.CASTLE_STAIRS.get(), CUTOUT);
+
 
     }
 

@@ -23,6 +23,7 @@ public class BlockMatMaps {
         SOLID_MATS.put("minecraft:blue_ice", SM64SurfaceType.SURFACE_VERY_SLIPPERY);
         SOLID_MATS.put("retro64:deep_quicksand", SM64SurfaceType.SURFACE_DEEP_QUICKSAND);
         SOLID_MATS.put("retro64:instant_quicksand", SM64SurfaceType.SURFACE_INSTANT_QUICKSAND);
+        SOLID_MATS.put("retro64:ladder", SM64SurfaceType.SURFACE_NOT_SLIPPERY);
 
         NONSOLID_MATS=new HashMap<>();
         NONSOLID_MATS.put("minecraft:lava", SM64SurfaceType.SURFACE_BURNING);
