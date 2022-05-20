@@ -1,0 +1,20 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "#R ",
+        "##R",
+        "###"
+    ],
+    "key": {
+        "#": {
+            "item": "minecraft:red_wool"
+        },
+        "R": {
+            "item": "minecraft:red_carpet"
+        }
+    },
+    "result": {
+        "item": "retro64:castlestairs",
+        "count": 3
+    }
+}
