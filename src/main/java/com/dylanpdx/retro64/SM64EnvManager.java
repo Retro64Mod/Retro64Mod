@@ -67,7 +67,7 @@ public class SM64EnvManager {
                 new Vector3f(-10, -0.5f, 10),
                 new Vector3f(10, -0.5f, 10),
                 new Vector3f(10, -0.5f, -10),
-                new Vector3f(x,y,z), SM64SurfaceType.Default, (short)0);
+                new Vector3f(x,y,z), SM64SurfaceType.SURFACE_DEFAULT.value, (short)0);
     }
 
     /**
@@ -99,9 +99,9 @@ public class SM64EnvManager {
                 if (blockVertices.length==1)
                 {
                     if (surfaceItems[i].isCube())
-                        Collections.addAll(surfaces,LibSM64SurfUtils.block((int)blockVertices[0].z,(int)blockVertices[0].y,(int)blockVertices[0].x,1f,0.1f,surfaceItems[i].material,surfaceItems[i].terrain));
+                        Collections.addAll(surfaces,LibSM64SurfUtils.block((int)blockVertices[0].z,(int)blockVertices[0].y,(int)blockVertices[0].x,1f,0.1f,surfaceItems[i].material.value,surfaceItems[i].terrain));
                     else if (surfaceItems[i].isFlat())
-                        Collections.addAll(surfaces,LibSM64SurfUtils.block((int)blockVertices[0].z,(int)blockVertices[0].y,(int)blockVertices[0].x,.03f,0.01f,surfaceItems[i].material,surfaceItems[i].terrain));
+                        Collections.addAll(surfaces,LibSM64SurfUtils.block((int)blockVertices[0].z,(int)blockVertices[0].y,(int)blockVertices[0].x,.03f,0.01f,surfaceItems[i].material.value,surfaceItems[i].terrain));
                 }
                 else
                     for (int j = 0; j < blockVertices.length; j+=4)
@@ -110,7 +110,7 @@ public class SM64EnvManager {
                         var two = new Vector3f(blockVertices[j+1]);
                         var three = new Vector3f(blockVertices[j+2]);
                         var four = new Vector3f(blockVertices[j+3]);
-                        var quads = LibSM64SurfUtils.generateQuad(one,two, three, four,new Vector3f(0,0,0), surfaceItems[i].material, surfaceItems[i].terrain);
+                        var quads = LibSM64SurfUtils.generateQuad(one,two, three, four,new Vector3f(0,0,0), surfaceItems[i].material.value, surfaceItems[i].terrain);
                         Collections.addAll(surfaces, quads);
                     }
             }

@@ -10,23 +10,23 @@ import java.util.HashMap;
  */
 public class BlockMatMaps {
 
-    static final HashMap<String, Byte> SOLID_MATS; // Blocks with surface type overrides
-    static final HashMap<String, Byte> NONSOLID_MATS; // non-solid blocks with surface type overrides
+    static final HashMap<String, SM64SurfaceType> SOLID_MATS; // Blocks with surface type overrides
+    static final HashMap<String, SM64SurfaceType> NONSOLID_MATS; // non-solid blocks with surface type overrides
     static final ArrayList<String> REPLACE_COLLISION_MATS; // Blocks where their collision will be replaced with a cube
     static final ArrayList<String> FLAT_COLLISION_MATS; // Blocks where their collision will be replaced with a flat plane
     static {
-        SOLID_MATS = new HashMap<String, Byte>();
-        SOLID_MATS.put("minecraft:magma_block", SM64SurfaceType.Burning);
-        SOLID_MATS.put("minecraft:iron_bars", SM64SurfaceType.Hangable);
-        SOLID_MATS.put("minecraft:ice", SM64SurfaceType.Slippery);
-        SOLID_MATS.put("minecraft:packed_ice", SM64SurfaceType.VerySlippery);
-        SOLID_MATS.put("minecraft:blue_ice", SM64SurfaceType.VerySlippery);
-        SOLID_MATS.put("retro64:deep_quicksand", SM64SurfaceType.DeepQuicksand);
-        SOLID_MATS.put("retro64:instant_quicksand", SM64SurfaceType.InstantQuicksand);
+        SOLID_MATS = new HashMap<String, SM64SurfaceType>();
+        SOLID_MATS.put("minecraft:magma_block", SM64SurfaceType.SURFACE_BURNING);
+        SOLID_MATS.put("minecraft:iron_bars", SM64SurfaceType.SURFACE_HANGABLE);
+        SOLID_MATS.put("minecraft:ice", SM64SurfaceType.SURFACE_SLIPPERY);
+        SOLID_MATS.put("minecraft:packed_ice", SM64SurfaceType.SURFACE_VERY_SLIPPERY);
+        SOLID_MATS.put("minecraft:blue_ice", SM64SurfaceType.SURFACE_VERY_SLIPPERY);
+        SOLID_MATS.put("retro64:deep_quicksand", SM64SurfaceType.SURFACE_DEEP_QUICKSAND);
+        SOLID_MATS.put("retro64:instant_quicksand", SM64SurfaceType.SURFACE_INSTANT_QUICKSAND);
 
         NONSOLID_MATS=new HashMap<>();
-        NONSOLID_MATS.put("minecraft:lava", SM64SurfaceType.Burning);
-        NONSOLID_MATS.put("minecraft:fire", SM64SurfaceType.Burning);
+        NONSOLID_MATS.put("minecraft:lava", SM64SurfaceType.SURFACE_BURNING);
+        NONSOLID_MATS.put("minecraft:fire", SM64SurfaceType.SURFACE_BURNING);
 
         REPLACE_COLLISION_MATS=new ArrayList<>();
         REPLACE_COLLISION_MATS.add("minecraft:iron_bars");
@@ -42,9 +42,9 @@ public class BlockMatMaps {
      * @param mat MC material name as registry name
      * @return SM64 surface type
      */
-    public static byte getSolidMat(String mat) {
+    public static SM64SurfaceType getSolidMat(String mat) {
         if (!SOLID_MATS.containsKey(mat)) {
-            return SM64SurfaceType.Default;
+            return SM64SurfaceType.SURFACE_DEFAULT;
         }
         return SOLID_MATS.get(mat);
     }
@@ -54,9 +54,9 @@ public class BlockMatMaps {
      * @param mat MC material name as registry name
      * @return SM64 surface type
      */
-    public static byte getNonsolidMat(String mat) {
+    public static SM64SurfaceType getNonsolidMat(String mat) {
         if (!NONSOLID_MATS.containsKey(mat)) {
-            return SM64SurfaceType.Default;
+            return SM64SurfaceType.SURFACE_DEFAULT;
         }
         return NONSOLID_MATS.get(mat);
     }

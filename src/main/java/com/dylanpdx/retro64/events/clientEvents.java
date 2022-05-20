@@ -164,31 +164,26 @@ public class clientEvents {
                 float cR=0;
                 float cG=0;
                 float cB=0;
-                switch (surf.type){
-                    case (short)SM64SurfaceType.Burning:
-                        cR=1;
-                        cG=0;
-                        cB=0;
-                        break;
-                    case (short)SM64SurfaceType.Hangable:
-                        cR=1;
-                        cG=0;
-                        cB=1;
-                        break;
-                    case (short)SM64SurfaceType.Ice:
-                        cR=0;
-                        cG=1;
-                        cB=1;
-                        break;
-                    case (short)SM64SurfaceType.ShallowQuicksand:
-                        cR=.3f;
-                        cG=.3f;
-                        cB=.3f;
-                        break;
-                    default:
-                        cR=1;
-                        cG=1;
-                        cB=1;
+                if (surf.type == (short) SM64SurfaceType.SURFACE_BURNING.value) {
+                    cR = 1;
+                    cG = 0;
+                    cB = 0;
+                } else if (surf.type == (short) SM64SurfaceType.SURFACE_HANGABLE.value) {
+                    cR = 1;
+                    cG = 0;
+                    cB = 1;
+                } else if (surf.type == (short) SM64SurfaceType.SURFACE_ICE.value) {
+                    cR = 0;
+                    cG = 1;
+                    cB = 1;
+                } else if (surf.type == (short) SM64SurfaceType.SURFACE_SHALLOW_QUICKSAND.value) {
+                    cR = .3f;
+                    cG = .3f;
+                    cB = .3f;
+                } else {
+                    cR = 1;
+                    cG = 1;
+                    cB = 1;
                 }
                 for (int i = 0; i < surf.vertices.length; i += 3)
                     buffer.vertex(p.pose(),surf.vertices[i]/LibSM64.SCALE_FACTOR,(surf.vertices[i+1]/LibSM64.SCALE_FACTOR)+0.01f,surf.vertices[i+2]/LibSM64.SCALE_FACTOR).color(cR,cG,cB,1f).endVertex();
@@ -459,7 +454,7 @@ public class clientEvents {
 
             if (nearbyBlock.getX() > worldBorder.getMaxX() || nearbyBlock.getX() < worldBorder.getMinX() || nearbyBlock.getZ() > worldBorder.getMaxZ() || nearbyBlock.getZ() < worldBorder.getMinZ())
             {
-                surfaces.add(new surfaceItem(new Vec3(nearbyBlock.getX(),nearbyBlock.getY(),nearbyBlock.getZ()),true,false,(byte)0, SM64TerrainType.Stone));
+                surfaces.add(new surfaceItem(new Vec3(nearbyBlock.getX(),nearbyBlock.getY(),nearbyBlock.getZ()),true,false,SM64SurfaceType.SURFACE_DEFAULT, SM64TerrainType.Stone));
                 continue;
             }
             if (world.getBlockState(nearbyBlock).isAir())
@@ -493,15 +488,15 @@ public class clientEvents {
                     }else if (BlockMatMaps.flatCollisionMat(blockName)){
                         // force flat collision box
                         collisionVertices.clear();
-                        var cols=LibSM64SurfUtils.surfsToVec(LibSM64SurfUtils.plane(nearbyBlock.getX(),nearbyBlock.getY(),nearbyBlock.getZ(),0,BlockMatMaps.getSolidMat(blockName),SM64TerrainType.Stone));
+                        var cols=LibSM64SurfUtils.surfsToVec(LibSM64SurfUtils.plane(nearbyBlock.getX(),nearbyBlock.getY(),nearbyBlock.getZ(),0,BlockMatMaps.getSolidMat(blockName).value,SM64TerrainType.Stone));
                         collisionVertices.addAll(Arrays.asList(cols));
                         surfaces.add(new surfaceItem(collisionVertices,BlockMatMaps.getSolidMat(blockName), SM64TerrainType.Stone));
                     }else if (nearbyBlockState.getBlock().getFriction()>=0.7f){
                         // if block is slippery, set it to ice
-                        surfaces.add(new surfaceItem(collisionVertices,SM64SurfaceType.Ice, SM64TerrainType.Snow));
+                        surfaces.add(new surfaceItem(collisionVertices,SM64SurfaceType.SURFACE_ICE, SM64TerrainType.Snow));
                     }else if (nearbyBlockState.getBlock().getSpeedFactor()<0.6f) {
                         // if block is slow (soul sand?), set it to quicksand
-                        surfaces.add(new surfaceItem(collisionVertices,SM64SurfaceType.ShallowQuicksand, SM64TerrainType.Sand));
+                        surfaces.add(new surfaceItem(collisionVertices,SM64SurfaceType.SURFACE_SHALLOW_QUICKSAND, SM64TerrainType.Sand));
                     }else if (nearbyBlockState.getBlock().hasDynamicShape()) {
                         // blocks with dynamic shapes which are also solid get set to cubes
                         collisionVertices.clear();

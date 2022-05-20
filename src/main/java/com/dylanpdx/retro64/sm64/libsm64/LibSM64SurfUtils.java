@@ -56,7 +56,7 @@ public class LibSM64SurfUtils {
     }
 
     public static SM64Surface[] block(int x,int y,int z){
-        return block(x,y,z,1.1f,-0.1f,(short) SM64SurfaceType.Default,(short)0);
+        return block(x,y,z,1.1f,-0.1f,(short) SM64SurfaceType.SURFACE_DEFAULT.value,(short)0);
     }
 
     public static Vec3[] surfToVec(SM64Surface surf){
