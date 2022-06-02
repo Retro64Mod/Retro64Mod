@@ -9,37 +9,11 @@ import java.util.OptionalDouble;
 
 public class RenType extends RenderType {
 
-    public static final RenderType mcharRenderType = create("solid",
-    DefaultVertexFormat.POSITION_COLOR_TEX,
-    VertexFormat.Mode.TRIANGLES,
-    256,
-    false,
-    true,
-    RenderType.CompositeState.builder()
-            .setLightmapState(LIGHTMAP)
-            .setShaderState(RenderStateShard.POSITION_COLOR_TEX_SHADER)
-            .setWriteMaskState(COLOR_DEPTH_WRITE)
-            .setTransparencyState(NO_TRANSPARENCY)
-            .setOutputState(MAIN_TARGET)
-            .setCullState(NO_CULL)
-            //.setLightmapState(RenderStateShard.LIGHTMAP)
-            .createCompositeState(false));
+    public static final RenderType.CompositeState entity_culling_state = RenderType.CompositeState.builder().setShaderState(RENDERTYPE_ENTITY_TRANSLUCENT_SHADER).setTransparencyState(TRANSLUCENT_TRANSPARENCY).setCullState(CULL).setLightmapState(LIGHTMAP).setOverlayState(RenderStateShard.OVERLAY).createCompositeState(true);
+    public static final RenderType.CompositeState entity_noculling_state = RenderType.CompositeState.builder().setShaderState(RENDERTYPE_ENTITY_TRANSLUCENT_SHADER).setTransparencyState(TRANSLUCENT_TRANSPARENCY).setCullState(NO_CULL).setLightmapState(LIGHTMAP).setOverlayState(RenderStateShard.OVERLAY).createCompositeState(true);
+    public static final RenderType entity_culling=create("entity_translucent", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.TRIANGLES, 256, true, true, entity_culling_state);
+    public static final RenderType entity_no_culling=create("entity_translucent", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.TRIANGLES, 256, true, true, entity_noculling_state);
 
-    public static final RenderType mcharRenderType_culling = create("solid",
-            DefaultVertexFormat.POSITION_COLOR_TEX,
-            VertexFormat.Mode.TRIANGLES,
-            256,
-            false,
-            true,
-            RenderType.CompositeState.builder()
-                    .setLightmapState(LIGHTMAP)
-                    .setShaderState(RenderStateShard.POSITION_COLOR_TEX_SHADER)
-                    .setWriteMaskState(COLOR_DEPTH_WRITE)
-                    .setTransparencyState(NO_TRANSPARENCY)
-                    .setOutputState(MAIN_TARGET)
-                    .setCullState(CULL)
-                    //.setLightmapState(RenderStateShard.LIGHTMAP)
-                    .createCompositeState(false));
 
     public static final RenderType debugRenderType = create("lines", DefaultVertexFormat.POSITION_COLOR, VertexFormat.Mode.LINES, 256,false,true,
     RenderType.CompositeState.builder().setShaderState(RENDERTYPE_LINES_SHADER).setLineState(new RenderStateShard.LineStateShard(OptionalDouble.of(50)))
@@ -50,7 +24,7 @@ public class RenType extends RenderType {
     }
 
     public static RenderType getMcharRenderType(boolean culling){
-        return culling ? mcharRenderType_culling : mcharRenderType;
+        return culling?entity_culling:entity_no_culling;
     }
 
     public static RenderType getDebugRenderType(){

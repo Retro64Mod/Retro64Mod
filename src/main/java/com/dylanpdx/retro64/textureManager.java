@@ -27,6 +27,7 @@ public class textureManager {
     static ResourceLocation steveAtlas = new ResourceLocation(Retro64.MOD_ID,"textures/model/steve.png");
     static ResourceLocation necoarcAtlas = new ResourceLocation(Retro64.MOD_ID,"textures/model/necoarc_atlas.png");
     static ResourceLocation vibriAtlas = new ResourceLocation(Retro64.MOD_ID,"textures/model/vibri_atlas.png");
+    static ResourceLocation sonicAtlas = new ResourceLocation(Retro64.MOD_ID,"textures/model/sonic_atlas.png");
 
 
     public static AbstractTexture getTextureForModel(int modelID, Player player){
@@ -37,6 +38,7 @@ public class textureManager {
             case 3 -> getPlayerTexture(player);//Minecraft.getInstance().getTextureManager().getTexture(steveTexture);
             case 4 -> Minecraft.getInstance().getTextureManager().getTexture(necoarcAtlas);
             case 5 -> Minecraft.getInstance().getTextureManager().getTexture(vibriAtlas);
+            case 6 -> Minecraft.getInstance().getTextureManager().getTexture(sonicAtlas);
             default -> null;
         };
     }
@@ -54,7 +56,8 @@ public class textureManager {
             case 3 -> 320;
             case 4 -> 512;
             case 5 -> 192;
-            default -> 1;
+            case 6 -> 512;
+            default -> 64;
         };
     }
 

@@ -1,0 +1,15 @@
+{
+  "block.retro64.castlestairs": "Schlosstreppe",
+  "key.retro64.actKey": "Action Key",
+  "key.retro64.mMenu": "Retro64 Menü",
+  "key.retro64.mToggle": "Retro64 Modus auslösen",
+  "key.categories.retro64": "Retro64",
+  "charSelect.retro64.name": "Ausgewählter Charakter: $1",
+  "charSelect.retro64.prev": "Vorheriger",
+  "charSelect.retro64.next": "Nächster",
+  "menu.retro64.ok": "Ich Verstehe",
+  "menu.retro64.genericWarn": "Bitte beachte die Installationsanleitung. Die Mod funktioniert in diesem Zustand möglicherweise nicht richtig oder das Spiel stürzt ab.",
+  "menu.retro64.warnNoDLL": "Dir fehlt sm64.dll.",
+  "menu.retro64.warnWrongVersion": "Du hast die falsche Version von sm64.dll, du musst sie vielleicht neu Kompilieren.",
+  "menu.retro64.warnMissingROM": "Du hast die falsche ROM Datei."
+}

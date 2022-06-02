@@ -32,8 +32,8 @@ public class bothEvents {
     public void playerSize(EntityEvent.Size event){
         if (event.getEntity() instanceof Player){
             if (RemoteMCharHandler.getIsMChar((Player) event.getEntity())){
-                event.setNewSize(new EntityDimensions(.5f,.9f,true)); // width, height, fixed
-                event.setNewEyeHeight(.8f);
+                event.setNewSize(new EntityDimensions(.5f,1.3f,true)); // width, height, fixed
+                event.setNewEyeHeight(1f);
             }
         }
     }

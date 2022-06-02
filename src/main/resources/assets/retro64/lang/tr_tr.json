@@ -1,0 +1,22 @@
+{
+  "itemGroup.retro64Tab": "Retro64",
+  "block.retro64.castlestairs": "Şato Merdivenleri",
+  "block.retro64.deep_quicksand": "Derin Bataklık",
+  "block.retro64.instant_quicksand": "Ani Bataklık",
+  "gamerule.forceMario": "Mario Modunu Zorunlu Kıl",
+  "key.retro64.actKey": "Aksiyon tuşu",
+  "key.retro64.mMenu": "Retro64 Menüsü",
+  "key.retro64.mToggle": "Retro64 Modunu Kapat/Aç",
+  "key.categories.retro64": "Retro64",
+  "charSelect.retro64.name": "Seçilen Karakter: $1",
+  "charSelect.retro64.prev": "Önceki",
+  "charSelect.retro64.next": "Sonraki",
+  "menu.retro64.ok": "Anladım",
+  "menu.retro64.genericWarn": "Lütfen kurulum yönergelerini takip edin. Mod şu anki haliyle çalışmayabilir, hatta çökebilir.",
+  "menu.retro64.warnNoDLL": "Eksik DLL tespit edildi: sm64.dll",
+  "menu.retro64.warnWrongVersion": "sm64.dll in yanlış sürümünü indirmişsiniz, tekrardan derleme yapılması gerekebilir.",
+  "menu.retro64.warnMissingROM": "ROM dosyası eksik.",
+  "menu.retro64.warnPleaseSelectROM": "Lütfen geçerli bir US/USA .z64 ROM seçiniz. \n(SHA1 hashi 9bef1128717f958171a4afac3ed78ee2bb4e86ce OLMAK ZORUNDADIR)",
+  "menu.retro64.warnInvalidROM": "Seçilen ROM dosyası geçerli değil"
+}
+

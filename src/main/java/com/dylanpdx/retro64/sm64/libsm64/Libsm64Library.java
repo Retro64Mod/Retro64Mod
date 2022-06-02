@@ -1,4 +1,5 @@
 package com.dylanpdx.retro64.sm64.libsm64;
+import com.dylanpdx.retro64.binExtract;
 import com.sun.jna.Callback;
 import com.sun.jna.Library;
 import com.sun.jna.Native;
@@ -7,9 +8,9 @@ import com.sun.jna.Pointer;
 
 import java.nio.ByteBuffer;
 public interface Libsm64Library extends Library {
-	public static final String JNA_LIBRARY_NAME = LibSM64.getLibPath().getAbsolutePath();
+	public static final String JNA_LIBRARY_NAME = binExtract.getLibPath().getAbsolutePath();
 	public static final NativeLibrary JNA_NATIVE_LIB = NativeLibrary.getInstance(Libsm64Library.JNA_LIBRARY_NAME);
-	public static final Libsm64Library INSTANCE = (Libsm64Library)Native.loadLibrary(Libsm64Library.JNA_LIBRARY_NAME, Libsm64Library.class);
+	public static final Libsm64Library INSTANCE = (Libsm64Library)Native.synchronizedLibrary(Native.loadLibrary(Libsm64Library.JNA_LIBRARY_NAME, Libsm64Library.class));
 	public static final int SM64_TEXTURE_WIDTH = 64 * 11;
 	public static final int SM64_TEXTURE_HEIGHT = 64;
 	public static final int SM64_GEO_MAX_TRIANGLES = 2040;
@@ -21,7 +22,8 @@ public interface Libsm64Library extends Library {
 		void apply(Pointer charPtr1);
 	};
 
-	void sm64_global_init(ByteBuffer rom,ByteBuffer bank_sets,ByteBuffer sequences_bin,ByteBuffer sound_data_ctl,ByteBuffer sound_data_tbl,int bank_set_len,int sequences_len,int ctl_len,int tbl_len, ByteBuffer outTexture, Libsm64Library.SM64DebugPrintFunctionPtr debugPrintFunction);
+	void sm64_global_init(ByteBuffer rom,ByteBuffer outTexture, Libsm64Library.SM64DebugPrintFunctionPtr debugPrintFunction);
+	void sm64_global_init_audioBin(ByteBuffer rom,ByteBuffer audioData,ByteBuffer outTexture, Libsm64Library.SM64DebugPrintFunctionPtr debugPrintFunction);
 	void sm64_global_terminate();
 	void sm64_static_surfaces_load(SM64Surface[] surfaceArray, int numSurfaces);
 	int sm64_mChar_create(float x, float y, float z);

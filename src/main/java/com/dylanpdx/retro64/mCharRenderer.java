@@ -4,14 +4,10 @@ import com.dylanpdx.retro64.sm64.libsm64.MChar;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-// import com.mojang.math.Matrix4f;
-// import com.mojang.math.Quaternion;
-// import com.mojang.math.Transformation;
-// import com.mojang.math.Vector3f;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.world.entity.player.Player;
-// import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 
 public class mCharRenderer {
@@ -37,6 +33,7 @@ public class mCharRenderer {
     public static void renderMChar(RenderPlayerEvent rpe,MChar mChar){
         if (mChar == null || mChar.id == -1)
             return;
+        int packedLight = rpe.getPackedLight();
         PoseStack st = rpe.getPoseStack();
         MultiBufferSource buff = rpe.getMultiBufferSource();
         VertexConsumer vc = buff.getBuffer(RenType.getMcharRenderType(mChar.state.currentModel==ModelData.VIBRI.getIndex())); // lazy fix for vibri model, enable culling
@@ -76,8 +73,12 @@ public class mCharRenderer {
                         // UV
                         new float[]{mChar.getUVs()[j], mChar.getUVs()[j + 1]},
                         new float[]{mChar.getUVs()[j+2], mChar.getUVs()[j + 3]},
-                        new float[]{mChar.getUVs()[j+4], mChar.getUVs()[j + 5]}
-                        ,Math.max(plr.getBrightness(),.1f),textureManager.getTextureWidth(mChar.state.currentModel),textureManager.getTextureHeight(mChar.state.currentModel)
+                        new float[]{mChar.getUVs()[j+4], mChar.getUVs()[j + 5]},
+                        // normal
+                        new float[]{mChar.getNormals()[i], mChar.getNormals()[i + 1], mChar.getNormals()[i + 2]},
+                        new float[]{mChar.getNormals()[i + 3], mChar.getNormals()[i + 4], mChar.getNormals()[i + 5]},
+                        new float[]{mChar.getNormals()[i + 6], mChar.getNormals()[i + 7], mChar.getNormals()[i + 8]}
+                        ,packedLight,textureManager.getTextureWidth(mChar.state.currentModel),textureManager.getTextureHeight(mChar.state.currentModel), LivingEntityRenderer.getOverlayCoords(rpe.getPlayer(), 0f)
                 );
                 j+=6;
             }
@@ -98,11 +99,16 @@ public class mCharRenderer {
      * @param uv_1 The first UV
      * @param uv_2 The second UV
      * @param uv_3 The third UV
-     * @param brightness The brightness of the color (lazily multiplied by the color)
+     * @param light Packed light
      * @param tWidth The texture width
      * @param tHeight The texture height
      */
-    public static void drawFc(VertexConsumer vc,PoseStack.Pose p,float[]_1,float[]_2,float[]_3,float[]c_1,float[]c_2,float[]c_3,float[] uv_1,float[] uv_2,float[] uv_3,float brightness,float tWidth,float tHeight){
+    public static void drawFc(VertexConsumer vc,PoseStack.Pose p,
+                              float[]_1,float[]_2,float[]_3,
+                              float[]c_1,float[]c_2,float[]c_3,
+                              float[] uv_1,float[] uv_2,float[] uv_3,
+                              float[] norm_1,float[] norm_2,float[] norm_3,
+                              int light,float tWidth,float tHeight,int overlay){
         if (uv_1[0] != 1 && uv_1[1] != 1 && uv_2[0] != 1 && uv_2[1] != 1 && uv_3[0] != 1 && uv_3[1] != 1) {
             c_1 = new float[]{1, 1, 1};
             c_2 = new float[]{1, 1, 1};
@@ -122,9 +128,18 @@ public class mCharRenderer {
         uv_3[0]+=uOffset;
         uv_3[1]+=vOffset;
 
+        vertex(vc,p,_1[0],_1[1],_1[2],c_1[0],c_1[1],c_1[2],1,uv_1[0],uv_1[1],overlay,light,norm_1[0],norm_1[1],norm_1[2]);
+        vertex(vc,p,_2[0],_2[1],_2[2],c_2[0],c_2[1],c_2[2],1,uv_2[0],uv_2[1],overlay,light,norm_2[0],norm_2[1],norm_2[2]);
+        vertex(vc,p,_3[0],_3[1],_3[2],c_3[0],c_3[1],c_3[2],1,uv_3[0],uv_3[1],overlay,light,norm_3[0],norm_3[1],norm_3[2]);
+    }
 
-        vc.vertex(p.pose(),_1[0],_1[1],_1[2]).color(c_1[0]*brightness,c_1[1]*brightness,c_1[2]*brightness,1).uv(uv_1[0],uv_1[1]).endVertex();
-        vc.vertex(p.pose(),_2[0],_2[1],_2[2]).color(c_2[0]*brightness,c_2[1]*brightness,c_2[2]*brightness,1).uv(uv_2[0],uv_2[1]).endVertex();
-        vc.vertex(p.pose(),_3[0],_3[1],_3[2]).color(c_3[0]*brightness,c_3[1]*brightness,c_3[2]*brightness,1).uv(uv_3[0],uv_3[1]).endVertex();
+    static void vertex(VertexConsumer vc,PoseStack.Pose p, float pX, float pY, float pZ, float pRed, float pGreen, float pBlue, float pAlpha, float pTexU, float pTexV, int pOverlayUV, int pLightmapUV, float pNormalX, float pNormalY, float pNormalZ) {
+        vc.vertex(p.pose(),pX, pY, pZ);
+        vc.color(pRed, pGreen, pBlue, pAlpha);
+        vc.uv(pTexU, pTexV);
+        vc.overlayCoords(pOverlayUV);
+        vc.uv2(pLightmapUV);
+        vc.normal(pNormalX, pNormalY, pNormalZ);
+        vc.endVertex();
     }
 }

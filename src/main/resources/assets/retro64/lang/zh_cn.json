@@ -1,0 +1,15 @@
+{
+  "block.retro64.castlestairs": "城堡楼梯",
+  "key.retro64.actKey": "多功能控制键",
+  "key.retro64.mMenu": "人物选择菜单",
+  "key.retro64.mToggle": "切换马里奥模式",
+  "key.categories.retro64": "马里奥设置",
+  "charSelect.retro64.name": "选定: $1",
+  "charSelect.retro64.prev": "上一个",
+  "charSelect.retro64.next": "下一个",
+  "menu.retro64.ok": "确认",
+  "menu.retro64.genericWarn": "请阅读相关安装说明。在这种状态下，模组可能无法正常工作，或者游戏可能会崩溃。",
+  "menu.retro64.warnNoDLL": "文件 sm64.dll 缺失",
+  "menu.retro64.warnWrongVersion": "您的 sm64.dll 版本错误，可能需要重新编译。",
+  "menu.retro64.warnMissingROM": "您缺少马里奥 ROM（baserom.us.z64） 文件。"
+}

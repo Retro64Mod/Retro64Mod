@@ -103,7 +103,7 @@ public class CastleStairsBlock extends Block {
     public CastleStairsBlock() {
         super(BlockBehaviour.Properties.of(Material.STONE)
                 .strength(3.5f,4.8f)
-                .sound(SoundType.STONE));
+                .sound(SoundType.STONE).noOcclusion());
         this.registerDefaultState(this.defaultBlockState().setValue(HORIZONTAL_FACING, Direction.NORTH));
     }
 

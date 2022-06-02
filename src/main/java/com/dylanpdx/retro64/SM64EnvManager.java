@@ -1,15 +1,22 @@
 package com.dylanpdx.retro64;
 
+import com.dylanpdx.retro64.config.Retro64Config;
 import com.dylanpdx.retro64.events.clientControllerEvents;
 import com.dylanpdx.retro64.sm64.SM64SurfaceType;
 import com.dylanpdx.retro64.sm64.libsm64.*;
 import com.mojang.math.Vector3f;
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 
-import java.io.*;
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.MessageDigest;
@@ -33,6 +40,8 @@ public class SM64EnvManager {
     public static void updateSurfs(surfaceItem[] surfs){
         updateSurfs(surfs,null);
     }
+
+    final static String ROM_HASH="9bef1128717f958171a4afac3ed78ee2bb4e86ce";
 
     /**
      * Update volume
@@ -58,7 +67,7 @@ public class SM64EnvManager {
                 new Vector3f(-10, -0.5f, 10),
                 new Vector3f(10, -0.5f, 10),
                 new Vector3f(10, -0.5f, -10),
-                new Vector3f(x,y,z), SM64SurfaceType.Default, (short)0);
+                new Vector3f(x,y,z), SM64SurfaceType.SURFACE_DEFAULT.value, (short)0);
     }
 
     /**
@@ -90,9 +99,9 @@ public class SM64EnvManager {
                 if (blockVertices.length==1)
                 {
                     if (surfaceItems[i].isCube())
-                        Collections.addAll(surfaces,LibSM64SurfUtils.block((int)blockVertices[0].z,(int)blockVertices[0].y,(int)blockVertices[0].x,1f,0.1f,surfaceItems[i].material,surfaceItems[i].terrain));
+                        Collections.addAll(surfaces,LibSM64SurfUtils.block((int)blockVertices[0].z,(int)blockVertices[0].y,(int)blockVertices[0].x,1f,0.1f,surfaceItems[i].material.value,surfaceItems[i].terrain));
                     else if (surfaceItems[i].isFlat())
-                        Collections.addAll(surfaces,LibSM64SurfUtils.block((int)blockVertices[0].z,(int)blockVertices[0].y,(int)blockVertices[0].x,.03f,0.01f,surfaceItems[i].material,surfaceItems[i].terrain));
+                        Collections.addAll(surfaces,LibSM64SurfUtils.block((int)blockVertices[0].z,(int)blockVertices[0].y,(int)blockVertices[0].x,.03f,0.01f,surfaceItems[i].material.value,surfaceItems[i].terrain));
                 }
                 else
                     for (int j = 0; j < blockVertices.length; j+=4)
@@ -101,7 +110,7 @@ public class SM64EnvManager {
                         var two = new Vector3f(blockVertices[j+1]);
                         var three = new Vector3f(blockVertices[j+2]);
                         var four = new Vector3f(blockVertices[j+3]);
-                        var quads = LibSM64SurfUtils.generateQuad(one,two, three, four,new Vector3f(0,0,0), surfaceItems[i].material, surfaceItems[i].terrain);
+                        var quads = LibSM64SurfUtils.generateQuad(one,two, three, four,new Vector3f(0,0,0), surfaceItems[i].material.value, surfaceItems[i].terrain);
                         Collections.addAll(surfaces, quads);
                     }
             }
@@ -165,8 +174,14 @@ public class SM64EnvManager {
      * @return the SHA1 hash of the file as a hex string
      * @throws Exception if the file cannot be read
      */
-    public static String createSha1String(File file) throws Exception  {
-        var sha1 = createSha1(file);
+    public static String createSha1String(File file)  {
+        byte[] sha1 = new byte[0];
+        try {
+            sha1 = createSha1(file);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "";
+        }
         StringBuilder sb = new StringBuilder();
         for (byte b : sha1) {
             sb.append(String.format("%02x", b));
@@ -175,21 +190,70 @@ public class SM64EnvManager {
     }
 
     /**
-     * find a file that matches the SHA1 hash "9bef1128717f958171a4afac3ed78ee2bb4e86ce"
+     * find a file that matches the ROM_HASH"
      * @return the file that matches the SHA1 hash, or null if no file matches
      */
     public static File getROMFile(){
+
+        try{
+            File configuredROMPath=new File(Retro64Config.ROM_PATH.get());
+            if (configuredROMPath.exists() && createSha1String(configuredROMPath).equals(ROM_HASH)){
+                return configuredROMPath;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
         File[] files = new File("mods").listFiles(f -> {
             try {
-                return f.toPath().toString().endsWith("64") && createSha1String(f).equals("9bef1128717f958171a4afac3ed78ee2bb4e86ce");
+                return f.toPath().toString().endsWith("64") && createSha1String(f).equals(ROM_HASH);
             } catch (Exception e) {
                 e.printStackTrace();
                 return false;
             }
         });
         if (files.length == 0) {
+            System.setProperty("java.awt.headless","false"); // This is probably a really bad idea, but MC's internal GUI system doesn't have an east way to create a file browser.
+            // PR's are welcome if anyone wants to implement this using MC code.
+            JDialog dialog = new JDialog();
+            // show an error message
+            var result = JOptionPane.showConfirmDialog(dialog,
+                    new TranslatableComponent("menu.retro64.warnMissingROM").getString()+"\n"+
+                    new TranslatableComponent("menu.retro64.warnPleaseSelectROM").getString(),
+                                "Error", JOptionPane.OK_CANCEL_OPTION);
+            if (result == JOptionPane.OK_OPTION) {
+                boolean valid = false;
+                while (!valid){
+                    // open file chooser
+                    JFileChooser fileChooser = new JFileChooser();
+                    fileChooser.setFileFilter(new FileNameExtensionFilter("Z64 ROM", "z64"));
+                    fileChooser.setDialogTitle("Select a ROM");
+                    fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+                    fileChooser.setMultiSelectionEnabled(false);
+                    int returnVal = fileChooser.showOpenDialog(dialog);
+                    if (returnVal == JFileChooser.APPROVE_OPTION) {
+                        File file = fileChooser.getSelectedFile();
+                        if (createSha1String(file).equals(ROM_HASH)) {
+                            Retro64Config.ROM_PATH.set(file.getAbsolutePath());
+                            Retro64Config.ROM_PATH.save();
+                            return file;
+                        }else{
+                            JOptionPane.showMessageDialog(dialog,
+                            new TranslatableComponent("menu.retro64.warnInvalidROM").getString()+"\n"+
+                    new TranslatableComponent("menu.retro64.warnPleaseSelectROM").getString(),
+                            "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }else if (returnVal == JFileChooser.CANCEL_OPTION){
+                        valid = true;
+                    }
+                }
+            }
+
             return null;//throw new FileNotFoundException("Could not find valid ROM");
         }
+        Retro64Config.ROM_PATH.set(files[0].toPath().toString());
+        Retro64Config.ROM_PATH.save();
         return files[0];
     }
 
@@ -211,17 +275,8 @@ public class SM64EnvManager {
             romFile=newPath.toFile();
         }
 
-        try {
-            var extractedFilesDir = assetsExtract.extractToTmp(romFile);
-            if (extractedFilesDir == null) {
-                Retro64.LOGGER.info("Could not extract sound assets");
-            }
-            LibSM64.GlobalInit(romFile.getPath(),extractedFilesDir);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            // init faiiled, stop loading
-            throw new IOException("ROM loading failed");
-        }
+        LibSM64.GlobalInit(romFile.getPath());
+
         initialized = true;
     }
 

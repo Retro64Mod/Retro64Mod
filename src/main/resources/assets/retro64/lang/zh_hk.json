@@ -1,0 +1,15 @@
+{
+  "block.retro64.castlestairs": "城堡樓梯",
+  "key.retro64.actKey": "多功能行為鍵",
+  "key.retro64.mMenu": "人物選擇表",
+  "key.retro64.mToggle": "切換模式",
+  "key.categories.retro64": "Retro64設置",
+  "charSelect.retro64.name": "選定: $1",
+  "charSelect.retro64.prev": "上一個",
+  "charSelect.retro64.next": "下一個",
+  "menu.retro64.ok": "確認",
+  "menu.retro64.genericWarn": "請閱讀相關安裝說明。在這種狀態下，模組可能無法正常工作，或者遊戲可能會崩潰。",
+  "menu.retro64.warnNoDLL": "檔案 sm64.dll 缺失",
+  "menu.retro64.warnWrongVersion": "您的 sm64.dll 版本錯誤，可能需要重新編譯。",
+  "menu.retro64.warnMissingROM": "您缺少Super Mario 64 ROM（baserom.us.z64）檔案。"
+}
