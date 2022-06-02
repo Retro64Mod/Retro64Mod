@@ -1,5 +1,9 @@
 {
+  "itemGroup.retro64Tab": "Retro64",
   "block.retro64.castlestairs": "Escadas do Castelo",
+  "block.retro64.deep_quicksand": "Areia Movediça Funda",
+  "block.retro64.instant_quicksand": "Areia Movediça Instantânea",
+  "gamerule.forceMario": "Forçar Modo Mario",
   "key.retro64.actKey": "Tecla de Ação",
   "key.retro64.mMenu": "Menu Retro64",
   "key.retro64.mToggle": "Alternar Modo Retro64",
@@ -8,8 +12,10 @@
   "charSelect.retro64.prev": "Anterior",
   "charSelect.retro64.next": "Próximo",
   "menu.retro64.ok": "Eu entendo",
-  "menu.retro64.genericWarn": "Por favor veja as instruções de instalação. O mod poderá não funcionar neste estado, ou o jogo poderá travar.",
-  "menu.retro64.warnNoDLL": "O arquivo sm64.dll não foi encontrado.",
-  "menu.retro64.warnWrongVersion": "Versão incorreta do arquivo sm64.dll encontrada, é possível que seja necessário recompilar.",
-  "menu.retro64.warnMissingROM": "O arquivo ROM não foi encontrado."
+  "menu.retro64.genericWarn": "Por favor veja as instruções de instalação. O mod pode não funcionar nesse estado, ou o jogo pode travar.",
+  "menu.retro64.warnNoDLL": "sm64.dll não está disponível.",
+  "menu.retro64.warnWrongVersion": "Você a versão errada de sm64.dll, pode precisar compilar novamente.",
+  "menu.retro64.warnMissingROM": "Arquivo ROM não está disponível.",
+  "menu.retro64.warnPleaseSelectROM": "Por favor selecione uma ROM Americana (US/USA) em formato .z64. \n(hash SHA1 TEM que ser 9bef1128717f958171a4afac3ed78ee2bb4e86ce)",
+  "menu.retro64.warnInvalidROM": "A ROM selecionada é inválida."
 }
