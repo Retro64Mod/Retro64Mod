@@ -93,7 +93,7 @@ public class clientEvents {
                         RemoteMCharHandler.mCharOff(Minecraft.getInstance().player);
                     if (Minecraft.getInstance().player.getAbilities().flying)
                         Minecraft.getInstance().player.getAbilities().flying = false;
-                    var elytraCheck = Minecraft.getInstance().player.getInventory().armor.get(2).getItem().getRegistryName().toString().equals("minecraft:elytra");
+                    var elytraCheck = Utils.getRegistryName(Minecraft.getInstance().player.getInventory().armor.get(2).getItem()).equals("minecraft:elytra");
                     var eState = (SM64MCharStateFlags.MCHAR_CAP_ON_HEAD.getValue() | SM64MCharStateFlags.MCHAR_WING_CAP.getValue());
                     if (elytraCheck && (SM64EnvManager.selfMChar.state.flags & eState) != eState)
                     {
@@ -230,7 +230,7 @@ public class clientEvents {
             }
             var dat=debugText.split("\n");
             for (int i = 0;i<dat.length;i++){
-                font.draw(event.getMatrixStack(),dat[i],10,10+(10*i),0xffffffff);
+                font.draw(event.getPoseStack(),dat[i],10,10+(10*i),0xffffffff);
             }
         }
     }
@@ -297,7 +297,7 @@ public class clientEvents {
         float joystickMult=1;
         boolean poisoned=false;
         for (var effect : plr.getActiveEffects()){
-            switch (effect.getEffect().getRegistryName().toString()){
+            switch (Utils.getRegistryName(effect.getEffect())){
                 case "minecraft:speed":
                     float extraMult = (effect.getAmplifier()+1)*0.1f;
                     joystickMult+=extraMult;
@@ -472,7 +472,7 @@ public class clientEvents {
             }
 
             if (!nearbyBlockState.isAir()){
-                var blockName=nearbyBlockState.getBlock().getRegistryName().toString();
+                var blockName=Utils.getRegistryName(nearbyBlockState.getBlock());
                 if (nearbyBlockState.getMaterial().isSolid()){
                     //// SOLID ////
 
@@ -505,7 +505,7 @@ public class clientEvents {
                     }else
                     {
                         var stype = nearbyBlockState.getBlock().getSoundType(nearbyBlockState, world,nearbyBlock, plr);
-                        var stSound = stype.getStepSound().getRegistryName().toString();
+                        var stSound = Utils.getRegistryName(stype.getStepSound());
                         short type=SM64TerrainType.Stone;
                         // Determine what material a block is by it's sound type
                         switch (stSound){
