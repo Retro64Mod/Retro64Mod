@@ -32,13 +32,13 @@ public class CharSelectScreen extends Screen {
     }
 
     protected void init(){
-        this.addRenderableWidget(new Button(10, this.height-40, 50, 20,new TranslatableComponent("charSelect.retro64.prev"), (pButton) -> {
+        this.addRenderableWidget(new Button(10, this.height-40, 50, 20,Component.translatable("charSelect.retro64.prev"), (pButton) -> {
             SM64EnvManager.playerModel--;
             if (SM64EnvManager.playerModel<0){
                 SM64EnvManager.playerModel=ModelData.modelCount-1;
             }
         }));
-        this.addRenderableWidget(new Button(this.width-60, this.height-40, 50, 20,new TranslatableComponent("charSelect.retro64.next"), (pButton) -> {
+        this.addRenderableWidget(new Button(this.width-60, this.height-40, 50, 20,Component.translatable("charSelect.retro64.next"), (pButton) -> {
             SM64EnvManager.playerModel++;
             if (SM64EnvManager.playerModel>=ModelData.modelCount){
                 SM64EnvManager.playerModel=0;
@@ -59,7 +59,7 @@ public class CharSelectScreen extends Screen {
     }
 
     void drawCharName(PoseStack pPoseStack){
-        var dat = new TextComponent((ModelData.values()[SM64EnvManager.playerModel]).getName());
+        var dat = Component.literal((ModelData.values()[SM64EnvManager.playerModel]).getName());
         var creditDat = Component.nullToEmpty(""+(ModelData.values()[SM64EnvManager.playerModel]).getCredit());
         var fWidth = this.font.width(dat);
         var cWidth = this.font.width(creditDat);

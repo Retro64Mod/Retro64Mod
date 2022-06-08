@@ -29,7 +29,7 @@ public class binExtract {
         Retro64.LOGGER.info("libsm64 location identified as "+libsm64Loc.toString());
         // extract into temp dir
         var tempDir = Files.createTempDirectory("retro64_bin");
-        var stream = Minecraft.getInstance().getResourceManager().getResource(libsm64Loc).getInputStream();
+        var stream = Minecraft.getInstance().getResourceManager().getResource(libsm64Loc).get().open();
         var libPath=Path.of(tempDir.toString(),libsm64);
         Files.copy(stream, libPath, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
         stream.close();
