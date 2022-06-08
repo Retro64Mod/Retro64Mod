@@ -26,7 +26,8 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.block.BlockModelShaper;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -628,13 +629,13 @@ public class clientEvents {
         var rom = SM64EnvManager.getROMFile();
         if (event.getScreen() instanceof TitleScreen){
             if (!LibSM64.libFileExists() || !LibSM64.isSupportedVersion() || rom==null){
-                TranslatableComponent reason;
+                MutableComponent reason;
                 if (!LibSM64.libFileExists())
-                    reason = new TranslatableComponent("menu.retro64.warnNoDLL");
+                    reason = Component.translatable("menu.retro64.warnNoDLL");
                 else if (!LibSM64.isSupportedVersion())
-                    reason = new TranslatableComponent("menu.retro64.warnWrongVersion");
+                    reason = Component.translatable("menu.retro64.warnWrongVersion");
                 else// if (!rom.exists())
-                    reason = new TranslatableComponent("menu.retro64.warnMissingROM");
+                    reason = Component.translatable("menu.retro64.warnMissingROM");
                 event.setScreen(new LibLoadWarnScreen(reason));
             }else{
                 try {
