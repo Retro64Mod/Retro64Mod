@@ -40,11 +40,11 @@ public class BlockMatMaps {
         REPLACE_COLLISION_MATS.add("minecraft:crimson_fence");
         REPLACE_COLLISION_MATS.add("minecraft:warped_fence");
         REPLACE_COLLISION_MATS.add("minecraft:nether_brick_fence");
-        REPLACE_COLLISION_MATS.add("minecraft:lava");
         REPLACE_COLLISION_MATS.add("minecraft:barrier");
 
         FLAT_COLLISION_MATS=new ArrayList<>();
         FLAT_COLLISION_MATS.add("minecraft:fire");
+        FLAT_COLLISION_MATS.add("minecraft:lava");
     }
 
     /**
