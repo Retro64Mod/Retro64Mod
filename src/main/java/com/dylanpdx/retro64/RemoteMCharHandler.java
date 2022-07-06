@@ -2,7 +2,6 @@ package com.dylanpdx.retro64;
 
 import com.dylanpdx.retro64.capabilities.capabilitySyncManager;
 import com.dylanpdx.retro64.sm64.libsm64.AnimInfo;
-import com.dylanpdx.retro64.sm64.libsm64.LibSM64;
 import com.dylanpdx.retro64.sm64.libsm64.MChar;
 import com.dylanpdx.retro64.sm64.libsm64.SM64MCharState;
 import net.minecraft.client.Minecraft;
@@ -115,6 +114,7 @@ public class RemoteMCharHandler {
         boolean isMChar =smCap.getIsEnabled();
         if (!isMChar) return;
         smCap.setIsEnabled(false);
+        player.moveTo(player.position().x,Math.round(player.position().y),player.position().z);
         if (player== Minecraft.getInstance().player)
         {
             SM64EnvManager.selfMChar.destroy();
