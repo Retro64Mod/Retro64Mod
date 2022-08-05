@@ -5,7 +5,7 @@
   "key.retro64.mToggle": "Activer/Désactiver le mode Retro64 ",
   "key.categories.retro64": "Retro64",
   "charSelect.retro64.name": "Personnage sélectionné: $1",
-  "charSelect.retro64.prev": "Avant",
+  "charSelect.retro64.prev": "Précédent",
   "charSelect.retro64.next": "Suivant",
   "menu.retro64.ok": "Je comprends",
   "menu.retro64.genericWarn": "Veuillez vous référer aux instructions d'installation. Dans cet état, il est possible que le mod ne fonctionne pas correctement ou que le jeu plante.",

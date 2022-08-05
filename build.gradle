@@ -19,7 +19,7 @@ apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 apply plugin: 'org.spongepowered.mixin'
 
-version = '1.0.10'
+version = '1.0.11'
 group = 'com.dylanpdx.retro64' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'retro64'
 

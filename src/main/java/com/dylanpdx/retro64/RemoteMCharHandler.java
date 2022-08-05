@@ -114,6 +114,7 @@ public class RemoteMCharHandler {
         boolean isMChar =smCap.getIsEnabled();
         if (!isMChar) return;
         smCap.setIsEnabled(false);
+        player.moveTo(player.position().x,Math.round(player.position().y),player.position().z);
         if (player== Minecraft.getInstance().player)
         {
             SM64EnvManager.selfMChar.destroy();

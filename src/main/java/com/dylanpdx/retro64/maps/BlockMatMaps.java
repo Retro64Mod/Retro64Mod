@@ -31,11 +31,20 @@ public class BlockMatMaps {
 
         REPLACE_COLLISION_MATS=new ArrayList<>();
         REPLACE_COLLISION_MATS.add("minecraft:iron_bars");
-        REPLACE_COLLISION_MATS.add("minecraft:lava");
+        REPLACE_COLLISION_MATS.add("minecraft:oak_fence");
+        REPLACE_COLLISION_MATS.add("minecraft:spruce_fence");
+        REPLACE_COLLISION_MATS.add("minecraft:birch_fence");
+        REPLACE_COLLISION_MATS.add("minecraft:jungle_fence");
+        REPLACE_COLLISION_MATS.add("minecraft:acacia_fence");
+        REPLACE_COLLISION_MATS.add("minecraft:dark_oak_fence");
+        REPLACE_COLLISION_MATS.add("minecraft:crimson_fence");
+        REPLACE_COLLISION_MATS.add("minecraft:warped_fence");
+        REPLACE_COLLISION_MATS.add("minecraft:nether_brick_fence");
         REPLACE_COLLISION_MATS.add("minecraft:barrier");
 
         FLAT_COLLISION_MATS=new ArrayList<>();
         FLAT_COLLISION_MATS.add("minecraft:fire");
+        FLAT_COLLISION_MATS.add("minecraft:lava");
     }
 
     /**

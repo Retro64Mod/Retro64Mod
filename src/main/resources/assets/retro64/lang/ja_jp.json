@@ -1,5 +1,9 @@
 {
+  "itemGroup.retro64Tab": "Retro64",
   "block.retro64.castlestairs": "お城の階段",
+  "block.retro64.deep_quicksand": "深い流砂",
+  "block.retro64.instant_quicksand": "インスタント流砂",
+  "gamerule.forceMario": "マリオモードを強制",
   "key.retro64.actKey": "アクションキー",
   "key.retro64.mMenu": "Retro64メニュー",
   "key.retro64.mToggle": "Retro64モードの切り替え",
@@ -11,5 +15,7 @@
   "menu.retro64.genericWarn": "インストール手順を参照してください。 この状態ではModが正しく機能しないか、ゲームがクラッシュする可能性があります。",
   "menu.retro64.warnNoDLL": "sm64.dllが見つかりませんでした。",
   "menu.retro64.warnWrongVersion": "sm64.dllのバージョンが間違えているため、再度コンパイルする必要があります。",
-  "menu.retro64.warnMissingROM": "ROMファイルが見つかりませんでした。"
+  "menu.retro64.warnMissingROM": "ROMファイルが見つかりませんでした。",
+  "menu.retro64.warnPleaseSelectROM": "有効なUS/USA .z64 ROMを選択してください。 \n(SHA1ハッシュは 9bef1128717f958171a4afac3ed78ee2bb4e86ce である必要があります)",
+  "menu.retro64.warnInvalidROM": "選択したROMが無効です"
 }
