@@ -14,7 +14,7 @@
   "menu.retro64.ok": "Eu entendo",
   "menu.retro64.genericWarn": "Por favor veja as instruções de instalação. O mod pode não funcionar nesse estado, ou o jogo pode travar.",
   "menu.retro64.warnNoDLL": "sm64.dll não está disponível.",
-  "menu.retro64.warnWrongVersion": "Você a versão errada de sm64.dll, pode precisar compilar novamente.",
+  "menu.retro64.warnWrongVersion": "Você tem a versão errada de sm64.dll, poderá precisar compilar novamente.",
   "menu.retro64.warnMissingROM": "Arquivo ROM não está disponível.",
   "menu.retro64.warnPleaseSelectROM": "Por favor selecione uma ROM Americana (US/USA) em formato .z64. \n(hash SHA1 TEM que ser 9bef1128717f958171a4afac3ed78ee2bb4e86ce)",
   "menu.retro64.warnInvalidROM": "A ROM selecionada é inválida."
