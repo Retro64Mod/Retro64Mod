@@ -126,7 +126,7 @@ public class SM64EnvManager {
         selfMChar.inputs.stickX=0;
         selfMChar.inputs.stickY=0;
         Vec2 v2=null;
-        if (Retro64.hasControllerSupport && (clientControllerEvents.input.x>0 || clientControllerEvents.input.y>0)){
+        if (Retro64.hasControllerSupport && (clientControllerEvents.input.x != 0 || clientControllerEvents.input.y != 0)){
             v2 = clientControllerEvents.input;
         }else{
             if (W_pressed) selfMChar.inputs.stickX += 1;
