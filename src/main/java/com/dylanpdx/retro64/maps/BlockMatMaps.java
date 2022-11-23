@@ -28,6 +28,7 @@ public class BlockMatMaps {
         NONSOLID_MATS=new HashMap<>();
         NONSOLID_MATS.put("minecraft:lava", SM64SurfaceType.SURFACE_BURNING);
         NONSOLID_MATS.put("minecraft:fire", SM64SurfaceType.SURFACE_BURNING);
+        NONSOLID_MATS.put("minecraft:soul_fire", SM64SurfaceType.SURFACE_BURNING);
 
         REPLACE_COLLISION_MATS=new ArrayList<>();
         REPLACE_COLLISION_MATS.add("minecraft:iron_bars");
@@ -44,6 +45,7 @@ public class BlockMatMaps {
 
         FLAT_COLLISION_MATS=new ArrayList<>();
         FLAT_COLLISION_MATS.add("minecraft:fire");
+        FLAT_COLLISION_MATS.add("minecraft:soul_fire");
         FLAT_COLLISION_MATS.add("minecraft:lava");
     }
 
