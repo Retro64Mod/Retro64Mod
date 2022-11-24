@@ -4,6 +4,9 @@ import com.dylanpdx.retro64.blocks.CastleStairsBlock;
 import com.dylanpdx.retro64.blocks.DeepQuicksandBlock;
 import com.dylanpdx.retro64.blocks.InstantQuicksandBlock;
 import com.dylanpdx.retro64.creativetabs.Retro64ItemGroup;
+import com.dylanpdx.retro64.items.MetalCap;
+import com.dylanpdx.retro64.items.VanishCap;
+import com.dylanpdx.retro64.items.WingCap;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -29,5 +32,8 @@ public class RegistryHandler {
     public static final RegistryObject<Item> CASTLE_STAIRS_ITEM = ITEMS.register("castlestairs",()->new BlockItem(CASTLE_STAIRS.get(),new Item.Properties().tab(Retro64ItemGroup.RETRO64_TAB)));
     public static final RegistryObject<Item> DEEP_QUICKSAND_ITEM = ITEMS.register("deep_quicksand",()->new BlockItem(DEEP_QUICKSAND.get(),new Item.Properties().tab(Retro64ItemGroup.RETRO64_TAB)));
     public static final RegistryObject<Item> INSTANT_QUICKSAND_ITEM = ITEMS.register("instant_quicksand",()->new BlockItem(INSTANT_QUICKSAND.get(),new Item.Properties().tab(Retro64ItemGroup.RETRO64_TAB)));
+    public static final RegistryObject<Item> WING_CAP_ITEM = ITEMS.register("wing_cap",()->new WingCap(new Item.Properties().tab(Retro64ItemGroup.RETRO64_TAB)));
+    public static final RegistryObject<Item> VANISH_CAP_ITEM = ITEMS.register("vanish_cap",()->new VanishCap(new Item.Properties().tab(Retro64ItemGroup.RETRO64_TAB)));
+    public static final RegistryObject<Item> METAL_CAP_ITEM = ITEMS.register("metal_cap",()->new MetalCap(new Item.Properties().tab(Retro64ItemGroup.RETRO64_TAB)));
 
 }

@@ -1,5 +1,8 @@
 {
   "itemGroup.retro64Tab": "Retro64",
+  "item.retro64.wing_cap": "Wing Cap",
+  "item.retro64.vanish_cap": "Vanish Cap",
+  "item.retro64.metal_cap": "Metal Cap",
   "block.retro64.castlestairs": "Castle Stairs",
   "block.retro64.deep_quicksand": "Deep Quicksand",
   "block.retro64.instant_quicksand": "Instant Quicksand",

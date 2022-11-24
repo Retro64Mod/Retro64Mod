@@ -100,11 +100,7 @@ public class clientEvents {
                         LibSM64.MCharChangeState(SM64EnvManager.selfMChar.id, eState);
                         //LibSM64.MCharChangeAction(SM64EnvManager.selfMChar.id, SM64MCharAction.ACT_PUTTING_ON_CAP.id);
                     }
-                    else if (!elytraCheck && (SM64EnvManager.selfMChar.state.flags & eState) == eState)
-                    {
-                        //LibSM64.MCharChangeAction(SM64EnvManager.selfMChar.id, SM64MCharAction.ACT_PUTTING_ON_CAP.id);
-                        LibSM64.MCharChangeState(SM64EnvManager.selfMChar.id, (SM64MCharStateFlags.MCHAR_CAP_ON_HEAD.getValue() | SM64MCharStateFlags.MCHAR_NORMAL_CAP.getValue()));
-                    }
+                    //var eState = (SM64MCharStateFlags.MCHAR_CAP_ON_HEAD.getValue() | SM64MCharStateFlags.MCHAR_WING_CAP.getValue());
                 }
             }
         }catch (NullPointerException e){
