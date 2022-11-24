@@ -92,18 +92,18 @@ public class clientEvents {
                         RemoteMCharHandler.mCharOff(Minecraft.getInstance().player);
                     if (Minecraft.getInstance().player.getAbilities().flying)
                         Minecraft.getInstance().player.getAbilities().flying = false;
-                    var elytraCheck = Minecraft.getInstance().player.getInventory().armor.get(2).getItem().getRegistryName().toString().equals("minecraft:elytra");
-                    var eState = (SM64MCharStateFlags.MCHAR_CAP_ON_HEAD.getValue() | SM64MCharStateFlags.MCHAR_WING_CAP.getValue());
-                    if (elytraCheck && (SM64EnvManager.selfMChar.state.flags & eState) != eState)
-                    {
-                        LibSM64.MCharChangeState(SM64EnvManager.selfMChar.id, eState);
-                        //LibSM64.MCharChangeAction(SM64EnvManager.selfMChar.id, SM64MCharAction.ACT_PUTTING_ON_CAP.id);
+
+                    int[] capFlags = {SM64MCharStateFlags.MCHAR_WING_CAP.getValue(),SM64MCharStateFlags.MCHAR_METAL_CAP.getValue(),SM64MCharStateFlags.MCHAR_VANISH_CAP.getValue()};
+                    String[] capRegNames = {RegistryHandler.WING_CAP_ITEM.get().getRegistryName().toString(),RegistryHandler.METAL_CAP_ITEM.get().getRegistryName().toString(),RegistryHandler.VANISH_CAP_ITEM.get().getRegistryName().toString()};
+
+                    for (int i = 0;i<capFlags.length;i++){
+                        var check=Minecraft.getInstance().player.getInventory().armor.get(3).getItem().getRegistryName().toString().equals(capRegNames[i]);
+                        if (check && (SM64EnvManager.selfMChar.state.flags & capFlags[i]) != capFlags[i])
+                            LibSM64.MCharChangeState(SM64EnvManager.selfMChar.id, SM64EnvManager.selfMChar.state.flags | capFlags[i]);
+                        else if (!check && (SM64EnvManager.selfMChar.state.flags & capFlags[i]) == capFlags[i])
+                            LibSM64.MCharChangeState(SM64EnvManager.selfMChar.id, SM64EnvManager.selfMChar.state.flags & ~capFlags[i]);
                     }
-                    else if (!elytraCheck && (SM64EnvManager.selfMChar.state.flags & eState) == eState)
-                    {
-                        //LibSM64.MCharChangeAction(SM64EnvManager.selfMChar.id, SM64MCharAction.ACT_PUTTING_ON_CAP.id);
-                        LibSM64.MCharChangeState(SM64EnvManager.selfMChar.id, (SM64MCharStateFlags.MCHAR_CAP_ON_HEAD.getValue() | SM64MCharStateFlags.MCHAR_NORMAL_CAP.getValue()));
-                    }
+                    //var eState = (SM64MCharStateFlags.MCHAR_CAP_ON_HEAD.getValue() | SM64MCharStateFlags.MCHAR_WING_CAP.getValue());
                 }
             }
         }catch (NullPointerException e){

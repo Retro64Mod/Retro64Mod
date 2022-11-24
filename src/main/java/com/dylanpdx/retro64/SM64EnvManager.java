@@ -10,6 +10,7 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.fml.loading.FMLPaths;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -205,7 +206,7 @@ public class SM64EnvManager {
             return null;
         }
 
-        File[] files = new File("mods").listFiles(f -> {
+        File[] files = new File(FMLPaths.MODSDIR.get().toString()).listFiles(f -> {
             try {
                 return f.toPath().toString().endsWith("64") && createSha1String(f).equals(ROM_HASH);
             } catch (Exception e) {
@@ -213,7 +214,7 @@ public class SM64EnvManager {
                 return false;
             }
         });
-        if (files.length == 0) {
+        if (files == null || files.length == 0) {
             System.setProperty("java.awt.headless","false"); // This is probably a really bad idea, but MC's internal GUI system doesn't have an east way to create a file browser.
             // PR's are welcome if anyone wants to implement this using MC code.
             JDialog dialog = new JDialog();
