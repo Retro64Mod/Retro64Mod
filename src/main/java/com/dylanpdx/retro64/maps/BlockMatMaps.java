@@ -42,6 +42,9 @@ public class BlockMatMaps {
         REPLACE_COLLISION_MATS.add("minecraft:warped_fence");
         REPLACE_COLLISION_MATS.add("minecraft:nether_brick_fence");
         REPLACE_COLLISION_MATS.add("minecraft:barrier");
+        REPLACE_COLLISION_MATS.add("minecraft:chest");
+        REPLACE_COLLISION_MATS.add("minecraft:trapped_chest");
+        REPLACE_COLLISION_MATS.add("minecraft:ender_chest");
 
         FLAT_COLLISION_MATS=new ArrayList<>();
         FLAT_COLLISION_MATS.add("minecraft:fire");
