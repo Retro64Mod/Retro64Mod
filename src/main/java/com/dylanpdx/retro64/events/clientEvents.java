@@ -93,12 +93,16 @@ public class clientEvents {
                         RemoteMCharHandler.mCharOff(Minecraft.getInstance().player);
                     if (Minecraft.getInstance().player.getAbilities().flying)
                         Minecraft.getInstance().player.getAbilities().flying = false;
-                    var elytraCheck = Utils.getRegistryName(Minecraft.getInstance().player.getInventory().armor.get(2).getItem()).equals("minecraft:elytra");
-                    var eState = (SM64MCharStateFlags.MCHAR_CAP_ON_HEAD.getValue() | SM64MCharStateFlags.MCHAR_WING_CAP.getValue());
-                    if (elytraCheck && (SM64EnvManager.selfMChar.state.flags & eState) != eState)
-                    {
-                        LibSM64.MCharChangeState(SM64EnvManager.selfMChar.id, eState);
-                        //LibSM64.MCharChangeAction(SM64EnvManager.selfMChar.id, SM64MCharAction.ACT_PUTTING_ON_CAP.id);
+
+                    int[] capFlags = {SM64MCharStateFlags.MCHAR_WING_CAP.getValue(),SM64MCharStateFlags.MCHAR_METAL_CAP.getValue(),SM64MCharStateFlags.MCHAR_VANISH_CAP.getValue()};
+                    String[] capRegNames = {Utils.getRegistryName(RegistryHandler.WING_CAP_ITEM.get()),Utils.getRegistryName(RegistryHandler.METAL_CAP_ITEM.get()),Utils.getRegistryName(RegistryHandler.VANISH_CAP_ITEM.get())};
+
+                    for (int i = 0;i<capFlags.length;i++){
+                        var check=Utils.getRegistryName(Minecraft.getInstance().player.getInventory().armor.get(3).getItem()).equals(capRegNames[i]);
+                        if (check && (SM64EnvManager.selfMChar.state.flags & capFlags[i]) != capFlags[i])
+                            LibSM64.MCharChangeState(SM64EnvManager.selfMChar.id, SM64EnvManager.selfMChar.state.flags | capFlags[i]);
+                        else if (!check && (SM64EnvManager.selfMChar.state.flags & capFlags[i]) == capFlags[i])
+                            LibSM64.MCharChangeState(SM64EnvManager.selfMChar.id, SM64EnvManager.selfMChar.state.flags & ~capFlags[i]);
                     }
                     //var eState = (SM64MCharStateFlags.MCHAR_CAP_ON_HEAD.getValue() | SM64MCharStateFlags.MCHAR_WING_CAP.getValue());
                 }
