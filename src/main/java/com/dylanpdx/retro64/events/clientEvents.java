@@ -28,6 +28,8 @@ import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -96,10 +98,10 @@ public class clientEvents {
                         Minecraft.getInstance().player.getAbilities().flying = false;
 
                     int[] capFlags = {SM64MCharStateFlags.MCHAR_WING_CAP.getValue(),SM64MCharStateFlags.MCHAR_METAL_CAP.getValue(),SM64MCharStateFlags.MCHAR_VANISH_CAP.getValue()};
-                    String[] capRegNames = {RegistryHandler.WING_CAP_ITEM.get().getRegistryName().toString(),RegistryHandler.METAL_CAP_ITEM.get().getRegistryName().toString(),RegistryHandler.VANISH_CAP_ITEM.get().getRegistryName().toString()};
+                    String[] capRegNames = {Utils.getRegistryName(RegistryHandler.WING_CAP_ITEM.get()),Utils.getRegistryName(RegistryHandler.METAL_CAP_ITEM.get()),Utils.getRegistryName(RegistryHandler.VANISH_CAP_ITEM.get())};
 
                     for (int i = 0;i<capFlags.length;i++){
-                        var check=Minecraft.getInstance().player.getInventory().armor.get(3).getItem().getRegistryName().toString().equals(capRegNames[i]);
+                        var check=Utils.getRegistryName(Minecraft.getInstance().player.getInventory().armor.get(3).getItem()).equals(capRegNames[i]);
                         if (check && (SM64EnvManager.selfMChar.state.flags & capFlags[i]) != capFlags[i])
                             LibSM64.MCharChangeState(SM64EnvManager.selfMChar.id, SM64EnvManager.selfMChar.state.flags | capFlags[i]);
                         else if (!check && (SM64EnvManager.selfMChar.state.flags & capFlags[i]) == capFlags[i])
@@ -231,7 +233,7 @@ public class clientEvents {
             }
             var dat=debugText.split("\n");
             for (int i = 0;i<dat.length;i++){
-                font.draw(event.getMatrixStack(),dat[i],10,10+(10*i),0xffffffff);
+                font.draw(event.getPoseStack(),dat[i],10,10+(10*i),0xffffffff);
             }
         }
     }
@@ -298,7 +300,7 @@ public class clientEvents {
         float joystickMult=1;
         boolean poisoned=false;
         for (var effect : plr.getActiveEffects()){
-            switch (effect.getEffect().getRegistryName().toString()){
+            switch (Utils.getRegistryName(effect.getEffect())){
                 case "minecraft:speed":
                     float extraMult = (effect.getAmplifier()+1)*0.1f;
                     joystickMult+=extraMult;
@@ -504,7 +506,7 @@ public class clientEvents {
                     }else
                     {
                         var stype = nearbyBlockState.getBlock().getSoundType(nearbyBlockState, world,nearbyBlock, plr);
-                        var stSound = stype.getStepSound().getRegistryName().toString();
+                        var stSound = Utils.getRegistryName(stype.getStepSound());
                         short type=SM64TerrainType.Stone;
                         // Determine what material a block is by it's sound type
                         switch (stSound){
@@ -616,13 +618,13 @@ public class clientEvents {
         var rom = SM64EnvManager.getROMFile();
         if (event.getScreen() instanceof TitleScreen){
             if (!LibSM64.libFileExists() || !LibSM64.isSupportedVersion() || rom==null){
-                TranslatableComponent reason;
+                MutableComponent reason;
                 if (!LibSM64.libFileExists())
-                    reason = new TranslatableComponent("menu.retro64.warnNoDLL");
+                    reason = Component.translatable("menu.retro64.warnNoDLL");
                 else if (!LibSM64.isSupportedVersion())
-                    reason = new TranslatableComponent("menu.retro64.warnWrongVersion");
+                    reason = Component.translatable("menu.retro64.warnWrongVersion");
                 else// if (!rom.exists())
-                    reason = new TranslatableComponent("menu.retro64.warnMissingROM");
+                    reason = Component.translatable("menu.retro64.warnMissingROM");
                 event.setScreen(new LibLoadWarnScreen(reason));
             }else{
                 try {

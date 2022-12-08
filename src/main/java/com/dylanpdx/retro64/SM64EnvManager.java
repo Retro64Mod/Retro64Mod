@@ -6,7 +6,7 @@ import com.dylanpdx.retro64.sm64.SM64SurfaceType;
 import com.dylanpdx.retro64.sm64.libsm64.*;
 import com.mojang.math.Vector3f;
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
@@ -224,8 +224,8 @@ public class SM64EnvManager {
             JDialog dialog = new JDialog();
             // show an error message
             var result = JOptionPane.showConfirmDialog(dialog,
-                    new TranslatableComponent("menu.retro64.warnMissingROM").getString()+"\n"+
-                    new TranslatableComponent("menu.retro64.warnPleaseSelectROM").getString(),
+                    Component.translatable("menu.retro64.warnMissingROM").getString()+"\n"+
+                    Component.translatable("menu.retro64.warnPleaseSelectROM").getString(),
                                 "Error", JOptionPane.OK_CANCEL_OPTION);
             if (result == JOptionPane.OK_OPTION) {
                 boolean valid = false;
@@ -245,8 +245,8 @@ public class SM64EnvManager {
                             return file;
                         }else{
                             JOptionPane.showMessageDialog(dialog,
-                            new TranslatableComponent("menu.retro64.warnInvalidROM").getString()+"\n"+
-                    new TranslatableComponent("menu.retro64.warnPleaseSelectROM").getString(),
+                            Component.translatable("menu.retro64.warnInvalidROM").getString()+"\n"+
+                    Component.translatable("menu.retro64.warnPleaseSelectROM").getString(),
                             "Error", JOptionPane.ERROR_MESSAGE);
                         }
                     }else if (returnVal == JFileChooser.CANCEL_OPTION){

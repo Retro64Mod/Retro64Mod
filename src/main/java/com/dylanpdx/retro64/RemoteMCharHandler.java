@@ -135,8 +135,7 @@ public class RemoteMCharHandler {
      */
     public static void toggleMChar(Player player){
         var smCap = Utils.getSmc64Capability(player);
-        if (smCap==null) return;
-        boolean isMChar =smCap.getIsEnabled();
+        boolean isMChar = smCap != null && smCap.getIsEnabled();
         if (isMChar) mCharOff(player);
         else mCharOn(player);
     }

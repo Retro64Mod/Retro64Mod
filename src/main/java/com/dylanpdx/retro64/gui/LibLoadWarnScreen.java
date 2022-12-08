@@ -6,26 +6,25 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.util.FormattedCharSequence;
 
 public class LibLoadWarnScreen extends Screen {
 
     private Button okButton;
-    private TranslatableComponent reason;
+    private MutableComponent reason;
 
     protected LibLoadWarnScreen(Component pTitle) {
         super(pTitle);
     }
 
-    public LibLoadWarnScreen(TranslatableComponent reason) {
-        super(new TextComponent("Warning"));
+    public LibLoadWarnScreen(MutableComponent reason) {
+        super(Component.literal("Warning"));
         this.reason = reason;
     }
 
     protected void init() {
-        okButton = new Button(this.width / 2 - 100, this.height / 2 + 20, 200, 20, new TranslatableComponent("menu.retro64.ok"), (pButton) -> {
+        okButton = new Button(this.width / 2 - 100, this.height / 2 + 20, 200, 20, Component.translatable("menu.retro64.ok"), (pButton) -> {
             Minecraft.getInstance().setScreen(new TitleScreen());
         });
         this.addRenderableWidget(okButton);
@@ -36,7 +35,7 @@ public class LibLoadWarnScreen extends Screen {
         renderDirtBackground(0);
         drawTextCentered(pPoseStack, title, width / 2, 20, 0xFFFFFF);
         drawTextCenteredWrapped(pPoseStack,reason, width / 2, 40, 300,0xFFFFFF);
-        drawTextCenteredWrapped(pPoseStack,new TranslatableComponent("menu.retro64.genericWarn"), width / 2, 60, 300,0xFFFFFF);
+        drawTextCenteredWrapped(pPoseStack,Component.translatable("menu.retro64.genericWarn"), width / 2, 60, 300,0xFFFFFF);
         super.render(pPoseStack, pMouseX, pMouseY, pPartialTick);
     }
 
@@ -60,6 +59,6 @@ public class LibLoadWarnScreen extends Screen {
     }
 
     void drawTextCenteredWrapped(PoseStack pPoseStack, String pText, int pX, int pY, int pWidth, int pColor) {
-        drawTextCenteredWrapped(pPoseStack, new TextComponent(pText), pX, pY, pWidth, pColor);
+        drawTextCenteredWrapped(pPoseStack, Component.literal(pText), pX, pY, pWidth, pColor);
     }
 }

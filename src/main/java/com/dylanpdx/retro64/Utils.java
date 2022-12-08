@@ -9,7 +9,12 @@ import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateHolder;
 import net.minecraft.world.level.material.FluidState;
@@ -22,7 +27,6 @@ import java.io.DataInputStream;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class Utils {
 
@@ -302,5 +306,21 @@ public class Utils {
         //quaternion.z = 0.5f * num5;
         //quaternion.w = (m01 - m10) * num2;
         return quaternion;
+    }
+
+    public static String getRegistryName(Block block){
+        return ForgeRegistries.BLOCKS.getKey(block).toString();
+    }
+
+    public static String getRegistryName(Item item){
+        return ForgeRegistries.ITEMS.getKey(item).toString();
+    }
+
+    public static String getRegistryName(MobEffect effect){
+        return ForgeRegistries.MOB_EFFECTS.getKey(effect).toString();
+    }
+
+    public static String getRegistryName(SoundEvent sound){
+        return ForgeRegistries.SOUND_EVENTS.getKey(sound).toString();
     }
 }

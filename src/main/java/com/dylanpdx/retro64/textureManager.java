@@ -99,7 +99,7 @@ public class textureManager {
      */
     public static InputStream getSkinInputStream(ResourceLocation loc) throws IOException {
         if (loc==DefaultPlayerSkin.getDefaultSkin())
-            return Minecraft.getInstance().getResourceManager().getResource(DefaultPlayerSkin.getDefaultSkin()).getInputStream();
+            return Minecraft.getInstance().getResourceManager().getResource(DefaultPlayerSkin.getDefaultSkin()).get().open();
         // Getting it like this because the skin manager method returns a null value
         var locStr=loc.toString().replace("minecraft:skins/","");
         var first2chars=locStr.substring(0,2);
