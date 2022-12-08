@@ -1,5 +1,14 @@
 package com.dylanpdx.retro64.sm64;
 
+import com.mrcrayfish.controllable.Reference;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.level.block.Block;
+
+import java.util.ArrayList;
+
 public enum SM64SurfaceType {
      SURFACE_DEFAULT(0x0000), // Environment default
      SURFACE_BURNING(0x0001), // Lava / Frostbite (in SL), but is used mostly for Lava
@@ -150,6 +159,26 @@ public enum SM64SurfaceType {
      SURFACE_TRAPDOOR(0x00FF); // Bowser Left trapdoor, has no action defined
 
      public final byte value;
+
+     public static class Tags{
+
+          public static TagKey<Block> burning = tag("surface/burning");
+          public static TagKey<Block> hangable = tag("surface/hangable");
+          public static TagKey<Block> slow = tag("surface/slow");
+          public static TagKey<Block> shallow_quicksand = tag("surface/shallow_quicksand");
+          public static TagKey<Block> quicksand = tag("surface/quicksand");
+          public static TagKey<Block> deep_quicksand = tag("surface/deep_quicksand");
+          public static TagKey<Block> death_quicksand = tag("surface/death_quicksand");
+          public static TagKey<Block> hard = tag("surface/hard");
+          public static TagKey<Block> not_slippery = tag("surface/not_slippery");
+          public static TagKey<Block> slippery = tag("surface/slippery");
+          public static TagKey<Block> very_slippery = tag("surface/very_slippery");
+
+          private static TagKey<Block> tag(String name) {
+               return TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation("retro64", name));
+          }
+
+     }
 
      private SM64SurfaceType(int value) {
           this.value = (byte)value;

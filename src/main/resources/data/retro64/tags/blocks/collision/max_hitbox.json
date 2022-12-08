@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "#minecraft:beds",
+    "minecraft:composter",
+    "minecraft:azalea",
+    "minecraft:flowering_azalea",
+    "minecraft:scaffolding",
+    "minecraft:anvil"
+  ]
+}

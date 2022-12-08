@@ -89,9 +89,9 @@ public class SM64EnvManager {
             Collections.addAll(surfaces,generateSafetyFloor((float)playerPos.x,-80,(float)playerPos.z));
         }
         if (RemoteMCharHandler.mChars!=null)
-        for(MChar mChar : RemoteMCharHandler.mChars.values()){
-            Collections.addAll(surfaces,generateSafetyFloor(mChar.state.position[0] / LibSM64.SCALE_FACTOR, -80, mChar.state.position[2] / LibSM64.SCALE_FACTOR));
-        }
+            for(MChar mChar : RemoteMCharHandler.mChars.values()){
+                Collections.addAll(surfaces,generateSafetyFloor(mChar.state.position[0] / LibSM64.SCALE_FACTOR, -80, mChar.state.position[2] / LibSM64.SCALE_FACTOR));
+            }
         if (surfaceItems!=null)
         {
             int surfCount = surfaceItems.length;
@@ -107,12 +107,16 @@ public class SM64EnvManager {
                 else
                     for (int j = 0; j < blockVertices.length; j+=4)
                     {
-                        var one = new Vector3f(blockVertices[j]);
-                        var two = new Vector3f(blockVertices[j+1]);
-                        var three = new Vector3f(blockVertices[j+2]);
-                        var four = new Vector3f(blockVertices[j+3]);
-                        var quads = LibSM64SurfUtils.generateQuad(one,two, three, four,new Vector3f(0,0,0), surfaceItems[i].material.value, surfaceItems[i].terrain);
-                        Collections.addAll(surfaces, quads);
+                        try {
+                            var one = new Vector3f(blockVertices[j]);
+                            var two = new Vector3f(blockVertices[j+1]);
+                            var three = new Vector3f(blockVertices[j+2]);
+                            var four = new Vector3f(blockVertices[j+3]);
+                            var quads = LibSM64SurfUtils.generateQuad(one,two, three, four,new Vector3f(0,0,0), surfaceItems[i].material.value, surfaceItems[i].terrain);
+                            Collections.addAll(surfaces, quads);
+                        } catch(IndexOutOfBoundsException e){
+                            e.printStackTrace();
+                        }
                     }
             }
         }
