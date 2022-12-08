@@ -16,11 +16,9 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.StateHolder;
-import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
@@ -86,7 +84,7 @@ public class Utils {
      * @param random Random number generator
      * @return List of Vec3 vertices
      */
-    public static List<Vec3> getQuadsFromModel(BakedModel bakedModel, BlockState blockState, Random random, boolean passThrough){
+    public static List<Vec3> getQuadsFromModel(BakedModel bakedModel, BlockState blockState, RandomSource random, boolean passThrough){
         if (passThrough) return new ArrayList<>();
 
         ArrayList<Vec3> quads = new ArrayList<>();

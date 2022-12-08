@@ -3,7 +3,6 @@ package com.dylanpdx.retro64.sm64;
 import com.mrcrayfish.controllable.Reference;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.Tag;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
 
