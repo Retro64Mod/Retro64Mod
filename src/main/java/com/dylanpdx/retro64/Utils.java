@@ -2,6 +2,7 @@ package com.dylanpdx.retro64;
 
 import com.dylanpdx.retro64.capabilities.smc64Capability;
 import com.dylanpdx.retro64.capabilities.smc64CapabilityInterface;
+import com.dylanpdx.retro64.maps.BlockMatMaps;
 import com.mojang.math.Quaternion;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.block.model.BakedQuad;
@@ -15,6 +16,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -76,15 +78,17 @@ public class Utils {
     }
 
     /**
-     * Get all Vertices of a block from it's BakedModel
+     * Get all Vertices of a block from its BakedModel
      * @param bakedModel BakedModel of the block
      * @param blockState BlockState of the block
      * @param random Random number generator
      * @return List of Vec3 vertices
      */
-    public static List<Vec3> getAllQuads(BakedModel bakedModel, BlockState blockState, RandomSource random){
+    public static List<Vec3> getQuadsFromModel(BakedModel bakedModel, BlockState blockState, RandomSource random, boolean passThrough){
+        if (passThrough) return new ArrayList<>();
+
         ArrayList<Vec3> quads = new ArrayList<>();
-        quads.addAll(decodeQuads(bakedModel.getQuads(blockState, null,random)));
+        quads.addAll(decodeQuads(bakedModel.getQuads(blockState, null, random)));
         quads.addAll(decodeQuads(bakedModel.getQuads(blockState, Direction.DOWN,random)));
         quads.addAll(decodeQuads(bakedModel.getQuads(blockState, Direction.UP,random)));
         quads.addAll(decodeQuads(bakedModel.getQuads(blockState, Direction.EAST,random)));
@@ -92,6 +96,86 @@ public class Utils {
         quads.addAll(decodeQuads(bakedModel.getQuads(blockState, Direction.SOUTH,random)));
         quads.addAll(decodeQuads(bakedModel.getQuads(blockState, Direction.WEST,random)));
         return quads;
+    }
+
+    /**
+     * Get all Vertices of a block from its Collision (Block Hitbox)
+     * @param world World the block is in
+     * @param pos Position of that block
+     * @return List of Vec3 vertices
+     */
+    public static List<Vec3> getQuadsFromHitbox(ClientLevel world, BlockPos pos, boolean passThrough){
+        // Using this instead of the defined surface type, this makes it more customizable
+        if (passThrough) return new ArrayList<>();
+
+        BlockState blockState = world.getBlockState(pos.immutable());
+
+        boolean maxHitbox = blockState.getTags().anyMatch(t -> t == BlockMatMaps.maxHitbox);
+
+        List<Vec3> vecList = new ArrayList<>();
+
+        double trueMinX = 0;
+        double trueMinY = 0;
+        double trueMinZ = 0;
+        double trueMaxX = 0;
+        double trueMaxY = 0;
+        double trueMaxZ = 0;
+
+        for (AABB parts : blockState.getCollisionShape(world, pos).toAabbs()){
+            if (maxHitbox) {
+                trueMinX = Math.min(trueMinX, parts.minX);
+                trueMinY = Math.min(trueMinY, parts.minY);
+                trueMinZ = Math.min(trueMinZ, parts.minZ);
+                trueMaxX = Math.max(trueMaxX, parts.maxX);
+                trueMaxY = Math.max(trueMaxY, parts.maxY);
+                trueMaxZ = Math.max(trueMaxZ, parts.maxZ);
+            } else {
+                vecList.addAll(createVectors(parts.minX, parts.minY, parts.minZ, parts.maxX, parts.maxY, parts.maxZ));
+            }
+        }
+
+        // System.out.println(trueMinX + " " + trueMinY + " " + trueMinZ + " " + trueMaxX + " " + trueMaxY + " " + trueMaxZ);
+
+        if (maxHitbox) return createVectors(trueMinX, trueMinY, trueMinZ, trueMaxX, trueMaxY, trueMaxZ); else return vecList;
+    }
+
+    private static List<Vec3> createVectors(double minX, double minY, double minZ, double maxX, double maxY, double maxZ){
+        // The order is very important, otherwise it breaks
+
+        List<Vec3> vecters = new ArrayList<>();
+
+        // Bottom
+        vecters.add(new Vec3(minX, minY, maxZ));
+        vecters.add(new Vec3(minX, minY, minZ));
+        vecters.add(new Vec3(maxX, minY, minZ));
+        vecters.add(new Vec3(maxX, minY, maxZ));
+        // Top
+        vecters.add(new Vec3(minX, maxY, minZ));
+        vecters.add(new Vec3(minX, maxY, maxZ));
+        vecters.add(new Vec3(maxX, maxY, maxZ));
+        vecters.add(new Vec3(maxX, maxY, minZ));
+        // East
+        vecters.add(new Vec3(maxX, maxY, maxZ));
+        vecters.add(new Vec3(maxX, minY, maxZ));
+        vecters.add(new Vec3(maxX, minY, minZ));
+        vecters.add(new Vec3(maxX, maxY, minZ));
+        // North
+        vecters.add(new Vec3(maxX, maxY, minZ));
+        vecters.add(new Vec3(maxX, minY, minZ));
+        vecters.add(new Vec3(minX, minY, minZ));
+        vecters.add(new Vec3(minX, maxY, minZ));
+        // South
+        vecters.add(new Vec3(minX, maxY, maxZ));
+        vecters.add(new Vec3(minX, minY, maxZ));
+        vecters.add(new Vec3(maxX, minY, maxZ));
+        vecters.add(new Vec3(maxX, maxY, maxZ));
+        // West
+        vecters.add(new Vec3(minX, maxY, minZ));
+        vecters.add(new Vec3(minX, minY, minZ));
+        vecters.add(new Vec3(minX, minY, maxZ));
+        vecters.add(new Vec3(minX, maxY, maxZ));
+
+        return vecters;
     }
 
     static byte[] iToByteArray(int value) {
