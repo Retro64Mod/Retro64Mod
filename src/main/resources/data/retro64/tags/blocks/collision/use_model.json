@@ -1,5 +1,7 @@
 {
   "replace": false,
   "values": [
+    "#minecraft:beds",
+    "retro64:castlestairs"
   ]
 }
