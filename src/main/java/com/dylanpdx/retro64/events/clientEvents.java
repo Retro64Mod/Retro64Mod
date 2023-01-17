@@ -10,7 +10,6 @@ import com.dylanpdx.retro64.networking.attackPacket;
 import com.dylanpdx.retro64.networking.mCharPacket;
 import com.dylanpdx.retro64.sm64.*;
 import com.dylanpdx.retro64.sm64.libsm64.LibSM64;
-import com.dylanpdx.retro64.sm64.libsm64.LibSM64SurfUtils;
 import com.dylanpdx.retro64.sm64.libsm64.Libsm64Library;
 import com.dylanpdx.retro64.sm64.libsm64.MChar;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -27,12 +26,10 @@ import net.minecraft.client.renderer.block.BlockModelShaper;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -51,7 +48,6 @@ import net.minecraftforge.network.NetworkHooks;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -575,7 +571,7 @@ public class clientEvents {
                 // get midpoint of bedPos and bedPos2
                 var midpoint = new Vec3(
                         (bedPos.getX()+bedPos2.getX())/2f,(bedPos.getY()+bedPos2.getY())/2f,(bedPos.getZ()+bedPos2.getZ())/2f);
-                midpoint = midpoint.add(.5f,0,.5f);
+                midpoint = midpoint.add(.5f,.5f,.5f);
                 var sleepDir= plr.getBedOrientation().toYRot()+75;
                 var ang = (float)(Math.toRadians(sleepDir/9.5f));
                 Libsm64Library.INSTANCE.sm64_mChar_set_angle(mchar.id, ang);

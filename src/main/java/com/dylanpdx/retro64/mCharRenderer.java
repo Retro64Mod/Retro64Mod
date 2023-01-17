@@ -49,8 +49,6 @@ public class mCharRenderer {
 
         if (plr.isCrouching())
             st.translate(0,0.125D,0);
-        if (plr.isSleeping())
-            st.translate(0,0.5D,0);
 
         if (rpe.getPlayer().isPassenger()){
             st.translate(0,.8f,0);
