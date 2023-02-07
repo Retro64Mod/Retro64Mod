@@ -29,6 +29,7 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -41,6 +42,7 @@ import net.minecraftforge.client.gui.IIngameOverlay;
 import net.minecraftforge.client.gui.OverlayRegistry;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.network.NetworkHooks;
@@ -135,6 +137,32 @@ public class clientEvents {
                                 (float)Math.toRadians(0)));
             mCharRenderer.renderMChar(rpe, SM64EnvManager.selfMChar);
             rpe.setCanceled(true); // prevent vanilla rendering
+        }
+    }
+
+    // on player living update
+    @SubscribeEvent
+    public void onPlayerUpdate(LivingEvent.LivingUpdateEvent event){
+        if (event.getEntity() instanceof Player && ((Player) event.getEntity()).isLocalPlayer()){
+            var player = (Player) event.getEntity();
+
+            // check if colliding with a door
+            if (player.isAlive() && RemoteMCharHandler.getIsMChar(player)){
+                if (player.getVehicle() == null){
+                    var pos = player.position();
+                    var mchar = SM64EnvManager.selfMChar;
+                    var angle = mchar.state.faceAngle;
+                    // get block directly in front of player
+                    var bpos= new BlockPos(pos.x+Math.sin(angle),pos.y,pos.z+Math.cos(angle));
+                    var block = player.level.getBlockState(bpos);
+                    var distance = Math.sqrt(Math.pow(pos.x-bpos.getX(),2)+Math.pow(pos.y-bpos.getY(),2)+Math.pow(pos.z-bpos.getZ(),2));
+
+                    if (block.getBlock() instanceof DoorBlock && distance < 1.55f){
+                        var door = (DoorBlock) block.getBlock();
+                        door.setOpen(player,player.level,block,bpos,true);
+                    }
+                }
+            }
         }
     }
 
