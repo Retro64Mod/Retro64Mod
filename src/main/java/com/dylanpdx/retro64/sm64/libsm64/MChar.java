@@ -2,13 +2,14 @@ package com.dylanpdx.retro64.sm64.libsm64;
 
 import com.dylanpdx.retro64.Retro64;
 import com.dylanpdx.retro64.SM64EnvManager;
+import com.dylanpdx.retro64.Utils;
 import com.dylanpdx.retro64.sm64.SM64MCharAction;
-import com.mojang.math.Vector3f;
 import com.sun.jna.Memory;
 import com.sun.jna.Pointer;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.phys.Vec3;
+import org.joml.Vector3f;
 
 public class MChar {
 
@@ -62,7 +63,7 @@ public class MChar {
 
     public MChar(){
         SM64EnvManager.updateSurfs(null);
-        id = LibSM64.MCharCreate(new Vector3f(Minecraft.getInstance().player.position()));
+        id = LibSM64.MCharCreate(Utils.vec3toVector3f(Minecraft.getInstance().player.position()));
         if (id==-1){
             Retro64.LOGGER.info("MChar creation failed");
             return;

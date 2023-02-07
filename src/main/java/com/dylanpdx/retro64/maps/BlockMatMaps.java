@@ -2,6 +2,7 @@ package com.dylanpdx.retro64.maps;
 
 import com.dylanpdx.retro64.sm64.SM64SurfaceType;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
@@ -11,12 +12,12 @@ import net.minecraft.world.level.block.state.BlockState;
  * Maps a material to a block property.
  */
 public class BlockMatMaps {
-    public static final TagKey<Block> isCubic = TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation("retro64", "collision/is_cubic"));
-    public static final TagKey<Block> isFlat = TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation("retro64", "collision/is_flat"));
-    public static final TagKey<Block> useModel = TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation("retro64", "collision/use_model"));
-    public static final TagKey<Block> maxHitbox = TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation("retro64", "collision/max_hitbox"));
-    public static final TagKey<Block> vanishable = TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation("retro64", "collision/vanishable"));
-    public static final TagKey<Block> intangible = TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation("retro64", "collision/intangible"));
+    public static final TagKey<Block> isCubic = TagKey.create(net.minecraftforge.registries.ForgeRegistries.BLOCKS.getRegistryKey(), new ResourceLocation("retro64", "collision/is_cubic"));
+    public static final TagKey<Block> isFlat = TagKey.create(net.minecraftforge.registries.ForgeRegistries.BLOCKS.getRegistryKey(), new ResourceLocation("retro64", "collision/is_flat"));
+    public static final TagKey<Block> useModel = TagKey.create(net.minecraftforge.registries.ForgeRegistries.BLOCKS.getRegistryKey(), new ResourceLocation("retro64", "collision/use_model"));
+    public static final TagKey<Block> maxHitbox = TagKey.create(net.minecraftforge.registries.ForgeRegistries.BLOCKS.getRegistryKey(), new ResourceLocation("retro64", "collision/max_hitbox"));
+    public static final TagKey<Block> vanishable = TagKey.create(net.minecraftforge.registries.ForgeRegistries.BLOCKS.getRegistryKey(), new ResourceLocation("retro64", "collision/vanishable"));
+    public static final TagKey<Block> intangible = TagKey.create(net.minecraftforge.registries.ForgeRegistries.BLOCKS.getRegistryKey(), new ResourceLocation("retro64", "collision/intangible"));
 
     /**
      * Get material property for a block depending on it's tag.

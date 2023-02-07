@@ -174,7 +174,7 @@ public enum SM64SurfaceType {
           public static TagKey<Block> very_slippery = tag("surface/very_slippery");
 
           private static TagKey<Block> tag(String name) {
-               return TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation("retro64", name));
+               return TagKey.create(net.minecraftforge.registries.ForgeRegistries.BLOCKS.getRegistryKey(), new ResourceLocation("retro64", name));
           }
 
      }

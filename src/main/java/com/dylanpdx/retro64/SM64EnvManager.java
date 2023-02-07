@@ -4,13 +4,13 @@ import com.dylanpdx.retro64.config.Retro64Config;
 import com.dylanpdx.retro64.events.clientControllerEvents;
 import com.dylanpdx.retro64.sm64.SM64SurfaceType;
 import com.dylanpdx.retro64.sm64.libsm64.*;
-import com.mojang.math.Vector3f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.fml.loading.FMLPaths;
+import org.joml.Vector3f;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -108,10 +108,10 @@ public class SM64EnvManager {
                     for (int j = 0; j < blockVertices.length; j+=4)
                     {
                         try {
-                            var one = new Vector3f(blockVertices[j]);
-                            var two = new Vector3f(blockVertices[j+1]);
-                            var three = new Vector3f(blockVertices[j+2]);
-                            var four = new Vector3f(blockVertices[j+3]);
+                            var one = Utils.vec3toVector3f(blockVertices[j]);
+                            var two = Utils.vec3toVector3f(blockVertices[j+1]);
+                            var three = Utils.vec3toVector3f(blockVertices[j+2]);
+                            var four = Utils.vec3toVector3f(blockVertices[j+3]);
                             var quads = LibSM64SurfUtils.generateQuad(one,two, three, four,new Vector3f(0,0,0), surfaceItems[i].material.value, surfaceItems[i].terrain);
                             Collections.addAll(surfaces, quads);
                         } catch(IndexOutOfBoundsException e){

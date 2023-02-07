@@ -41,7 +41,7 @@ public class serverEvents {
 
     @SubscribeEvent
     public void onPlayerJoin(PlayerEvent.StartTracking event){
-        if (event.getPlayer() instanceof ServerPlayer && event.getTarget() instanceof Player){
+        if (event.getEntity() instanceof ServerPlayer && event.getTarget() instanceof Player){
             var plr = (Player)event.getTarget();
             capabilitySyncManager.syncServerToClient(plr);
         }
@@ -49,7 +49,7 @@ public class serverEvents {
 
     @SubscribeEvent
     public void onPlayerPickupXP(PlayerXpEvent.XpChange event){
-        if (RemoteMCharHandler.getIsMChar(event.getPlayer())){
+        if (RemoteMCharHandler.getIsMChar(event.getEntity())){
             SM64PacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer) event.getEntity()),new healPacket((byte)event.getAmount()));
         }
     }

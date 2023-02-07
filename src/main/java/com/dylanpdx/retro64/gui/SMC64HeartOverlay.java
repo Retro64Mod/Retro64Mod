@@ -11,17 +11,17 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.gui.ForgeIngameGui;
-import net.minecraftforge.client.gui.IIngameOverlay;
+import net.minecraftforge.client.gui.overlay.ForgeGui;
+import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 
 import java.util.Random;
 
-public class SMC64HeartOverlay implements IIngameOverlay {
+public class SMC64HeartOverlay implements IGuiOverlay {
 
     Random random = new Random();
 
     @Override
-    public void render(ForgeIngameGui gui, PoseStack mStack, float partialTicks, int width, int height) {
+    public void render(ForgeGui gui, PoseStack mStack, float partialTicks, int width, int height) {
         if (!RemoteMCharHandler.getIsMChar(Minecraft.getInstance().player) || SM64EnvManager.selfMChar.state==null)
             return;
         if (Minecraft.getInstance().player.isUnderWater())
@@ -40,7 +40,7 @@ public class SMC64HeartOverlay implements IIngameOverlay {
         renderHearts(gui,mStack, Minecraft.getInstance().player,left,top,11,-1,healthMax,healthSlices,8,absorb,false);
     }
 
-    protected void renderHearts(ForgeIngameGui gui,PoseStack poseStack, Player thePlayer, int left, int top, int rowHeight, int regen, float healthMax, int health, int healthLast, int absorb, boolean highlight) {
+    protected void renderHearts(ForgeGui gui,PoseStack poseStack, Player thePlayer, int left, int top, int rowHeight, int regen, float healthMax, int health, int healthLast, int absorb, boolean highlight) {
         HeartType gui$hearttype = HeartType.NORMAL;
         int i = 9 * (thePlayer.level.getLevelData().isHardcore() ? 5 : 0);
         int j = Mth.ceil((double)healthMax / 2.0D);
@@ -84,7 +84,7 @@ public class SMC64HeartOverlay implements IIngameOverlay {
 
     }
 
-    private void renderHeart(ForgeIngameGui gui,PoseStack p_168701_, HeartType p_168702_, int p_168703_, int p_168704_, int p_168705_, boolean p_168706_, boolean p_168707_) {
+    private void renderHeart(ForgeGui gui,PoseStack p_168701_, HeartType p_168702_, int p_168703_, int p_168704_, int p_168705_, boolean p_168706_, boolean p_168707_) {
         gui.blit(p_168701_, p_168703_, p_168704_, p_168702_.getX(p_168707_, p_168706_), p_168705_, 9, 9);
     }
 

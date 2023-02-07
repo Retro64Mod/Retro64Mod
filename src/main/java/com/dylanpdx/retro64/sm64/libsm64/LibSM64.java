@@ -3,8 +3,8 @@ package com.dylanpdx.retro64.sm64.libsm64;
 import com.dylanpdx.retro64.*;
 import com.dylanpdx.retro64.sm64.SM64MCharAction;
 import com.mojang.blaze3d.platform.NativeImage;
-import com.mojang.math.Vector3f;
 import net.minecraft.world.phys.Vec3;
+import org.joml.Vector3f;
 
 import java.io.File;
 import java.io.IOException;

@@ -18,7 +18,7 @@ public class mCharRenderer {
      * @param rpe The render player event
      */
     public static void renderOtherPlayer(RenderPlayerEvent rpe){
-        Player otherPlr = rpe.getPlayer();
+        Player otherPlr = rpe.getEntity();
         if (RemoteMCharHandler.mChars.containsKey(otherPlr)){
             // render mChar for other player
             MChar otherMChar = RemoteMCharHandler.mChars.get(otherPlr);
@@ -40,7 +40,7 @@ public class mCharRenderer {
         VertexConsumer vc = buff.getBuffer(RenType.getMcharRenderType(mChar.state.currentModel==ModelData.VIBRI.getIndex())); // lazy fix for vibri model, enable culling
         st.pushPose();
         PoseStack.Pose p = st.last();
-        Player plr = rpe.getPlayer();
+        Player plr = rpe.getEntity();
         if (!plr.isLocalPlayer()){
             st.translate(-plr.getX(),-plr.getY(),-plr.getZ());
         }else{
@@ -52,7 +52,7 @@ public class mCharRenderer {
         if (plr.isSleeping())
             st.translate(0,0.5D,0);
 
-        if (rpe.getPlayer().isPassenger()){
+        if (rpe.getEntity().isPassenger()){
             st.translate(0,.8f,0);
         }
         if (mChar.getVertices()!=null)
@@ -79,7 +79,7 @@ public class mCharRenderer {
                         new float[]{mChar.getNormals()[i], mChar.getNormals()[i + 1], mChar.getNormals()[i + 2]},
                         new float[]{mChar.getNormals()[i + 3], mChar.getNormals()[i + 4], mChar.getNormals()[i + 5]},
                         new float[]{mChar.getNormals()[i + 6], mChar.getNormals()[i + 7], mChar.getNormals()[i + 8]}
-                        ,packedLight,textureManager.getTextureWidth(mChar.state.currentModel),textureManager.getTextureHeight(mChar.state.currentModel), LivingEntityRenderer.getOverlayCoords(rpe.getPlayer(), 0f),
+                        ,packedLight,textureManager.getTextureWidth(mChar.state.currentModel),textureManager.getTextureHeight(mChar.state.currentModel), LivingEntityRenderer.getOverlayCoords(rpe.getEntity(), 0f),
                         (mChar.state.flags & SM64MCharStateFlags.MCHAR_VANISH_CAP.getValue()) == SM64MCharStateFlags.MCHAR_VANISH_CAP.getValue() ? .3f:1f
                 );
                 j+=6;

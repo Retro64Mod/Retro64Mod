@@ -24,9 +24,9 @@ public class LibLoadWarnScreen extends Screen {
     }
 
     protected void init() {
-        okButton = new Button(this.width / 2 - 100, this.height / 2 + 20, 200, 20, Component.translatable("menu.retro64.ok"), (pButton) -> {
-            Minecraft.getInstance().setScreen(new TitleScreen());
-        });
+        okButton = Button.builder(Component.translatable("menu.retro64.ok"),pButton -> {Minecraft.getInstance().setScreen(new TitleScreen());})
+                .pos(this.width / 2 - 100, this.height / 2 + 20)
+                .size(200, 20).build();
         this.addRenderableWidget(okButton);
     }
 

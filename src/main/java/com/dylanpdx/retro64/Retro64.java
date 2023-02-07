@@ -40,7 +40,6 @@ public class Retro64
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT,Retro64Config.CONFIG_SPEC, "retro64.toml");
 
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT,()->()->{
-            Keybinds.register();
             clientEvents cEvent=new clientEvents();
             if (ModList.get().isLoaded("controllable")){
                 clientControllerEvents cControllerEvent=new clientControllerEvents();
@@ -56,6 +55,11 @@ public class Retro64
             }catch (ClassNotFoundException | NoSuchMethodException e){
                 LOGGER.info("Optifine not detected");
             }
+
+            FMLJavaModLoadingContext.get().getModEventBus().addListener(cEvent::registerKeybinds);
+            FMLJavaModLoadingContext.get().getModEventBus().addListener(cEvent::registerOverlays);
+            FMLJavaModLoadingContext.get().getModEventBus().addListener(cEvent::registerCustomCreativeTabs);
+
             MinecraftForge.EVENT_BUS.register(cEvent);
 
         });

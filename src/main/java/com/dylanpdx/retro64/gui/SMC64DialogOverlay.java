@@ -7,14 +7,14 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Quaternion;
-import com.mojang.math.Vector3f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
 // import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 // import net.minecraftforge.client.gui.ForgeIngameGui;
 // import net.minecraftforge.client.gui.IIngameOverlay;
 
@@ -60,7 +60,7 @@ public class SMC64DialogOverlay extends Screen {
     //gDialogResponse = DIALOG_RESPONSE_NONE;
 
     void create_dl_rotation_matrix(PoseStack mStack, float angle, float x, float y, float z) {
-        Quaternion q = new Quaternion(new Vector3f(0,0,1),angle,true);
+        Quaternionf q = new Quaternionf().setAngleAxis(angle,x,y,z);
         mStack.mulPose(q);
     }
 

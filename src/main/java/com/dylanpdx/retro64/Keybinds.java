@@ -2,12 +2,12 @@ package com.dylanpdx.retro64;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
-import net.minecraftforge.client.ClientRegistry;
+import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 
 public class Keybinds {
     private static KeyMapping[] keyBindings;
 
-    public static void register(){
+    public static void register(RegisterKeyMappingsEvent event){
         // 263-262
         keyBindings = new KeyMapping[]{
                 new KeyMapping("key."+Retro64.MOD_ID+".actKey", InputConstants.KEY_LALT/*Left Alt*/, "key.categories.retro64"),
@@ -16,7 +16,7 @@ public class Keybinds {
                 //new KeyMapping("key."+Retro64.MOD_ID+".debugToggle",InputConstants.KEY_RBRACKET/*Right Bracket*/, "key.categories.retro64"),
         };
         for (KeyMapping key : keyBindings) {
-            ClientRegistry.registerKeyBinding(key);
+            event.register(key);
         }
     }
 
