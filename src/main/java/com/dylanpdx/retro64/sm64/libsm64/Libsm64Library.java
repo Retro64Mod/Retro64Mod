@@ -42,6 +42,7 @@ public interface Libsm64Library extends Library {
 	AnimInfo sm64_get_anim_info(int mCharId,Pointer rot);
 	void sm64_mChar_apply_damage(int mCharId, int damage, int interactionSubtype, float xSrc, float ySrc, float zSrc);
 	void sm64_mChar_set_action(int mCharId, int actionId);
+	void sm64_mChar_set_action_with_arg(int mCharId, int actionId, int arg);
 	void sm64_mChar_set_action_state(int mCharId, short actionId);
 	void sm64_mChar_set_angle(int mCharId, float angle);
 	void sm64_mChar_heal(int mCharId, byte healCounter);

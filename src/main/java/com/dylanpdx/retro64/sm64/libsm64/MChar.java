@@ -190,4 +190,16 @@ public class MChar {
         Libsm64Library.INSTANCE.sm64_mChar_heal(id,(byte)(amount));
     }
 
+    public void setAction(SM64MCharAction action){
+        Libsm64Library.INSTANCE.sm64_mChar_set_action(id,action.id);
+    }
+
+    public void setAction(SM64MCharAction action,int arg){
+        Libsm64Library.INSTANCE.sm64_mChar_set_action_with_arg(id,action.id,arg);
+    }
+
+    public void setState(int capType){
+        Libsm64Library.INSTANCE.sm64_mChar_set_state(id,capType);
+    }
+
 }

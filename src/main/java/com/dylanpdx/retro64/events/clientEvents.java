@@ -157,9 +157,10 @@ public class clientEvents {
                     var block = player.level.getBlockState(bpos);
                     var distance = Math.sqrt(Math.pow(pos.x-bpos.getX(),2)+Math.pow(pos.y-bpos.getY(),2)+Math.pow(pos.z-bpos.getZ(),2));
 
-                    if (block.getBlock() instanceof DoorBlock && distance < 1.55f){
+                    if (block.getBlock() instanceof DoorBlock && distance < 1.55f && !((DoorBlock) block.getBlock()).isOpen(block)){
                         var door = (DoorBlock) block.getBlock();
                         door.setOpen(player,player.level,block,bpos,true);
+                        mchar.setAction(SM64MCharAction.ACT_PULLING_DOOR,1);
                     }
                 }
             }
