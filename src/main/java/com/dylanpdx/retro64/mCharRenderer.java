@@ -37,7 +37,9 @@ public class mCharRenderer {
         int packedLight = rpe.getPackedLight();
         PoseStack st = rpe.getPoseStack();
         MultiBufferSource buff = rpe.getMultiBufferSource();
-        VertexConsumer vc = buff.getBuffer(RenType.getMcharRenderType(mChar.state.currentModel==ModelData.VIBRI.getIndex())); // lazy fix for vibri model, enable culling
+        VertexConsumer vc = buff.getBuffer(RenType.getMcharRenderType(mChar.state.currentModel==ModelData.VIBRI.getIndex(),
+                (mChar.state.flags & SM64MCharStateFlags.MCHAR_METAL_CAP.getValue())==SM64MCharStateFlags.MCHAR_METAL_CAP.getValue())
+        ); // lazy fix for vibri model, enable culling
         st.pushPose();
         PoseStack.Pose p = st.last();
         Player plr = rpe.getPlayer();
@@ -134,12 +136,16 @@ public class mCharRenderer {
     }
 
     static void vertex(VertexConsumer vc,PoseStack.Pose p, float pX, float pY, float pZ, float pRed, float pGreen, float pBlue, float pAlpha, float pTexU, float pTexV, int pOverlayUV, int pLightmapUV, float pNormalX, float pNormalY, float pNormalZ) {
-        vc.vertex(p.pose(),pX, pY, pZ);
-        vc.color(pRed, pGreen, pBlue, pAlpha);
-        vc.uv(pTexU, pTexV);
-        vc.overlayCoords(pOverlayUV);
-        vc.uv2(pLightmapUV);
-        vc.normal(pNormalX, pNormalY, pNormalZ);
-        vc.endVertex();
+        try{
+            vc.vertex(p.pose(),pX, pY, pZ);
+            vc.color(pRed, pGreen, pBlue, pAlpha);
+            vc.uv(pTexU, pTexV);
+            vc.overlayCoords(pOverlayUV);
+            vc.uv2(pLightmapUV);
+            vc.normal(pNormalX, pNormalY, pNormalZ);
+            vc.endVertex();
+        }catch (IllegalStateException e){
+            //System.out.println("Invalid render state");
+        }
     }
 }
