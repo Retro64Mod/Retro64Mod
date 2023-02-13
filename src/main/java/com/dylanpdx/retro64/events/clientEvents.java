@@ -23,6 +23,7 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.block.BlockModelShaper;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -50,7 +51,6 @@ import org.joml.Vector3f;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -594,7 +594,7 @@ public class clientEvents {
                 // get midpoint of bedPos and bedPos2
                 var midpoint = new Vec3(
                         (bedPos.getX()+bedPos2.getX())/2f,(bedPos.getY()+bedPos2.getY())/2f,(bedPos.getZ()+bedPos2.getZ())/2f);
-                midpoint = midpoint.add(.5f,0,.5f);
+                midpoint = midpoint.add(.5f,.5f,.5f);
                 var sleepDir= plr.getBedOrientation().toYRot()+75;
                 var ang = (float)(Math.toRadians(sleepDir/9.5f));
                 Libsm64Library.INSTANCE.sm64_mChar_set_angle(mchar.id, ang);
