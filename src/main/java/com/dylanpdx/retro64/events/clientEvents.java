@@ -77,8 +77,13 @@ public class clientEvents {
                 @Override
                 public void accept(FeatureFlagSet pEnabledFeatures, CreativeModeTab.Output pOutput, boolean pDisplayOperatorCreativeTab) {
                     pOutput.accept(RegistryHandler.CASTLE_STAIRS_ITEM.get());
+                    pOutput.accept(RegistryHandler.DEEP_QUICKSAND_ITEM.get());
+                    pOutput.accept(RegistryHandler.INSTANT_QUICKSAND_ITEM.get());
+                    pOutput.accept(RegistryHandler.WING_CAP_ITEM.get());
+                    pOutput.accept(RegistryHandler.METAL_CAP_ITEM.get());
+                    pOutput.accept(RegistryHandler.VANISH_CAP_ITEM.get());
                 }
-            });
+            }).icon(RegistryHandler.CASTLE_STAIRS_ITEM.get()::getDefaultInstance).title(Component.translatable("itemGroup.retro64Tab"));
         });
     }
 
