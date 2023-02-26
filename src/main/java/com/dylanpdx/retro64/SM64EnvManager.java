@@ -10,6 +10,7 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.fml.loading.FMLPaths;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -88,9 +89,9 @@ public class SM64EnvManager {
             Collections.addAll(surfaces,generateSafetyFloor((float)playerPos.x,-80,(float)playerPos.z));
         }
         if (RemoteMCharHandler.mChars!=null)
-        for(MChar mChar : RemoteMCharHandler.mChars.values()){
-            Collections.addAll(surfaces,generateSafetyFloor(mChar.state.position[0] / LibSM64.SCALE_FACTOR, -80, mChar.state.position[2] / LibSM64.SCALE_FACTOR));
-        }
+            for(MChar mChar : RemoteMCharHandler.mChars.values()){
+                Collections.addAll(surfaces,generateSafetyFloor(mChar.state.position[0] / LibSM64.SCALE_FACTOR, -80, mChar.state.position[2] / LibSM64.SCALE_FACTOR));
+            }
         if (surfaceItems!=null)
         {
             int surfCount = surfaceItems.length;
@@ -106,12 +107,16 @@ public class SM64EnvManager {
                 else
                     for (int j = 0; j < blockVertices.length; j+=4)
                     {
-                        var one = new Vector3f(blockVertices[j]);
-                        var two = new Vector3f(blockVertices[j+1]);
-                        var three = new Vector3f(blockVertices[j+2]);
-                        var four = new Vector3f(blockVertices[j+3]);
-                        var quads = LibSM64SurfUtils.generateQuad(one,two, three, four,new Vector3f(0,0,0), surfaceItems[i].material.value, surfaceItems[i].terrain);
-                        Collections.addAll(surfaces, quads);
+                        try {
+                            var one = new Vector3f(blockVertices[j]);
+                            var two = new Vector3f(blockVertices[j+1]);
+                            var three = new Vector3f(blockVertices[j+2]);
+                            var four = new Vector3f(blockVertices[j+3]);
+                            var quads = LibSM64SurfUtils.generateQuad(one,two, three, four,new Vector3f(0,0,0), surfaceItems[i].material.value, surfaceItems[i].terrain);
+                            Collections.addAll(surfaces, quads);
+                        } catch(IndexOutOfBoundsException e){
+                            e.printStackTrace();
+                        }
                     }
             }
         }
@@ -126,7 +131,7 @@ public class SM64EnvManager {
         selfMChar.inputs.stickX=0;
         selfMChar.inputs.stickY=0;
         Vec2 v2=null;
-        if (Retro64.hasControllerSupport && (clientControllerEvents.input.x>0 || clientControllerEvents.input.y>0)){
+        if (Retro64.hasControllerSupport && (clientControllerEvents.input.x != 0 || clientControllerEvents.input.y != 0)){
             v2 = clientControllerEvents.input;
         }else{
             if (W_pressed) selfMChar.inputs.stickX += 1;
@@ -205,7 +210,7 @@ public class SM64EnvManager {
             return null;
         }
 
-        File[] files = new File("mods").listFiles(f -> {
+        File[] files = new File(FMLPaths.MODSDIR.get().toString()).listFiles(f -> {
             try {
                 return f.toPath().toString().endsWith("64") && createSha1String(f).equals(ROM_HASH);
             } catch (Exception e) {
@@ -213,7 +218,7 @@ public class SM64EnvManager {
                 return false;
             }
         });
-        if (files.length == 0) {
+        if (files == null || files.length == 0) {
             System.setProperty("java.awt.headless","false"); // This is probably a really bad idea, but MC's internal GUI system doesn't have an east way to create a file browser.
             // PR's are welcome if anyone wants to implement this using MC code.
             JDialog dialog = new JDialog();

@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "#forge:glass",
+    "#forge:glass_panes",
+    "#minecraft:leaves",
+    "minecraft:iron_bars",
+    "minecraft:ice",
+    "minecraft:chain",
+    "minecraft:powder_snow",
+    "minecraft:scaffolding"
+  ]
+}

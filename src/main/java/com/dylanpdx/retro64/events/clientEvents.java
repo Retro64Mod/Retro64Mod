@@ -10,7 +10,6 @@ import com.dylanpdx.retro64.networking.attackPacket;
 import com.dylanpdx.retro64.networking.mCharPacket;
 import com.dylanpdx.retro64.sm64.*;
 import com.dylanpdx.retro64.sm64.libsm64.LibSM64;
-import com.dylanpdx.retro64.sm64.libsm64.LibSM64SurfUtils;
 import com.dylanpdx.retro64.sm64.libsm64.Libsm64Library;
 import com.dylanpdx.retro64.sm64.libsm64.MChar;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -49,7 +48,6 @@ import net.minecraftforge.network.NetworkHooks;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -92,18 +90,18 @@ public class clientEvents {
                         RemoteMCharHandler.mCharOff(Minecraft.getInstance().player);
                     if (Minecraft.getInstance().player.getAbilities().flying)
                         Minecraft.getInstance().player.getAbilities().flying = false;
-                    var elytraCheck = Minecraft.getInstance().player.getInventory().armor.get(2).getItem().getRegistryName().toString().equals("minecraft:elytra");
-                    var eState = (SM64MCharStateFlags.MCHAR_CAP_ON_HEAD.getValue() | SM64MCharStateFlags.MCHAR_WING_CAP.getValue());
-                    if (elytraCheck && (SM64EnvManager.selfMChar.state.flags & eState) != eState)
-                    {
-                        LibSM64.MCharChangeState(SM64EnvManager.selfMChar.id, eState);
-                        //LibSM64.MCharChangeAction(SM64EnvManager.selfMChar.id, SM64MCharAction.ACT_PUTTING_ON_CAP.id);
+
+                    int[] capFlags = {SM64MCharStateFlags.MCHAR_WING_CAP.getValue(),SM64MCharStateFlags.MCHAR_METAL_CAP.getValue(),SM64MCharStateFlags.MCHAR_VANISH_CAP.getValue()};
+                    String[] capRegNames = {RegistryHandler.WING_CAP_ITEM.get().getRegistryName().toString(),RegistryHandler.METAL_CAP_ITEM.get().getRegistryName().toString(),RegistryHandler.VANISH_CAP_ITEM.get().getRegistryName().toString()};
+
+                    for (int i = 0;i<capFlags.length;i++){
+                        var check=Minecraft.getInstance().player.getInventory().armor.get(3).getItem().getRegistryName().toString().equals(capRegNames[i]);
+                        if (check && (SM64EnvManager.selfMChar.state.flags & capFlags[i]) != capFlags[i])
+                            LibSM64.MCharChangeState(SM64EnvManager.selfMChar.id, SM64EnvManager.selfMChar.state.flags | capFlags[i]);
+                        else if (!check && (SM64EnvManager.selfMChar.state.flags & capFlags[i]) == capFlags[i])
+                            LibSM64.MCharChangeState(SM64EnvManager.selfMChar.id, SM64EnvManager.selfMChar.state.flags & ~capFlags[i]);
                     }
-                    else if (!elytraCheck && (SM64EnvManager.selfMChar.state.flags & eState) == eState)
-                    {
-                        //LibSM64.MCharChangeAction(SM64EnvManager.selfMChar.id, SM64MCharAction.ACT_PUTTING_ON_CAP.id);
-                        LibSM64.MCharChangeState(SM64EnvManager.selfMChar.id, (SM64MCharStateFlags.MCHAR_CAP_ON_HEAD.getValue() | SM64MCharStateFlags.MCHAR_NORMAL_CAP.getValue()));
-                    }
+                    //var eState = (SM64MCharStateFlags.MCHAR_CAP_ON_HEAD.getValue() | SM64MCharStateFlags.MCHAR_WING_CAP.getValue());
                 }
             }
         }catch (NullPointerException e){
@@ -309,7 +307,7 @@ public class clientEvents {
                     break;
                 case "minecraft:levitation":
                     mchar.setVelocity(new Vector3f(mchar.velocity().x(),
-                            Math.min(mchar.velocity().y()+0.04f,.2f),
+                            Math.min(mchar.velocity().y() + (0.04f * (effect.getAmplifier()+1)), 0.2f),
                             mchar.velocity().z()));
                     LibSM64.MCharChangeAction(mchar.id,SM64MCharAction.ACT_FREEFALL);
                     break;
@@ -444,12 +442,14 @@ public class clientEvents {
      */
     private static void updateWorldGeometry(LocalPlayer plr, ClientLevel world, boolean optifineFix) {
         BlockPos playerPos= plr.blockPosition();
+        boolean vanish = (SM64EnvManager.selfMChar.state.flags & SM64MCharStateFlags.MCHAR_VANISH_CAP.getValue()) == SM64MCharStateFlags.MCHAR_VANISH_CAP.getValue();
 
         // get area around player
         Iterable<BlockPos> nearbyBlockPos = BlockPos.betweenClosed(playerPos.offset(-1,-2,-1),playerPos.offset(1,2,1));
         ArrayList<surfaceItem> surfaces = new ArrayList<>(); // surfaces to send to libsm64
         var worldBorder=world.getWorldBorder();
         for (BlockPos bp:nearbyBlockPos) {
+
             BlockPos nearbyBlock=bp.immutable();
 
             if (nearbyBlock.getX() > worldBorder.getMaxX() || nearbyBlock.getX() < worldBorder.getMinX() || nearbyBlock.getZ() > worldBorder.getMaxZ() || nearbyBlock.getZ() < worldBorder.getMinZ())
@@ -457,50 +457,46 @@ public class clientEvents {
                 surfaces.add(new surfaceItem(new Vec3(nearbyBlock.getX(),nearbyBlock.getY(),nearbyBlock.getZ()),true,false,SM64SurfaceType.SURFACE_DEFAULT, SM64TerrainType.Stone));
                 continue;
             }
-            if (world.getBlockState(nearbyBlock).isAir())
-                continue;
+
             BlockState nearbyBlockState = world.getBlockState(nearbyBlock);
+
             List<Vec3> collisionVertices = new ArrayList<>();
+
+            boolean passThrough = (vanish && nearbyBlockState.getTags().anyMatch(t -> t == BlockMatMaps.vanishable)) || nearbyBlockState.getTags().anyMatch(t -> t == BlockMatMaps.intangible);
+            boolean useModel = nearbyBlockState.getTags().anyMatch(t -> t == BlockMatMaps.useModel);
+
 
             BakedModel blockModel = Minecraft.getInstance().getModelManager().getModel(BlockModelShaper.stateToModelLocation(nearbyBlockState));
 
-            List<Vec3> blockModelQuads = Utils.getAllQuads(blockModel,nearbyBlockState,Minecraft.getInstance().level.random);
+            // Use the actual hitbox, except if the block is in the "use_model" tag
+            List<Vec3> blockModelQuads = useModel ? Utils.getQuadsFromModel(blockModel,nearbyBlockState,Minecraft.getInstance().level.random, passThrough) : Utils.getQuadsFromHitbox(world, bp, passThrough);
 
             for (Vec3 quad :blockModelQuads) {
                 collisionVertices.add(quad.add(nearbyBlock.getX(),nearbyBlock.getY(),nearbyBlock.getZ()));
             }
 
-            if (!nearbyBlockState.isAir()){
-                var blockName=nearbyBlockState.getBlock().getRegistryName().toString();
-                if (nearbyBlockState.getMaterial().isSolid()){
-                    //// SOLID ////
+            if (!passThrough){
 
-                    if (optifineFix){
-                        // If optifine is installed + shaders enabled, replace all collisions with squares
+                    if (optifineFix && useModel){
+                        // If optifine is installed + shaders enabled, replace all model collisions with squares
                         collisionVertices.clear();
-                        surfaces.add(new surfaceItem(new Vec3(nearbyBlock.getX(),nearbyBlock.getY(),nearbyBlock.getZ()),true,false,BlockMatMaps.getSolidMat(blockName), SM64TerrainType.Stone));
+                        surfaces.add(new surfaceItem(new Vec3(nearbyBlock.getX(),nearbyBlock.getY(),nearbyBlock.getZ()),true,false, BlockMatMaps.getFromTag(nearbyBlockState), SM64TerrainType.Stone));
                     }
 
-                    if (BlockMatMaps.replaceCollisionMat(blockName)){
+                    if (BlockMatMaps.replaceCollisionMat(nearbyBlockState)){
                         // force cube collision box
                         collisionVertices.clear();
-                        surfaces.add(new surfaceItem(new Vec3(nearbyBlock.getX(),nearbyBlock.getY(),nearbyBlock.getZ()),true,false,BlockMatMaps.getSolidMat(blockName), SM64TerrainType.Stone));
-                    }else if (BlockMatMaps.flatCollisionMat(blockName)){
+                        surfaces.add(new surfaceItem(new Vec3(nearbyBlock.getX(),nearbyBlock.getY(),nearbyBlock.getZ()),true,false,BlockMatMaps.getFromTag(nearbyBlockState), SM64TerrainType.Stone));
+                    }else if (BlockMatMaps.flatCollisionMat(nearbyBlockState)){
                         // force flat collision box
                         collisionVertices.clear();
-                        var cols=LibSM64SurfUtils.surfsToVec(LibSM64SurfUtils.plane(nearbyBlock.getX(),nearbyBlock.getY(),nearbyBlock.getZ(),0,BlockMatMaps.getSolidMat(blockName).value,SM64TerrainType.Stone));
-                        collisionVertices.addAll(Arrays.asList(cols));
-                        surfaces.add(new surfaceItem(collisionVertices,BlockMatMaps.getSolidMat(blockName), SM64TerrainType.Stone));
+                        surfaces.add(new surfaceItem(new Vec3(nearbyBlock.getX(),nearbyBlock.getY(),nearbyBlock.getZ()),false,true,BlockMatMaps.getFromTag(nearbyBlockState), SM64TerrainType.Stone));
                     }else if (nearbyBlockState.getBlock().getFriction()>=0.7f){
                         // if block is slippery, set it to ice
                         surfaces.add(new surfaceItem(collisionVertices,SM64SurfaceType.SURFACE_ICE, SM64TerrainType.Snow));
                     }else if (nearbyBlockState.getBlock().getSpeedFactor()<0.6f) {
                         // if block is slow (soul sand?), set it to quicksand
                         surfaces.add(new surfaceItem(collisionVertices,SM64SurfaceType.SURFACE_SHALLOW_QUICKSAND, SM64TerrainType.Sand));
-                    }else if (nearbyBlockState.getBlock().hasDynamicShape()) {
-                        // blocks with dynamic shapes which are also solid get set to cubes
-                        collisionVertices.clear();
-                        surfaces.add(new surfaceItem(new Vec3(nearbyBlock.getX(),nearbyBlock.getY(),nearbyBlock.getZ()),true,false,BlockMatMaps.getSolidMat(blockName), SM64TerrainType.Stone));
                     }else
                     {
                         var stype = nearbyBlockState.getBlock().getSoundType(nearbyBlockState, world,nearbyBlock, plr);
@@ -521,20 +517,8 @@ public class clientEvents {
                             default:
                                 break;
                         }
-                        surfaces.add(new surfaceItem(collisionVertices,BlockMatMaps.getSolidMat(blockName), type));
+                        surfaces.add(new surfaceItem(collisionVertices,BlockMatMaps.getFromTag(nearbyBlockState), type));
                     }
-                }else{
-                    //// NON-SOLID ////
-                    if (BlockMatMaps.replaceCollisionMat(blockName)){
-                        // this forces non-solid blocks to be cubes
-                        collisionVertices.clear();
-                        surfaces.add(new surfaceItem(new Vec3(nearbyBlock.getX(),nearbyBlock.getY(),nearbyBlock.getZ()),true,false,BlockMatMaps.getNonsolidMat(blockName), SM64TerrainType.Stone));
-                    }else if (BlockMatMaps.flatCollisionMat(blockName)){
-                        // this forces non-solid blocks to be flat
-                        collisionVertices.clear();
-                        surfaces.add(new surfaceItem(new Vec3(nearbyBlock.getX(),nearbyBlock.getY(),nearbyBlock.getZ()),false,true,BlockMatMaps.getNonsolidMat(blockName), SM64TerrainType.Stone));
-                    }
-                }
             }
         }
 
@@ -587,7 +571,7 @@ public class clientEvents {
                 // get midpoint of bedPos and bedPos2
                 var midpoint = new Vec3(
                         (bedPos.getX()+bedPos2.getX())/2f,(bedPos.getY()+bedPos2.getY())/2f,(bedPos.getZ()+bedPos2.getZ())/2f);
-                midpoint = midpoint.add(.5f,0,.5f);
+                midpoint = midpoint.add(.5f,.5f,.5f);
                 var sleepDir= plr.getBedOrientation().toYRot()+75;
                 var ang = (float)(Math.toRadians(sleepDir/9.5f));
                 Libsm64Library.INSTANCE.sm64_mChar_set_angle(mchar.id, ang);
