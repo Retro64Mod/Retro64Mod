@@ -157,7 +157,7 @@ dependencies {
     // Specify the version of Minecraft to use. If this is any group other than 'net.minecraft', it is assumed
     // that the dep is a ForgeGradle 'patcher' dependency, and its patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
-    minecraft 'net.minecraftforge:forge:1.19.3-44.1.9'
+    minecraft 'net.minecraftforge:forge:1.19.3-44.1.21'
 
     // Real mod deobf dependency examples - these get remapped to your current mappings
     // compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api") // Adds JEI API as a compile dependency
@@ -166,7 +166,7 @@ dependencies {
 
     // Examples using mod jars from ./libs
     // implementation fg.deobf("blank:coolmod-${mc_version}:${coolmod_version}")
-    compileOnly fg.deobf("curse.maven:controllable-317269:3546297")
+    compileOnly fg.deobf("curse.maven:controllable-317269:4376757")
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
     // For more info...
