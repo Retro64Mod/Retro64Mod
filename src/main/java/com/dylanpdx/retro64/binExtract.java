@@ -18,14 +18,19 @@ public class binExtract {
         Retro64.LOGGER.info("Extracting libsm64");
         String os = "linux";
         String libsm64 = "libsm64.so";
+        String arch = "x86_64";
         if (SystemUtils.IS_OS_WINDOWS){
             os = "windows";
             libsm64 = "sm64.dll";
         }else if (SystemUtils.IS_OS_MAC){
             os = "macos";
+            // check for apple silicon
+            if (!System.getProperty("os.arch").equals("x86_64")){
+                arch = "aarch64";
+            }
             libsm64 = "libsm64.dylib";
         }
-        ResourceLocation libsm64Loc = new ResourceLocation(Retro64.MOD_ID,"binary/x86_64/"+os+"/"+libsm64);
+        ResourceLocation libsm64Loc = new ResourceLocation(Retro64.MOD_ID,"binary/"+arch+"/"+os+"/"+libsm64);
         Retro64.LOGGER.info("libsm64 location identified as "+libsm64Loc.toString());
         // extract into temp dir
         var tempDir = Files.createTempDirectory("retro64_bin");
