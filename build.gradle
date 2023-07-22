@@ -1,27 +1,19 @@
-buildscript {
-    repositories {
-        // These repositories are only for Gradle plugins, put any other repositories in the repository block further below
-        maven { url = 'https://maven.minecraftforge.net' }
-        maven { url = 'https://maven.parchmentmc.org' }
-        maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
-        mavenCentral()
-    }
-    dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
-        classpath 'org.parchmentmc:librarian:1.+'
-        classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7-SNAPSHOT'
-    }
+plugins {
+    id 'eclipse'
+    id 'idea'
+    id 'maven-publish'
+    id 'net.neoforged.gradle' version '[6.0.18,6.2)'
+    id 'org.spongepowered.mixin' version '0.7.+'
+    id 'org.parchmentmc.librarian.forgegradle' version '1.+'
 }
-apply plugin: 'net.minecraftforge.gradle'
-// Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
-apply plugin: 'org.parchmentmc.librarian.forgegradle'
-apply plugin: 'eclipse'
-apply plugin: 'maven-publish'
-apply plugin: 'org.spongepowered.mixin'
 
-version = '1.0.13'
-group = 'com.dylanpdx.retro64' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = 'retro64'
+version = mod_version
+group = mod_group_id
+
+base {
+    archivesName = mod_id
+}
+
 
 mixin {
     add sourceSets.main, "retro64.refmap.json"
@@ -45,8 +37,7 @@ minecraft {
     //
     // Use non-default mappings at your own risk. They may not always work.
     // Simply re-run your setup task after changing the mappings to update your workspace.
-    mappings channel: 'parchment', version: '2023.02.05-1.19.3'
-    // https://github.com/ParchmentMC/Librarian/blob/dev/docs/FORGEGRADLE.md#cross-version-mappings
+    mappings channel: 'parchment', version: '1.19.3-2023.02.05-1.20'
 
     // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg') // Currently, this location cannot be changed from the default.
 
@@ -157,7 +148,7 @@ dependencies {
     // Specify the version of Minecraft to use. If this is any group other than 'net.minecraft', it is assumed
     // that the dep is a ForgeGradle 'patcher' dependency, and its patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
-    minecraft 'net.minecraftforge:forge:1.19.3-44.1.21'
+    minecraft "net.neoforged:forge:${minecraft_version}-${neo_version}"
 
     // Real mod deobf dependency examples - these get remapped to your current mappings
     // compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api") // Adds JEI API as a compile dependency
@@ -166,12 +157,27 @@ dependencies {
 
     // Examples using mod jars from ./libs
     // implementation fg.deobf("blank:coolmod-${mc_version}:${coolmod_version}")
-    compileOnly fg.deobf("curse.maven:controllable-317269:4376757")
+    compileOnly fg.deobf("curse.maven:controllable-317269:4376751")
 
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
     // For more info...
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
+}
+
+tasks.named('processResources', ProcessResources).configure {
+    var replaceProperties = [
+            minecraft_version   : minecraft_version, minecraft_version_range: minecraft_version_range,
+            neo_version         : neo_version, neo_version_range: neo_version_range,
+            loader_version_range: loader_version_range,
+            mod_id              : mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version,
+            mod_authors         : mod_authors, mod_description: mod_description, pack_format_number: pack_format_number,
+    ]
+    inputs.properties replaceProperties
+
+    filesMatching(['META-INF/mods.toml', 'pack.mcmeta']) {
+        expand replaceProperties + [project: project]
+    }
 }
 
 test {
