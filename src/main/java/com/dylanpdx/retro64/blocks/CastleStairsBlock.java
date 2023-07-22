@@ -13,7 +13,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
-import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -101,7 +102,8 @@ public class CastleStairsBlock extends Block {
     ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
 
     public CastleStairsBlock() {
-        super(BlockBehaviour.Properties.of(Material.STONE)
+        super(BlockBehaviour.Properties.of()
+                .mapColor(MapColor.STONE).instrument(NoteBlockInstrument.BASEDRUM)
                 .strength(3.5f,4.8f)
                 .sound(SoundType.STONE).noOcclusion());
         this.registerDefaultState(this.defaultBlockState().setValue(HORIZONTAL_FACING, Direction.NORTH));
