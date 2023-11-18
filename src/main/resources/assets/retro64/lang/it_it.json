@@ -6,7 +6,7 @@
   "block.retro64.castlestairs": "Scale del castello",
   "block.retro64.deep_quicksand": "Sabbie mobili profonde",
   "block.retro64.instant_quicksand": "Sabbie mobili istantanee",
-  "gamerule.forceMario": "Force Mario Mode",
+  "gamerule.forceMario": "Forza la modalità Mario",
   "key.retro64.actKey": "Azione",
   "key.retro64.mMenu": "Retro64 Menù",
   "key.retro64.mToggle": "Attiva/disattiva la modalità Retro64",
@@ -20,5 +20,5 @@
   "menu.retro64.warnWrongVersion": "Hai la versione sbagliata di sm64.dll, potrebbe essere necessario compilarla di nuovo.",
   "menu.retro64.warnMissingROM": "Ti manca il file ROM.",
   "menu.retro64.warnPleaseSelectROM": "Seleziona una ROM .z64 US/USA valida. \n(SHA1 DEVE essere 9bef1128717f958171a4afac3ed78ee2bb4e86ce)",
-  "menu.retro64.warnInvalidROM": "La ROM selezionata non è valida"
+  "menu.retro64.warnInvalidROM": "La ROM selezionata è invalida"
 }
