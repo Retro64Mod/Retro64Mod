@@ -1,5 +1,12 @@
 {
+  "itemGroup.retro64Tab": "Retro64",
+  "item.retro64.wing_cap": "飛行帽",
+  "item.retro64.vanish_cap": "隱身帽",
+  "item.retro64.metal_cap": "金屬帽",
   "block.retro64.castlestairs": "城堡樓梯",
+  "block.retro64.deep_quicksand": "深流沙",
+  "block.retro64.instant_quicksand": "瞬間流沙",
+  "gamerule.forceMario": "強制馬里奧模式",
   "key.retro64.actKey": "多功能行為鍵",
   "key.retro64.mMenu": "人物選擇表",
   "key.retro64.mToggle": "切換模式",
@@ -12,4 +19,6 @@
   "menu.retro64.warnNoDLL": "檔案 sm64.dll 缺失",
   "menu.retro64.warnWrongVersion": "您的 sm64.dll 版本錯誤，可能需要重新編譯。",
   "menu.retro64.warnMissingROM": "您缺少Super Mario 64 ROM（baserom.us.z64）檔案。"
+  "menu.retro64.warnPleaseSelectROM": "請選擇有效的 US/USA .z64 馬里奧 ROM。\n（SHA1 雜湊必須為 9bef1128717f958171a4afac3ed78ee2bb4e86ce）",
+  "menu.retro64.warnInvalidROM": "所選的 ROM 無效",
 }
