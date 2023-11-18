@@ -1,5 +1,12 @@
 {
+  "itemGroup.retro64Tab": "Retro64",
+  "item.retro64.wing_cap": "Flügel-Kappe",
+  "item.retro64.vanish_cap": "Tarn-Kappe",
+  "item.retro64.metal_cap": "Metall-Kappe",
   "block.retro64.castlestairs": "Schlosstreppe",
+  "block.retro64.deep_quicksand": "Deep Quicksand",
+  "block.retro64.instant_quicksand": "Instant Quicksand",
+  "gamerule.forceMario": "Force Mario Mode",
   "key.retro64.actKey": "Action Key",
   "key.retro64.mMenu": "Retro64 Menü",
   "key.retro64.mToggle": "Retro64 Modus auslösen",
@@ -11,5 +18,7 @@
   "menu.retro64.genericWarn": "Bitte beachte die Installationsanleitung. Die Mod funktioniert in diesem Zustand möglicherweise nicht richtig oder das Spiel stürzt ab.",
   "menu.retro64.warnNoDLL": "Dir fehlt sm64.dll.",
   "menu.retro64.warnWrongVersion": "Du hast die falsche Version von sm64.dll, du musst sie vielleicht neu Kompilieren.",
-  "menu.retro64.warnMissingROM": "Du hast die falsche ROM Datei."
+  "menu.retro64.warnMissingROM": "Du hast die falsche ROM Datei.",
+  "menu.retro64.warnPleaseSelectROM": "Bitte wähle eine gültige US/USA .z64 ROM aus. \n(SHA1-Hash MUSS 9bef1128717f958171a4afac3ed78ee2bb4e86ce sein)",
+  "menu.retro64.warnInvalidROM": "Die ausgewählte ROM ist nicht gültig"
 }
