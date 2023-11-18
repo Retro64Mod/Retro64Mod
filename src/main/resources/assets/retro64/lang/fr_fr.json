@@ -1,8 +1,15 @@
 {
-  "block.retro64.castlestairs": "Escaliers de château",
+  "itemGroup.retro64Tab": "Retro64",
+  "item.retro64.wing_cap": "Casquettes ailées",
+  "item.retro64.vanish_cap": "Casquettes d'invisibilité",
+  "item.retro64.metal_cap": "Casquette de métal",
+  "block.retro64.castlestairs": "Escaliers du château",
+  "block.retro64.deep_quicksand": "Sable mouvant profond",
+  "block.retro64.instant_quicksand": "Sable mouvant instantané",
+  "gamerule.forceMario": "Forcer le mode Mario",
   "key.retro64.actKey": "Touche d'action",
   "key.retro64.mMenu": "Menu Retro64",
-  "key.retro64.mToggle": "Activer/Désactiver le mode Retro64 ",
+  "key.retro64.mToggle": "Activer/Désactiver le mode Retro64",
   "key.categories.retro64": "Retro64",
   "charSelect.retro64.name": "Personnage sélectionné: $1",
   "charSelect.retro64.prev": "Précédent",
@@ -11,5 +18,7 @@
   "menu.retro64.genericWarn": "Veuillez vous référer aux instructions d'installation. Dans cet état, il est possible que le mod ne fonctionne pas correctement ou que le jeu plante.",
   "menu.retro64.warnNoDLL": "sm64.dll est manquant.",
   "menu.retro64.warnWrongVersion": "Vous avez la mauvaise version de sm64.dll, vous devriez peut-être le recompiler.",
-  "menu.retro64.warnMissingROM": "Le fichier ROM est manquant."
-} 
+  "menu.retro64.warnMissingROM": "Le fichier ROM est manquant.",
+  "menu.retro64.warnPleaseSelectROM": "Veuillez sélectionner un fichier ROM valide en format US/USA .z64. \n(La somme de contrôle SHA1 DOIT être 9bef1128717f958171a4afac3ed78ee2bb4e86ce)",
+  "menu.retro64.warnInvalidROM": "Le fichier ROM sélectionné n'est pas valide"
+}
