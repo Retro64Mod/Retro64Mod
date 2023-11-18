@@ -22,7 +22,7 @@ import java.util.function.Supplier;
 public class SM64PacketHandler {
 
     private static int cid=0;
-    private static final String PROTOCOL_VERSION = "1";
+    private static final String PROTOCOL_VERSION = "2";
     public static final SimpleChannel INSTANCE = NetworkRegistry.newSimpleChannel(
             new ResourceLocation(Retro64.MOD_ID, "mcharpacket"),
             () -> PROTOCOL_VERSION,
