@@ -4,11 +4,12 @@ import com.dylanpdx.retro64.ModelData;
 import com.dylanpdx.retro64.SM64EnvManager;
 import com.dylanpdx.retro64.Utils;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.*;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 // import java.util.List;
 
@@ -52,8 +53,10 @@ public class CharSelectScreen extends Screen {
         }).pos(this.width-60, this.height-40).size(50,20).build());
     }
 
-    public void render(PoseStack pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
-        this.fillGradient(pPoseStack, 0, 0, this.width, this.height, 0xA0000000, 0xF0000000);
+    @Override
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+        var pPoseStack = guiGraphics.pose();
+        guiGraphics.fillGradient(0, 0, this.width, this.height, 0xA0000000, 0xF0000000);
         drawCharName(pPoseStack);
         pPoseStack.pushPose();
         pPoseStack.translate(this.width/2f,this.height/2f+30,0);
@@ -61,7 +64,7 @@ public class CharSelectScreen extends Screen {
         pPoseStack.mulPose(Utils.quaternionFromXYZ((float)Math.toRadians(180),0,(float)Math.toRadians(0)));
         minecraft.getEntityRenderDispatcher().render(minecraft.player, 0,0,0,0,1,pPoseStack,this.minecraft.renderBuffers().bufferSource(), 15728880);
         pPoseStack.popPose();
-        super.render(pPoseStack, pMouseX, pMouseY, pPartialTick);
+        super.render(guiGraphics, mouseX, mouseY, partialTick);
     }
 
     void drawCharName(PoseStack pPoseStack){

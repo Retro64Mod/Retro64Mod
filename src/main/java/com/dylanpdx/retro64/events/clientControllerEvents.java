@@ -2,7 +2,7 @@ package com.dylanpdx.retro64.events;
 
 import com.mrcrayfish.controllable.event.ControllerEvent;
 import net.minecraft.world.phys.Vec2;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.neoforged.eventbus.api.SubscribeEvent;
 
 /**
  * Events for the client side, if the user has the Controllable mod installed.

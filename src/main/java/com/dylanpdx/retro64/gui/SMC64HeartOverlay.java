@@ -6,17 +6,18 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.LayeredDraw;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.gui.overlay.ForgeGui;
-import net.minecraftforge.client.gui.overlay.IGuiOverlay;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.client.gui.overlay.ForgeGui;
+import net.neoforged.client.gui.overlay.IGuiOverlay;
 
 import java.util.Random;
 
-public class SMC64HeartOverlay implements IGuiOverlay {
+public class SMC64HeartOverlay implements LayeredDraw.Layer {
 
     Random random = new Random();
 

@@ -2,7 +2,7 @@ package com.dylanpdx.retro64;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
-import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
+import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 
 public class Keybinds {
     private static KeyMapping[] keyBindings;

@@ -9,7 +9,7 @@ import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.client.event.RenderPlayerEvent;
+import net.neoforged.neoforge.client.event.RenderPlayerEvent;
 
 public class mCharRenderer {
 
@@ -137,13 +137,13 @@ public class mCharRenderer {
 
     static void vertex(VertexConsumer vc,PoseStack.Pose p, float pX, float pY, float pZ, float pRed, float pGreen, float pBlue, float pAlpha, float pTexU, float pTexV, int pOverlayUV, int pLightmapUV, float pNormalX, float pNormalY, float pNormalZ) {
         try{
-            vc.vertex(p.pose(),pX, pY, pZ);
-            vc.color(pRed, pGreen, pBlue, pAlpha);
-            vc.uv(pTexU, pTexV);
-            vc.overlayCoords(pOverlayUV);
-            vc.uv2(pLightmapUV);
-            vc.normal(pNormalX, pNormalY, pNormalZ);
-            vc.endVertex();
+            vc.setColor(pRed, pGreen, pBlue, pAlpha);
+            vc.setUv(pTexU, pTexV);
+            vc.setOverlay(pOverlayUV);
+            vc.setLight(pLightmapUV);
+            vc.setNormal(pNormalX, pNormalY, pNormalZ);
+            vc.addVertex(p.pose(),pX, pY, pZ);
+            //vc.ver();
         }catch (IllegalStateException e){
             //System.out.println("Invalid render state");
         }

@@ -34,13 +34,12 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.client.event.*;
-import net.minecraftforge.event.CreativeModeTabEvent;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.EntityJoinLevelEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.network.NetworkHooks;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
+import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
+import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
+import net.neoforged.neoforge.client.event.RenderPlayerEvent;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import org.joml.Vector3f;
 
 import java.io.IOException;
@@ -57,8 +56,8 @@ public class clientEvents {
     static boolean initScreenDone =false;
 
     @SubscribeEvent
-    public void registerOverlays(RegisterGuiOverlaysEvent event){
-        event.registerAboveAll("retro64_hearts",new SMC64HeartOverlay());
+    public void registerOverlays(RegisterGuiLayersEvent event){
+        event.registerAboveAll(ResourceLocation.fromNamespaceAndPath("retro64","sm64_heart_overlay"), new SMC64HeartOverlay());
     }
 
     @SubscribeEvent
@@ -250,7 +249,7 @@ public class clientEvents {
             }
             var dat=debugText.split("\n");
             for (int i = 0;i<dat.length;i++){
-                font.draw(event.getPoseStack(),dat[i],10,10+(10*i),0xffffffff);
+                //font.draw(event.getPoseStack(),dat[i],10,10+(10*i),0xffffffff);
             }
         }
     }
@@ -267,7 +266,7 @@ public class clientEvents {
     public void onPlayerJoinWorld(EntityJoinLevelEvent event){
         if (event.getEntity() instanceof Player){
             Player plr = (Player) event.getEntity();
-            if (plr.isLocalPlayer() && RemoteMCharHandler.wasMCharDimm!=null && RemoteMCharHandler.wasMCharDimm!=plr.level.dimension()){
+            if (plr.isLocalPlayer() && RemoteMCharHandler.wasMCharDimm!=null && RemoteMCharHandler.wasMCharDimm!=plr.level().dimension()){
                 // Very lazy fix - Don't tick the player until the world finishes loading
                 // TODO: timeout?
                 Thread t = new Thread(()->{

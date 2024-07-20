@@ -1,7 +1,7 @@
 package com.dylanpdx.retro64.capabilities;
 
 import net.minecraft.nbt.CompoundTag;
-import net.minecraftforge.common.util.INBTSerializable;
+import net.neoforged.neoforge.common.util.INBTSerializable;
 
 public interface smc64CapabilityInterface extends INBTSerializable<CompoundTag> {
 

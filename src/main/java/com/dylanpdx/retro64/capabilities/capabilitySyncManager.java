@@ -5,7 +5,7 @@ import com.dylanpdx.retro64.networking.SM64PacketHandler;
 import com.dylanpdx.retro64.RemoteMCharHandler;
 import com.dylanpdx.retro64.networking.capabilityPacket;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.network.PacketDistributor;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.HashMap;
 

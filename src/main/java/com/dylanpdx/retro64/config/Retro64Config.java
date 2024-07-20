@@ -1,6 +1,6 @@
 package com.dylanpdx.retro64.config;
 
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ForgeConfigSpec;
 
 public final class Retro64Config {
     public static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();

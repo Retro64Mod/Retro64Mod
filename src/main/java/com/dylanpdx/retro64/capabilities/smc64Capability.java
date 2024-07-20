@@ -1,9 +1,6 @@
 package com.dylanpdx.retro64.capabilities;
 
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.CapabilityManager;
-import net.minecraftforge.common.capabilities.CapabilityToken;
-import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 
 public class smc64Capability {
     public static final Capability<smc64CapabilityInterface> INSTANCE = CapabilityManager.get(new CapabilityToken<>() {});

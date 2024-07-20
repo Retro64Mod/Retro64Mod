@@ -15,8 +15,8 @@ import net.minecraft.network.chat.FormattedText;
 import net.minecraft.resources.ResourceLocation;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
-// import net.minecraftforge.client.gui.ForgeIngameGui;
-// import net.minecraftforge.client.gui.IIngameOverlay;
+// import net.neoforged.client.gui.ForgeIngameGui;
+// import net.neoforged.client.gui.IIngameOverlay;
 
 public class SMC64DialogOverlay extends Screen {
 
@@ -33,7 +33,7 @@ public class SMC64DialogOverlay extends Screen {
     static final int DIAG_VAL3=132;
     static final int DIAG_VAL4=5;
 
-    public static final ResourceLocation dialogBgLoc = new ResourceLocation(Retro64.MOD_ID,"textures/ui/dialog.png");
+    public static final ResourceLocation dialogBgLoc = ResourceLocation.fromNamespaceAndPath(Retro64.MOD_ID,"textures/ui/dialog.png");
     static float gDialogBoxScale = 19.0f;
     static float gDialogBoxOpenTimer = 90.0f;
     static int gDialogBoxState = DIALOG_STATE_OPENING;
