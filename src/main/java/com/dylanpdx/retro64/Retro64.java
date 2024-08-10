@@ -63,6 +63,7 @@ public class Retro64
             modBus.addListener(cEvent::registerOverlays);
             NeoForge.EVENT_BUS.addListener(cEvent::gameTick);
             NeoForge.EVENT_BUS.addListener(cEvent::onScreenShown);
+            NeoForge.EVENT_BUS.addListener(cEvent::onPlayerRender);
         }
         //serverEvents sEvent=new serverEvents();
         //modBus.register(sEvent);

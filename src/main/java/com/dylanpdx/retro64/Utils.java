@@ -25,6 +25,8 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.dylanpdx.retro64.attachments.retro64attachments.IS_MARIO;
+
 public class Utils {
 
     /**
@@ -189,11 +191,13 @@ public class Utils {
         return  ByteBuffer.wrap(bytes).getInt();
     }
 
-    /*public static smc64CapabilityInterface getSmc64Capability(Player player){
-        return player.getCapability(smc64Capability.INSTANCE).map(smc64->{
-            return smc64;
-        }).orElse(null);
-    }*/
+    public static boolean getIsMario(Player player){
+        return player.getData(IS_MARIO);
+    }
+
+    public static void setIsMario(Player player, boolean value){
+        player.setData(IS_MARIO,value);
+    }
 
     public static DataInputStream dataStreamAtPos(byte[] data, int pos, int length){
         var truncated = new byte[length];

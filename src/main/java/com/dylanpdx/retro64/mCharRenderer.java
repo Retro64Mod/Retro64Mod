@@ -137,12 +137,13 @@ public class mCharRenderer {
 
     static void vertex(VertexConsumer vc,PoseStack.Pose p, float pX, float pY, float pZ, float pRed, float pGreen, float pBlue, float pAlpha, float pTexU, float pTexV, int pOverlayUV, int pLightmapUV, float pNormalX, float pNormalY, float pNormalZ) {
         try{
+            vc.addVertex(p.pose(),pX, pY, pZ);
             vc.setColor(pRed, pGreen, pBlue, pAlpha);
             vc.setUv(pTexU, pTexV);
             vc.setOverlay(pOverlayUV);
             vc.setLight(pLightmapUV);
             vc.setNormal(pNormalX, pNormalY, pNormalZ);
-            vc.addVertex(p.pose(),pX, pY, pZ);
+
             //vc.ver();
         }catch (IllegalStateException e){
             //System.out.println("Invalid render state");

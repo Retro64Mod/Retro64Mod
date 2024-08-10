@@ -28,6 +28,7 @@ public class RegistryHandler {
     public static void init(IEventBus modEventBus){
         BLOCKS.register(modEventBus);
         ITEMS.register(modEventBus);
+        CREATIVE_TABS.register(modEventBus);
     }
 
     public static final DeferredHolder<Block,Block> CASTLE_STAIRS = BLOCKS.register("castlestairs", CastleStairsBlock::new);

@@ -137,7 +137,7 @@ public class clientEvents {
                         (float)Math.toRadians(0)));
 
             mCharRenderer.renderMChar(rpe, SM64EnvManager.selfMChar);
-            //rpe.setCanceled(true); // TODO: prevent vanilla rendering
+            rpe.setCanceled(true);
         }
     }
 

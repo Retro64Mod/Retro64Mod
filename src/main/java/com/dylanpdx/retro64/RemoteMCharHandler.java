@@ -72,11 +72,9 @@ public class RemoteMCharHandler {
     public static void mCharOn(Player player){
         if (player.isSpectator()) // don't turn on R64 for spectators
             return;
-        //var smCap = Utils.getSmc64Capability(player);
-        //if (smCap==null) return;
-        //boolean isMChar =smCap.getIsEnabled();
-        //if (isMChar) return;
-        //smCap.setIsEnabled(true);
+        boolean isMChar =Utils.getIsMario(player);
+        if (isMChar) return;
+        Utils.setIsMario(player,true);
         if (player== Minecraft.getInstance().player)
         {
             // handle for local player
@@ -108,24 +106,22 @@ public class RemoteMCharHandler {
      * @param fatal If true, the player will die; used for when MChar health is 0
      */
     public static void mCharOff(Player player,boolean fatal){
-        /*var smCap = Utils.getSmc64Capability(player);
-        if (smCap==null) return;
-        boolean isMChar =smCap.getIsEnabled();
+        boolean isMChar =Utils.getIsMario(player);
         if (!isMChar) return;
-        smCap.setIsEnabled(false);
+        Utils.setIsMario(player,false);
         player.moveTo(player.position().x,Math.round(player.position().y),player.position().z);
         if (player== Minecraft.getInstance().player)
         {
             SM64EnvManager.selfMChar.destroy();
             SM64EnvManager.selfMChar = null;
             wasMCharDimm=null;
-            capabilitySyncManager.syncClientToServer(smCap,fatal);
+            //capabilitySyncManager.syncClientToServer(smCap,fatal);
         }
         else
         {
             mChars.remove(player).destroy();
         }
-        onMCharToggle(player,false);*/
+        onMCharToggle(player,false);
     }
 
     /**
@@ -133,11 +129,9 @@ public class RemoteMCharHandler {
      * @param player Player to toggle
      */
     public static void toggleMChar(Player player){
-        /*var smCap = Utils.getSmc64Capability(player);
-        boolean isMChar = smCap != null && smCap.getIsEnabled();
+        boolean isMChar = Utils.getIsMario(player);
         if (isMChar) mCharOff(player);
-        else mCharOn(player);*/
-        mCharOn(player);
+        else mCharOn(player);
     }
 
     /**
@@ -146,10 +140,7 @@ public class RemoteMCharHandler {
      * @return True if the player is in R64 mode
      */
     public static boolean getIsMChar(Player player){
-        return false;
-        /*var smCap = Utils.getSmc64Capability(player);
-        if (smCap==null) return false;
-        return smCap.getIsEnabled();*/
+        return Utils.getIsMario(player); // TODO: refactor?
     }
 
     /**
