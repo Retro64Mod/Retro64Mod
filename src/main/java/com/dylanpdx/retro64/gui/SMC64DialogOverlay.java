@@ -8,6 +8,7 @@ import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
@@ -73,9 +74,9 @@ public class SMC64DialogOverlay extends Screen {
     }
 
     @Override
-    public void render(PoseStack pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
-        super.render(pPoseStack, pMouseX, pMouseY, pPartialTick);
-        tickDialog();
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+        super.render(guiGraphics, mouseX, mouseY, partialTick);
+        /*tickDialog();
         RenderSystem.setShaderTexture(0,dialogBgLoc);
         RenderSystem.enableBlend();
         RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
@@ -106,7 +107,7 @@ public class SMC64DialogOverlay extends Screen {
         for (int i = 0; i < splitTxt.size(); i++) {
             this.font.draw(pPoseStack, splitTxt.get(i), 2, 2+(i*10), 0xFFFFFF);
         }
-        pPoseStack.popPose();
+        pPoseStack.popPose();*/
     }
 
     @Override

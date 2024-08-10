@@ -1,6 +1,5 @@
 package com.dylanpdx.retro64;
 
-import com.dylanpdx.retro64.capabilities.capabilitySyncManager;
 import com.dylanpdx.retro64.sm64.libsm64.AnimInfo;
 import com.dylanpdx.retro64.sm64.libsm64.MChar;
 import com.dylanpdx.retro64.sm64.libsm64.SM64MCharState;
@@ -73,17 +72,17 @@ public class RemoteMCharHandler {
     public static void mCharOn(Player player){
         if (player.isSpectator()) // don't turn on R64 for spectators
             return;
-        var smCap = Utils.getSmc64Capability(player);
-        if (smCap==null) return;
-        boolean isMChar =smCap.getIsEnabled();
-        if (isMChar) return;
-        smCap.setIsEnabled(true);
+        //var smCap = Utils.getSmc64Capability(player);
+        //if (smCap==null) return;
+        //boolean isMChar =smCap.getIsEnabled();
+        //if (isMChar) return;
+        //smCap.setIsEnabled(true);
         if (player== Minecraft.getInstance().player)
         {
             // handle for local player
             if (SM64EnvManager.selfMChar==null)
                 SM64EnvManager.selfMChar = new MChar();
-            capabilitySyncManager.syncClientToServer(smCap,false);
+            //capabilitySyncManager.syncClientToServer(smCap,false);
             wasMCharDimm=player.level().dimension();
         }
         else
@@ -109,7 +108,7 @@ public class RemoteMCharHandler {
      * @param fatal If true, the player will die; used for when MChar health is 0
      */
     public static void mCharOff(Player player,boolean fatal){
-        var smCap = Utils.getSmc64Capability(player);
+        /*var smCap = Utils.getSmc64Capability(player);
         if (smCap==null) return;
         boolean isMChar =smCap.getIsEnabled();
         if (!isMChar) return;
@@ -126,7 +125,7 @@ public class RemoteMCharHandler {
         {
             mChars.remove(player).destroy();
         }
-        onMCharToggle(player,false);
+        onMCharToggle(player,false);*/
     }
 
     /**
@@ -134,10 +133,11 @@ public class RemoteMCharHandler {
      * @param player Player to toggle
      */
     public static void toggleMChar(Player player){
-        var smCap = Utils.getSmc64Capability(player);
+        /*var smCap = Utils.getSmc64Capability(player);
         boolean isMChar = smCap != null && smCap.getIsEnabled();
         if (isMChar) mCharOff(player);
-        else mCharOn(player);
+        else mCharOn(player);*/
+        mCharOn(player);
     }
 
     /**
@@ -146,9 +146,10 @@ public class RemoteMCharHandler {
      * @return True if the player is in R64 mode
      */
     public static boolean getIsMChar(Player player){
-        var smCap = Utils.getSmc64Capability(player);
+        return false;
+        /*var smCap = Utils.getSmc64Capability(player);
         if (smCap==null) return false;
-        return smCap.getIsEnabled();
+        return smCap.getIsEnabled();*/
     }
 
     /**

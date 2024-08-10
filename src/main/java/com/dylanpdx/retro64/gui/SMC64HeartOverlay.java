@@ -4,16 +4,16 @@ import com.dylanpdx.retro64.SM64EnvManager;
 import com.dylanpdx.retro64.RemoteMCharHandler;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.LayeredDraw;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
-import net.neoforged.client.gui.overlay.ForgeGui;
-import net.neoforged.client.gui.overlay.IGuiOverlay;
 
 import java.util.Random;
 
@@ -21,29 +21,9 @@ public class SMC64HeartOverlay implements LayeredDraw.Layer {
 
     Random random = new Random();
 
-    @Override
-    public void render(ForgeGui gui, PoseStack mStack, float partialTicks, int width, int height) {
-        if (!RemoteMCharHandler.getIsMChar(Minecraft.getInstance().player) || SM64EnvManager.selfMChar.state==null)
-            return;
-        if (Minecraft.getInstance().player.isUnderWater())
-            return; // will be handled by MC's default air overlay
-        var healthSlices = (SM64EnvManager.selfMChar.state.health&0xff00)>>8;
-        RenderSystem.setShaderTexture(0, Gui.GUI_ICONS_LOCATION);
-        float healthMax=8.0f;
-        int absorb=0;
-        int healthRows = Mth.ceil((healthMax + absorb) / 2.0F / 10.0F);
-        int rowHeight = Math.max(10 - (healthRows - 2), 3);
-        int left_height = 40;
-        int left = width / 2 - 91;
-        int top = height - left_height;
-        left_height += (healthRows * rowHeight);
-        if (rowHeight != 10) left_height += 10 - rowHeight;
-        renderHearts(gui,mStack, Minecraft.getInstance().player,left,top,11,-1,healthMax,healthSlices,8,absorb,false);
-    }
-
-    protected void renderHearts(ForgeGui gui,PoseStack poseStack, Player thePlayer, int left, int top, int rowHeight, int regen, float healthMax, int health, int healthLast, int absorb, boolean highlight) {
+    protected void renderHearts(GuiGraphics gui,PoseStack poseStack, Player thePlayer, int left, int top, int rowHeight, int regen, float healthMax, int health, int healthLast, int absorb, boolean highlight) {
         HeartType gui$hearttype = HeartType.NORMAL;
-        int i = 9 * (thePlayer.level.getLevelData().isHardcore() ? 5 : 0);
+        int i = 9 * (thePlayer.level().getLevelData().isHardcore() ? 5 : 0);
         int j = Mth.ceil((double)healthMax / 2.0D);
         int k = Mth.ceil((double)absorb / 2.0D);
         int l = j * 2;
@@ -85,8 +65,29 @@ public class SMC64HeartOverlay implements LayeredDraw.Layer {
 
     }
 
-    private void renderHeart(ForgeGui gui,PoseStack p_168701_, HeartType p_168702_, int p_168703_, int p_168704_, int p_168705_, boolean p_168706_, boolean p_168707_) {
-        gui.blit(p_168701_, p_168703_, p_168704_, p_168702_.getX(p_168707_, p_168706_), p_168705_, 9, 9);
+    private void renderHeart(GuiGraphics gui,PoseStack p_168701_, HeartType p_168702_, int p_168703_, int p_168704_, int p_168705_, boolean p_168706_, boolean p_168707_) {
+        //gui.blit(p_168701_, p_168703_, p_168704_, p_168702_.getX(p_168707_, p_168706_), p_168705_, 9, 9);
+    }
+
+    @Override
+    public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
+        if (!RemoteMCharHandler.getIsMChar(Minecraft.getInstance().player) || SM64EnvManager.selfMChar.state==null)
+            return;
+        if (Minecraft.getInstance().player.isUnderWater())
+            return; // will be handled by MC's default air overlay
+        var healthSlices = (SM64EnvManager.selfMChar.state.health&0xff00)>>8;
+        //RenderSystem.setShaderTexture(0, Gui.GUI_ICONS_LOCATION);
+        float healthMax=8.0f;
+        int absorb=0;
+        int healthRows = Mth.ceil((healthMax + absorb) / 2.0F / 10.0F);
+        int rowHeight = Math.max(10 - (healthRows - 2), 3);
+        int left_height = 40;
+
+        int left = guiGraphics.guiWidth() / 2 - 91;
+        int top = guiGraphics.guiHeight() - left_height;
+        left_height += (healthRows * rowHeight);
+        if (rowHeight != 10) left_height += 10 - rowHeight;
+        //renderHearts(gui,mStack, Minecraft.getInstance().player,left,top,11,-1,healthMax,healthSlices,8,absorb,false);
     }
 
     @OnlyIn(Dist.CLIENT)

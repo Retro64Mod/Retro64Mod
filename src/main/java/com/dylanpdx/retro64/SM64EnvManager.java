@@ -1,7 +1,6 @@
 package com.dylanpdx.retro64;
 
 import com.dylanpdx.retro64.config.Retro64Config;
-import com.dylanpdx.retro64.events.clientControllerEvents;
 import com.dylanpdx.retro64.sm64.SM64SurfaceType;
 import com.dylanpdx.retro64.sm64.libsm64.*;
 import net.minecraft.client.Minecraft;
@@ -131,9 +130,9 @@ public class SM64EnvManager {
         selfMChar.inputs.stickX=0;
         selfMChar.inputs.stickY=0;
         Vec2 v2=null;
-        if (Retro64.hasControllerSupport && (clientControllerEvents.input.x != 0 || clientControllerEvents.input.y != 0)){
+        /*if (Retro64.hasControllerSupport && (clientControllerEvents.input.x != 0 || clientControllerEvents.input.y != 0)){
             v2 = clientControllerEvents.input;
-        }else{
+        }else*/{
             if (W_pressed) selfMChar.inputs.stickX += 1;
             if (A_pressed) selfMChar.inputs.stickY -= 1;
             if (S_pressed) selfMChar.inputs.stickX -= 1;

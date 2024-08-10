@@ -17,14 +17,14 @@ public class mCharRenderer {
      * Render other player's character
      * @param rpe The render player event
      */
-    public static void renderOtherPlayer(RenderPlayerEvent rpe){
+    public static void renderOtherPlayer(RenderPlayerEvent.Pre rpe){
         Player otherPlr = rpe.getEntity();
         if (RemoteMCharHandler.mChars.containsKey(otherPlr)){
             // render mChar for other player
             MChar otherMChar = RemoteMCharHandler.mChars.get(otherPlr);
             renderMChar(rpe,otherMChar);
         }
-        rpe.setCanceled(true);
+        //rpe.setCanceled(true);
     }
 
     /**

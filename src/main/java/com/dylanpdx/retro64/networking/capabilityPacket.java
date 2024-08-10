@@ -1,7 +1,6 @@
 package com.dylanpdx.retro64.networking;
 
-import com.dylanpdx.retro64.capabilities.smc64CapabilityImplementation;
-import com.dylanpdx.retro64.capabilities.smc64CapabilityInterface;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
@@ -15,7 +14,7 @@ import java.util.function.Function;
  */
 public class capabilityPacket {
 
-    smc64CapabilityInterface capability;
+    /*smc64CapabilityInterface capability;
     UUID pUUID;
     boolean kill;
 
@@ -72,5 +71,5 @@ public class capabilityPacket {
 
     capabilityPacket(){
 
-    }
+    }*/
 }

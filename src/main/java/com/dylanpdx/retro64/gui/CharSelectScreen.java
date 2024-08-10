@@ -72,8 +72,8 @@ public class CharSelectScreen extends Screen {
         var creditDat = Component.nullToEmpty(""+(ModelData.values()[SM64EnvManager.playerModel]).getCredit());
         var fWidth = this.font.width(dat);
         var cWidth = this.font.width(creditDat);
-        this.font.draw(pPoseStack, dat, (this.width / 2f)-(fWidth/2f), this.height-40, 0xFFFFFF);
-        this.font.draw(pPoseStack, creditDat, (this.width / 2f)-(cWidth/2f), this.height-60, 0x999999);
+        //this.font.draw(pPoseStack, dat, (this.width / 2f)-(fWidth/2f), this.height-40, 0xFFFFFF);
+        //this.font.draw(pPoseStack, creditDat, (this.width / 2f)-(cWidth/2f), this.height-60, 0x999999);
     }
 
 }

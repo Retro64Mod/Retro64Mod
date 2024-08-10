@@ -1,7 +1,6 @@
 package com.dylanpdx.retro64.events;
 
 import com.dylanpdx.retro64.RemoteMCharHandler;
-import com.dylanpdx.retro64.capabilities.capabilitySyncManager;
 import com.dylanpdx.retro64.networking.SM64PacketHandler;
 import com.dylanpdx.retro64.networking.damagePacket;
 import com.dylanpdx.retro64.networking.healPacket;
@@ -9,15 +8,10 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.event.entity.living.LivingAttackEvent;
-import net.neoforged.event.entity.player.PlayerEvent;
-import net.neoforged.event.entity.player.PlayerXpEvent;
-import net.neoforged.eventbus.api.SubscribeEvent;
-import net.neoforged.network.PacketDistributor;
 
 public class serverEvents {
 
-    @SubscribeEvent
+    /*@SubscribeEvent
     public void playerAttack(LivingAttackEvent event){
         if (event.getEntity() instanceof ServerPlayer){
             if (!RemoteMCharHandler.getIsMChar((Player) event.getEntity()) || event.getSource().getMsgId().equals("outOfWorld"))
@@ -53,6 +47,6 @@ public class serverEvents {
         if (RemoteMCharHandler.getIsMChar(event.getEntity())){
             SM64PacketHandler.INSTANCE.send(PacketDistributor.PLAYER.with(() -> (ServerPlayer) event.getEntity()),new healPacket((byte)event.getAmount()));
         }
-    }
+    }*/
 
 }

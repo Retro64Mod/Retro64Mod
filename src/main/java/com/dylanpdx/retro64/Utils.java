@@ -1,13 +1,12 @@
 package com.dylanpdx.retro64;
 
-import com.dylanpdx.retro64.capabilities.smc64Capability;
-import com.dylanpdx.retro64.capabilities.smc64CapabilityInterface;
 import com.dylanpdx.retro64.maps.BlockMatMaps;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffect;
@@ -190,11 +189,11 @@ public class Utils {
         return  ByteBuffer.wrap(bytes).getInt();
     }
 
-    public static smc64CapabilityInterface getSmc64Capability(Player player){
+    /*public static smc64CapabilityInterface getSmc64Capability(Player player){
         return player.getCapability(smc64Capability.INSTANCE).map(smc64->{
             return smc64;
         }).orElse(null);
-    }
+    }*/
 
     public static DataInputStream dataStreamAtPos(byte[] data, int pos, int length){
         var truncated = new byte[length];
@@ -206,19 +205,19 @@ public class Utils {
     }
 
     public static String getRegistryName(Block block){
-        return ForgeRegistries.BLOCKS.getKey(block).toString();
+        return BuiltInRegistries.BLOCK.getKey(block).toString();
     }
 
     public static String getRegistryName(Item item){
-        return ForgeRegistries.ITEMS.getKey(item).toString();
+        return BuiltInRegistries.ITEM.getKey(item).toString();
     }
 
     public static String getRegistryName(MobEffect effect){
-        return ForgeRegistries.MOB_EFFECTS.getKey(effect).toString();
+        return BuiltInRegistries.MOB_EFFECT.getKey(effect).toString();
     }
 
     public static String getRegistryName(SoundEvent sound){
-        return ForgeRegistries.SOUND_EVENTS.getKey(sound).toString();
+        return BuiltInRegistries.SOUND_EVENT.getKey(sound).toString();
     }
 
     public static Quaternionf quaternionFromXYZ(float x,float y,float z){
@@ -227,5 +226,9 @@ public class Utils {
 
     public static Vector3f vec3toVector3f(Vec3 v3){
         return new Vector3f((float) v3.x,(float)v3.y,(float)v3.z);
+    }
+
+    public static boolean isConnectedToVanillaServer(){
+        return false; // NetworkHooks.isVanillaConnection(Minecraft.getInstance().player.connection.getConnection())
     }
 }

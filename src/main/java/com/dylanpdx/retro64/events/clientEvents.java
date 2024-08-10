@@ -35,10 +35,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
-import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
-import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
-import net.neoforged.neoforge.client.event.RenderPlayerEvent;
+import net.neoforged.neoforge.client.event.*;
+import net.neoforged.neoforge.event.entity.EntityEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import org.joml.Vector3f;
 
@@ -66,26 +64,9 @@ public class clientEvents {
     }
 
     @SubscribeEvent
-    public void registerCustomCreativeTabs(CreativeModeTabEvent.Register event){
-        event.registerCreativeModeTab(new ResourceLocation(Retro64.MOD_ID,"retro64tab"),builder -> {
-            builder.displayItems(new CreativeModeTab.DisplayItemsGenerator() {
-                @Override
-                public void accept(FeatureFlagSet pEnabledFeatures, CreativeModeTab.Output pOutput, boolean pDisplayOperatorCreativeTab) {
-                    pOutput.accept(RegistryHandler.CASTLE_STAIRS_ITEM.get());
-                    pOutput.accept(RegistryHandler.DEEP_QUICKSAND_ITEM.get());
-                    pOutput.accept(RegistryHandler.INSTANT_QUICKSAND_ITEM.get());
-                    pOutput.accept(RegistryHandler.WING_CAP_ITEM.get());
-                    pOutput.accept(RegistryHandler.METAL_CAP_ITEM.get());
-                    pOutput.accept(RegistryHandler.VANISH_CAP_ITEM.get());
-                }
-            }).icon(RegistryHandler.CASTLE_STAIRS_ITEM.get()::getDefaultInstance).title(Component.translatable("itemGroup.retro64Tab"));
-        });
-    }
-
-    @SubscribeEvent
-    public void gameTick(TickEvent.ClientTickEvent event){
-        if (event.phase== TickEvent.Phase.END)
-            return;
+    public void gameTick(ClientTickEvent.Pre event){
+        //if (event.phase== TickEvent.Phase.END)
+            //return;
         try{
             if (Minecraft.getInstance().player==null){
                 // If the player is null, we're probably not in-game. There's probably a simpler way of checking for this
@@ -97,7 +78,7 @@ public class clientEvents {
             }else{
                 /// Handle toggling modes
                 if (Keybinds.getMToggle().isDown() && !clickDebounce){
-                    if (NetworkHooks.isVanillaConnection(Minecraft.getInstance().player.connection.getConnection()))
+                    if (Utils.isConnectedToVanillaServer())
                         return; // don't allow toggling in vanilla servers
                     RemoteMCharHandler.toggleMChar(Minecraft.getInstance().player);
                     clickDebounce=true;
@@ -134,7 +115,7 @@ public class clientEvents {
     }
 
     @SubscribeEvent
-    public void onPlayerRender(RenderPlayerEvent rpe){
+    public void onPlayerRender(RenderPlayerEvent.Pre rpe){
 
         if (!RemoteMCharHandler.getIsMChar(rpe.getEntity())) // don't render if not in R64 mode
             return;
@@ -156,11 +137,11 @@ public class clientEvents {
                         (float)Math.toRadians(0)));
 
             mCharRenderer.renderMChar(rpe, SM64EnvManager.selfMChar);
-            rpe.setCanceled(true); // prevent vanilla rendering
+            //rpe.setCanceled(true); // TODO: prevent vanilla rendering
         }
     }
 
-    @SubscribeEvent
+    //@SubscribeEvent
     public void worldRender(RenderLevelStageEvent event){
         LocalPlayer plr = Minecraft.getInstance().player;
         if (plr.isAlive() && RemoteMCharHandler.getIsMChar(plr)){
@@ -206,7 +187,7 @@ public class clientEvents {
                     cB = 1;
                 }
                 for (int i = 0; i < surf.vertices.length; i += 3)
-                    buffer.vertex(p.pose(),surf.vertices[i]/LibSM64.SCALE_FACTOR,(surf.vertices[i+1]/LibSM64.SCALE_FACTOR)+0.01f,surf.vertices[i+2]/LibSM64.SCALE_FACTOR).color(cR,cG,cB,1f).endVertex();
+                    buffer.addVertex(p.pose(),surf.vertices[i]/LibSM64.SCALE_FACTOR,(surf.vertices[i+1]/LibSM64.SCALE_FACTOR)+0.01f,surf.vertices[i+2]/LibSM64.SCALE_FACTOR).setColor(cR,cG,cB,1f);
             }
             stack.popPose();
             Minecraft.getInstance().renderBuffers().bufferSource().endBatch(rt);
@@ -214,7 +195,7 @@ public class clientEvents {
     }
 
     @SubscribeEvent
-    public void onRenderGameUI(RenderGuiOverlayEvent.Pre event){
+    public void onRenderGameUI(RenderGuiLayerEvent event){
         /*if (RemoteMCharHandler.getIsMChar(Minecraft.getInstance().player) && (event.getOverlay() == GuiOverlayManager.findOverlay() || event.getOverlay() == ForgeIngameGui.FOOD_LEVEL_ELEMENT || event.getOverlay() == ForgeIngameGui.ARMOR_LEVEL_ELEMENT)){
             event.setCanceled(true);
         }*/
@@ -254,16 +235,16 @@ public class clientEvents {
         }
     }
 
-    @SubscribeEvent
+    /*@SubscribeEvent
     public void onPlayerClone(PlayerEvent.Clone event){
         if (event.isWasDeath()) // do not carry over capabilities on death
             return;
         RemoteMCharHandler.setIsMChar(event.getEntity(),RemoteMCharHandler.getIsMChar(event.getOriginal()));
-    }
+    }*/
 
 
     @SubscribeEvent
-    public void onPlayerJoinWorld(EntityJoinLevelEvent event){
+    public void onPlayerJoinWorld(EntityEvent.EntityConstructing event){
         if (event.getEntity() instanceof Player){
             Player plr = (Player) event.getEntity();
             if (plr.isLocalPlayer() && RemoteMCharHandler.wasMCharDimm!=null && RemoteMCharHandler.wasMCharDimm!=plr.level().dimension()){
@@ -305,7 +286,7 @@ public class clientEvents {
         if (world.isClientSide && Minecraft.getInstance().getSingleplayerServer()!=null && !Minecraft.getInstance().getSingleplayerServer().isPublished() && Minecraft.getInstance().isPaused())
             return;
 
-        if (NetworkHooks.isVanillaConnection(Minecraft.getInstance().player.connection.getConnection()))
+        if (Utils.isConnectedToVanillaServer())
         {
             RemoteMCharHandler.mCharOff(plr);
             return;
@@ -316,7 +297,7 @@ public class clientEvents {
         float joystickMult=1;
         boolean poisoned=false;
         for (var effect : plr.getActiveEffects()){
-            switch (Utils.getRegistryName(effect.getEffect())){
+            switch (Utils.getRegistryName(effect.getEffect().value())){
                 case "minecraft:speed":
                     float extraMult = (effect.getAmplifier()+1)*0.1f;
                     joystickMult+=extraMult;
@@ -402,13 +383,13 @@ public class clientEvents {
             plr.setDeltaMovement(0,-0.01f,0);
         }
         // tell the server about the player's position. In the future this should be checked to prevent exploits
-        SM64PacketHandler.INSTANCE.sendToServer(new mCharPacket(
+        /*SM64PacketHandler.INSTANCE.sendToServer(new mCharPacket(
                 new Vec3(SM64EnvManager.selfMChar.x(), SM64EnvManager.selfMChar.y(), SM64EnvManager.selfMChar.z()),
                 SM64EnvManager.selfMChar.animInfo,
                 SM64EnvManager.selfMChar.animXRot, SM64EnvManager.selfMChar.animYRot, SM64EnvManager.selfMChar.animZRot, // animation rotations
                 SM64EnvManager.selfMChar.state.action, SM64EnvManager.selfMChar.state.currentModel,
                 plr
-        ));
+        ));*/
     }
 
     /**
@@ -449,7 +430,7 @@ public class clientEvents {
                     if (e instanceof LivingEntity && e != plr && e.isAlive()){
                         Minecraft.getInstance().gameMode.attack(plr,e);
                         attackPacket.applyKnockback(e, SM64EnvManager.selfMChar.state.faceAngle);
-                        SM64PacketHandler.INSTANCE.sendToServer(new attackPacket(e.getId(), SM64EnvManager.selfMChar.state.faceAngle));
+                        //SM64PacketHandler.INSTANCE.sendToServer(new attackPacket(e.getId(), SM64EnvManager.selfMChar.state.faceAngle));
                     }
                 }
             }

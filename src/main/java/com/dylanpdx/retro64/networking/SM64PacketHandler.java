@@ -3,25 +3,19 @@ package com.dylanpdx.retro64.networking;
 import com.dylanpdx.retro64.SM64EnvManager;
 import com.dylanpdx.retro64.RemoteMCharHandler;
 import com.dylanpdx.retro64.Retro64;
-import com.dylanpdx.retro64.capabilities.capabilitySyncManager;
 import com.dylanpdx.retro64.sm64.libsm64.PUFixer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.network.NetworkDirection;
-import net.neoforged.network.NetworkEvent;
-import net.neoforged.network.NetworkRegistry;
-import net.neoforged.network.PacketDistributor;
-import net.neoforged.network.simple.SimpleChannel;
 
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
 public class SM64PacketHandler {
 
-    private static int cid=0;
+    /*private static int cid=0;
     private static final String PROTOCOL_VERSION = "2";
     public static final SimpleChannel INSTANCE = NetworkRegistry.newSimpleChannel(
             new ResourceLocation(Retro64.MOD_ID, "mcharpacket"),
@@ -109,5 +103,5 @@ public class SM64PacketHandler {
                 contextSupplier.get().setPacketHandled(true);
             }
         });
-    }
+    }*/
 }
