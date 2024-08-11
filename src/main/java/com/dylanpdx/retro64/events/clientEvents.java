@@ -125,7 +125,7 @@ public class clientEvents {
             // Render remote players (multiplayer)
             RemoteMCharHandler.tickAll(); // Tick the animation of all remote players
             mCharRenderer.renderOtherPlayer(rpe);
-            mappingsConvert.renderNameTag(rpe.getRenderer(),(AbstractClientPlayer) rpe.getEntity(),rpe.getEntity().getDisplayName(),rpe.getPoseStack(),rpe.getMultiBufferSource(),rpe.getPackedLight());
+            //mappingsConvert.renderNameTag(rpe.getRenderer(),(AbstractClientPlayer) rpe.getEntity(),rpe.getEntity().getDisplayName(),rpe.getPoseStack(),rpe.getMultiBufferSource(),rpe.getPackedLight());
         }else{
             // Prevent player from being ticked if rendered in UI
             if (!(rpe.getPackedLight()== 15728880 && rpe.getPartialTick()==1.0F))
