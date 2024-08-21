@@ -42,7 +42,7 @@ public class RegistryHandler {
     public static final DeferredHolder<Item,Item> METAL_CAP_ITEM = ITEMS.register("metal_cap",()->new MetalCap(new Item.Properties()));
 
     public static final Supplier<CreativeModeTab> RETRO64_TAB = CREATIVE_TABS.register("retro64",() -> CreativeModeTab.builder()
-            .title(Component.translatable("itemGroup."+Retro64.MOD_ID))
+            .title(Component.translatable("itemGroup."+Retro64.MOD_ID+"Tab"))
             .icon(() -> new ItemStack(WING_CAP_ITEM.get()))
             .displayItems((params,output)->{
                 output.accept(RegistryHandler.CASTLE_STAIRS_ITEM.get());
