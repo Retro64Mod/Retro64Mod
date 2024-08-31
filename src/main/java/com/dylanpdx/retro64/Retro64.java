@@ -4,6 +4,7 @@ import com.dylanpdx.retro64.attachments.retro64attachments;
 import com.dylanpdx.retro64.config.Retro64Config;
 import com.dylanpdx.retro64.events.bothEvents;
 import com.dylanpdx.retro64.events.clientEvents;
+import com.dylanpdx.retro64.networking.Retro64Net;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
@@ -61,9 +62,7 @@ public class Retro64
             NeoForge.EVENT_BUS.addListener(cEvent::onPlayerRender);
             NeoForge.EVENT_BUS.addListener(cEvent::worldRender);
         }
-        //serverEvents sEvent=new serverEvents();
-        //modBus.register(sEvent);
-        //modBus.register(bEvent);
+        modBus.addListener(bEvent::RegisterPayloadHandlers);
 
     }
 
