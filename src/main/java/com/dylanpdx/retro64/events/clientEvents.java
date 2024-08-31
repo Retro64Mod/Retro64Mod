@@ -6,6 +6,7 @@ import com.dylanpdx.retro64.gui.LibLoadWarnScreen;
 import com.dylanpdx.retro64.gui.SMC64HeartOverlay;
 import com.dylanpdx.retro64.maps.BlockMatMaps;
 import com.dylanpdx.retro64.networking.Retro64Net;
+import com.dylanpdx.retro64.networking.packets.McharPacket;
 import com.dylanpdx.retro64.sm64.*;
 import com.dylanpdx.retro64.sm64.libsm64.LibSM64;
 import com.dylanpdx.retro64.sm64.libsm64.Libsm64Library;
@@ -379,7 +380,7 @@ public class clientEvents {
         }
         // tell the server about the player's position. In the future this should be checked to prevent exploits
         try{
-            PacketDistributor.sendToServer(new Retro64Net.McharPacket(
+            PacketDistributor.sendToServer(new McharPacket(
                     new Vec3(SM64EnvManager.selfMChar.x(), SM64EnvManager.selfMChar.y(), SM64EnvManager.selfMChar.z()).toVector3f(),
                     SM64EnvManager.selfMChar.animInfo.serialize(),
                     SM64EnvManager.selfMChar.animXRot, SM64EnvManager.selfMChar.animYRot, SM64EnvManager.selfMChar.animZRot, // animation rotations
