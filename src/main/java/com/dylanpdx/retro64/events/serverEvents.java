@@ -1,14 +1,5 @@
 package com.dylanpdx.retro64.events;
 
-import com.dylanpdx.retro64.RemoteMCharHandler;
-import com.dylanpdx.retro64.networking.SM64PacketHandler;
-import com.dylanpdx.retro64.networking.damagePacket;
-import com.dylanpdx.retro64.networking.healPacket;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.phys.Vec3;
-import net.neoforged.bus.api.SubscribeEvent;
-
 public class serverEvents {
 
     /*@SubscribeEvent

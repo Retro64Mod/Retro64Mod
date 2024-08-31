@@ -5,9 +5,7 @@ import com.dylanpdx.retro64.gui.CharSelectScreen;
 import com.dylanpdx.retro64.gui.LibLoadWarnScreen;
 import com.dylanpdx.retro64.gui.SMC64HeartOverlay;
 import com.dylanpdx.retro64.maps.BlockMatMaps;
-import com.dylanpdx.retro64.networking.SM64PacketHandler;
-import com.dylanpdx.retro64.networking.attackPacket;
-import com.dylanpdx.retro64.networking.mCharPacket;
+import com.dylanpdx.retro64.networking.Retro64Net;
 import com.dylanpdx.retro64.sm64.*;
 import com.dylanpdx.retro64.sm64.libsm64.LibSM64;
 import com.dylanpdx.retro64.sm64.libsm64.Libsm64Library;
@@ -18,7 +16,6 @@ import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.block.BlockModelShaper;
 import net.minecraft.client.resources.model.BakedModel;
@@ -29,15 +26,13 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.flag.FeatureFlagSet;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.event.entity.EntityEvent;
-import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
+import net.neoforged.neoforge.network.PacketDistributor;
 import org.joml.Vector3f;
 
 import java.io.IOException;
@@ -383,13 +378,16 @@ public class clientEvents {
             plr.setDeltaMovement(0,-0.01f,0);
         }
         // tell the server about the player's position. In the future this should be checked to prevent exploits
-        /*SM64PacketHandler.INSTANCE.sendToServer(new mCharPacket(
-                new Vec3(SM64EnvManager.selfMChar.x(), SM64EnvManager.selfMChar.y(), SM64EnvManager.selfMChar.z()),
-                SM64EnvManager.selfMChar.animInfo,
-                SM64EnvManager.selfMChar.animXRot, SM64EnvManager.selfMChar.animYRot, SM64EnvManager.selfMChar.animZRot, // animation rotations
-                SM64EnvManager.selfMChar.state.action, SM64EnvManager.selfMChar.state.currentModel,
-                plr
-        ));*/
+        try{
+            PacketDistributor.sendToServer(new Retro64Net.McharPacket(
+                    new Vec3(SM64EnvManager.selfMChar.x(), SM64EnvManager.selfMChar.y(), SM64EnvManager.selfMChar.z()).toVector3f(),
+                    SM64EnvManager.selfMChar.animInfo.serialize(),
+                    SM64EnvManager.selfMChar.animXRot, SM64EnvManager.selfMChar.animYRot, SM64EnvManager.selfMChar.animZRot, // animation rotations
+                    SM64EnvManager.selfMChar.state.action//, SM64EnvManager.selfMChar.state.currentModel,
+            ));
+        }catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -429,8 +427,6 @@ public class clientEvents {
                 for (Entity e: world.getEntities(null, AABB.ofSize(plr.position(),3,2,3))) {
                     if (e instanceof LivingEntity && e != plr && e.isAlive()){
                         Minecraft.getInstance().gameMode.attack(plr,e);
-                        attackPacket.applyKnockback(e, SM64EnvManager.selfMChar.state.faceAngle);
-                        //SM64PacketHandler.INSTANCE.sendToServer(new attackPacket(e.getId(), SM64EnvManager.selfMChar.state.faceAngle));
                     }
                 }
             }
