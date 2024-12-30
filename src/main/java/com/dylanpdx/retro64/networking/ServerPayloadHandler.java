@@ -6,6 +6,7 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public class ServerPayloadHandler {
     public static void handleMcharPacket(final McharPacket data, final IPayloadContext context) {
-        PacketDistributor.sendToPlayersTrackingEntity(context.player(),data);
+        // ensure the client can't change the player's game profile
+        PacketDistributor.sendToPlayersTrackingEntity(context.player(),McharPacket.clone(context.player().getGameProfile(),data));
     }
 }

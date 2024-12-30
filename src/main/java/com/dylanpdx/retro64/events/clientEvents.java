@@ -383,8 +383,9 @@ public class clientEvents {
             PacketDistributor.sendToServer(new McharPacket(
                     new Vec3(SM64EnvManager.selfMChar.x(), SM64EnvManager.selfMChar.y(), SM64EnvManager.selfMChar.z()).toVector3f(),
                     SM64EnvManager.selfMChar.animInfo.serialize(),
-                    SM64EnvManager.selfMChar.animXRot, SM64EnvManager.selfMChar.animYRot, SM64EnvManager.selfMChar.animZRot, // animation rotations
-                    SM64EnvManager.selfMChar.state.action//, SM64EnvManager.selfMChar.state.currentModel,
+                    new Vector3f(SM64EnvManager.selfMChar.animXRot, SM64EnvManager.selfMChar.animYRot, SM64EnvManager.selfMChar.animZRot), // animation rotations
+                    SM64EnvManager.selfMChar.state.action, SM64EnvManager.selfMChar.state.currentModel,
+                    plr.getGameProfile()
             ));
         }catch (IOException e){
             e.printStackTrace();

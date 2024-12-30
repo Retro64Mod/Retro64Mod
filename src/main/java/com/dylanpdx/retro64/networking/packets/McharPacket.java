@@ -1,6 +1,7 @@
 package com.dylanpdx.retro64.networking.packets;
 
 import com.dylanpdx.retro64.Retro64;
+import com.mojang.authlib.GameProfile;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -10,8 +11,8 @@ import org.joml.Vector3f;
 
 public record McharPacket(Vector3f pos,
                           byte[] animInfo,
-                          short animRotX, short animRotY, short animRotZ,
-                          int action) implements CustomPacketPayload {
+                          Vector3f animRot,
+                          int action,int model, GameProfile player) implements CustomPacketPayload {
     public static final CustomPacketPayload.Type<McharPacket> TYPE = new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(Retro64.MOD_ID, "mchardata"));
 
     @Override
@@ -22,10 +23,14 @@ public record McharPacket(Vector3f pos,
     public static final StreamCodec<ByteBuf,McharPacket> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.VECTOR3F,McharPacket::pos,
             ByteBufCodecs.BYTE_ARRAY,McharPacket::animInfo,
-            ByteBufCodecs.SHORT,McharPacket::animRotX,
-            ByteBufCodecs.SHORT,McharPacket::animRotY,
-            ByteBufCodecs.SHORT,McharPacket::animRotZ,
+            ByteBufCodecs.VECTOR3F,McharPacket::animRot,
             ByteBufCodecs.INT,McharPacket::action,
+            ByteBufCodecs.INT,McharPacket::model,
+            ByteBufCodecs.GAME_PROFILE,McharPacket::player,
             McharPacket::new
     );
+
+    public static McharPacket clone(GameProfile player,McharPacket packet){
+        return new McharPacket(packet.pos(),packet.animInfo(),packet.animRot(),packet.action(),packet.model(),player);
+    }
 }
