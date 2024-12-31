@@ -128,10 +128,11 @@ public class RemoteMCharHandler {
      * Toggle R64 mode for a player
      * @param player Player to toggle
      */
-    public static void toggleMChar(Player player){
+    public static boolean toggleMChar(Player player){
         boolean isMChar = Utils.getIsMario(player);
         if (isMChar) mCharOff(player);
         else mCharOn(player);
+        return !isMChar;
     }
 
     /**

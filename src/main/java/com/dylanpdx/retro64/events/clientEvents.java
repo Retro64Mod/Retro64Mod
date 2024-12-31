@@ -17,6 +17,7 @@ import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.block.BlockModelShaper;
 import net.minecraft.client.resources.model.BakedModel;
@@ -76,8 +77,18 @@ public class clientEvents {
                 if (Keybinds.getMToggle().isDown() && !clickDebounce){
                     if (Utils.isConnectedToVanillaServer())
                         return; // don't allow toggling in vanilla servers
-                    RemoteMCharHandler.toggleMChar(Minecraft.getInstance().player);
+                    var result = RemoteMCharHandler.toggleMChar(Minecraft.getInstance().player);
                     clickDebounce=true;
+                    if (!result){
+                        PacketDistributor.sendToServer(new McharPacket(
+                                new Vec3(0,0,0).toVector3f(),
+                                new byte[0],
+                                new Vector3f(0,0,0),
+                                -1, -1, // indicator that the player is not in R64 mode
+                                Minecraft.getInstance().player.getGameProfile()
+                        ));
+                    }
+
                 }else if (!Keybinds.getMToggle().isDown() && clickDebounce)
                     clickDebounce=false;
 
@@ -121,7 +132,8 @@ public class clientEvents {
             // Render remote players (multiplayer)
             RemoteMCharHandler.tickAll(); // Tick the animation of all remote players
             mCharRenderer.renderOtherPlayer(rpe);
-            //mappingsConvert.renderNameTag(rpe.getRenderer(),(AbstractClientPlayer) rpe.getEntity(),rpe.getEntity().getDisplayName(),rpe.getPoseStack(),rpe.getMultiBufferSource(),rpe.getPackedLight());
+            rpe.setCanceled(true);
+            rpe.getRenderer().renderNameTag((AbstractClientPlayer) rpe.getEntity(), rpe.getEntity().getDisplayName(), rpe.getPoseStack(), rpe.getMultiBufferSource(), rpe.getPackedLight(),rpe.getPartialTick());
         }else{
             // Prevent player from being ticked if rendered in UI
             if (!(rpe.getPackedLight()== 15728880 && rpe.getPartialTick()==1.0F))
@@ -257,11 +269,9 @@ public class clientEvents {
                     RemoteMCharHandler.mCharOn(plr);
                 });
                 t.start();
-
             }
         }
     }
-
 
     public static boolean isDebug(){
         return debug;
@@ -503,7 +513,7 @@ public class clientEvents {
                         var stype = nearbyBlockState.getBlock().getSoundType(nearbyBlockState, world,nearbyBlock, plr);
                         var stSound = Utils.getRegistryName(stype.getStepSound());
                         short type=SM64TerrainType.Stone;
-                        // Determine what material a block is by it's sound type
+                        // Determine what material a block is by its sound type
                         switch (stSound){
                             case "minecraft:block.gravel.step":
                             case "minecraft:block.sand.step":

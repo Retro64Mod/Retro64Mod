@@ -16,7 +16,11 @@ public class ClientPayloadHandler {
         var marioPlayer = context.player().level().getPlayerByUUID(data.player().getId());
         if (marioPlayer != null){
             marioPlayer.setPos(data.pos().x(),data.pos().y(),data.pos().z());
-            RemoteMCharHandler.mCharOn(context.player());
+            if (data.model() == -1 && data.action() == -1){
+                RemoteMCharHandler.mCharOff(marioPlayer);
+                return;
+            }
+            RemoteMCharHandler.mCharOn(marioPlayer);
             try {
                 var pos = new Vec3(data.pos().x(),data.pos().y(),data.pos().z());
                 short animRotX = (short) data.animRot().x();
