@@ -3,134 +3,101 @@ package com.dylanpdx.retro64.gui;
 import com.dylanpdx.retro64.SM64EnvManager;
 import com.dylanpdx.retro64.RemoteMCharHandler;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.LayeredDraw;
 import net.minecraft.util.Mth;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.gui.ForgeIngameGui;
-import net.minecraftforge.client.gui.IIngameOverlay;
+import net.neoforged.fml.util.ObfuscationReflectionHelper;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Random;
 
-public class SMC64HeartOverlay implements IIngameOverlay {
-
+public class SMC64HeartOverlay implements LayeredDraw.Layer {
     Random random = new Random();
+    Method forPlayerMethod=null;
+
+    private void renderHearts(GuiGraphics guiGraphics, Player player, int x, int y, int height, int offsetHeartIndex, float maxHealth, int currentHealth, int displayHealth, int absorptionAmount, boolean renderHighlight) throws InvocationTargetException, IllegalAccessException {
+        if (forPlayerMethod==null)
+            forPlayerMethod = ObfuscationReflectionHelper.findMethod(Gui.HeartType.class,"forPlayer",Player.class);
+        Gui.HeartType gui$hearttype = (Gui.HeartType) forPlayerMethod.invoke(null,player);
+        boolean flag = player.level().getLevelData().isHardcore();
+        int i = Mth.ceil((double)maxHealth / 2.0);
+        int j = Mth.ceil((double)absorptionAmount / 2.0);
+        int k = i * 2;
+
+        for(int l = i + j - 1; l >= 0; --l) {
+            int i1 = l / 10;
+            int j1 = l % 10;
+            int k1 = x + j1 * 8;
+            int l1 = y - i1 * height;
+            if (currentHealth + absorptionAmount <= 4) {
+                l1 += this.random.nextInt(2);
+            }
+
+            if (l < i && l == offsetHeartIndex) {
+                l1 -= 2;
+            }
+
+            this.renderHeart(guiGraphics, Gui.HeartType.CONTAINER, k1, l1, flag, renderHighlight, false);
+            int i2 = l * 2;
+            boolean flag1 = l >= i;
+            if (flag1) {
+                int j2 = i2 - k;
+                if (j2 < absorptionAmount) {
+                    boolean flag2 = j2 + 1 == absorptionAmount;
+                    this.renderHeart(guiGraphics, gui$hearttype == Gui.HeartType.WITHERED ? gui$hearttype : Gui.HeartType.ABSORBING, k1, l1, flag, false, flag2);
+                }
+            }
+
+            boolean flag4;
+            if (renderHighlight && i2 < displayHealth) {
+                flag4 = i2 + 1 == displayHealth;
+                this.renderHeart(guiGraphics, gui$hearttype, k1, l1, flag, true, flag4);
+            }
+
+            if (i2 < currentHealth) {
+                flag4 = i2 + 1 == currentHealth;
+                this.renderHeart(guiGraphics, gui$hearttype, k1, l1, flag, false, flag4);
+            }
+        }
+
+    }
+
+    private void renderHeart(GuiGraphics guiGraphics, Gui.HeartType heartType, int x, int y, boolean hardcore, boolean halfHeart, boolean blinking) {
+        RenderSystem.enableBlend();
+        guiGraphics.blitSprite(heartType.getSprite(hardcore, blinking, halfHeart), x, y, 9, 9);
+        RenderSystem.disableBlend();
+    }
 
     @Override
-    public void render(ForgeIngameGui gui, PoseStack mStack, float partialTicks, int width, int height) {
+    public void render(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
         if (!RemoteMCharHandler.getIsMChar(Minecraft.getInstance().player) || SM64EnvManager.selfMChar.state==null)
             return;
         if (Minecraft.getInstance().player.isUnderWater())
             return; // will be handled by MC's default air overlay
         var healthSlices = (SM64EnvManager.selfMChar.state.health&0xff00)>>8;
-        RenderSystem.setShaderTexture(0, Gui.GUI_ICONS_LOCATION);
+        //RenderSystem.setShaderTexture(0, Gui.GUI_ICONS_LOCATION);
         float healthMax=8.0f;
         int absorb=0;
         int healthRows = Mth.ceil((healthMax + absorb) / 2.0F / 10.0F);
         int rowHeight = Math.max(10 - (healthRows - 2), 3);
         int left_height = 40;
-        int left = width / 2 - 91;
-        int top = height - left_height;
+
+        int left = guiGraphics.guiWidth() / 2 - 91;
+        int top = guiGraphics.guiHeight() - left_height;
         left_height += (healthRows * rowHeight);
         if (rowHeight != 10) left_height += 10 - rowHeight;
-        renderHearts(gui,mStack, Minecraft.getInstance().player,left,top,11,-1,healthMax,healthSlices,8,absorb,false);
-    }
-
-    protected void renderHearts(ForgeIngameGui gui,PoseStack poseStack, Player thePlayer, int left, int top, int rowHeight, int regen, float healthMax, int health, int healthLast, int absorb, boolean highlight) {
-        HeartType gui$hearttype = HeartType.NORMAL;
-        int i = 9 * (thePlayer.level.getLevelData().isHardcore() ? 5 : 0);
-        int j = Mth.ceil((double)healthMax / 2.0D);
-        int k = Mth.ceil((double)absorb / 2.0D);
-        int l = j * 2;
-
-        for(int i1 = j + k - 1; i1 >= 0; --i1) {
-            int j1 = i1 / 10;
-            int k1 = i1 % 10;
-            int l1 = left + k1 * 8;
-            int i2 = top - j1 * rowHeight;
-            if (health + absorb <= 2) {
-                i2 += this.random.nextInt(2);
-            }
-
-            if (i1 < j && i1 == regen) {
-                i2 -= 2;
-            }
-
-            this.renderHeart(gui,poseStack, HeartType.CONTAINER, l1, i2, i, highlight, false);
-            int j2 = i1 * 2;
-            boolean flag = i1 >= j;
-            if (flag) {
-                int k2 = j2 - l;
-                if (k2 < absorb) {
-                    boolean flag1 = k2 + 1 == absorb;
-                    this.renderHeart(gui,poseStack, gui$hearttype == HeartType.WITHERED ? gui$hearttype : HeartType.ABSORBING, l1, i2, i, false, flag1);
-                }
-            }
-
-            if (highlight && j2 < healthLast) {
-                boolean flag2 = j2 + 1 == healthLast;
-                this.renderHeart(gui,poseStack, gui$hearttype, l1, i2, i, true, flag2);
-            }
-
-            if (j2 < health) {
-                boolean flag3 = j2 + 1 == health;
-                this.renderHeart(gui,poseStack, gui$hearttype, l1, i2, i, false, flag3);
-            }
-        }
-
-    }
-
-    private void renderHeart(ForgeIngameGui gui,PoseStack p_168701_, HeartType p_168702_, int p_168703_, int p_168704_, int p_168705_, boolean p_168706_, boolean p_168707_) {
-        gui.blit(p_168701_, p_168703_, p_168704_, p_168702_.getX(p_168707_, p_168706_), p_168705_, 9, 9);
-    }
-
-    @OnlyIn(Dist.CLIENT)
-    static enum HeartType {
-        CONTAINER(0, false),
-        NORMAL(2, true),
-        POISIONED(4, true),
-        WITHERED(6, true),
-        ABSORBING(8, false),
-        FROZEN(9, false);
-
-        private final int index;
-        private final boolean canBlink;
-
-        private HeartType(int p_168729_, boolean p_168730_) {
-            this.index = p_168729_;
-            this.canBlink = p_168730_;
-        }
-
-        public int getX(boolean p_168735_, boolean p_168736_) {
-            int i;
-            if (this == CONTAINER) {
-                i = p_168736_ ? 1 : 0;
-            } else {
-                int j = p_168735_ ? 1 : 0;
-                int k = this.canBlink && p_168736_ ? 2 : 0;
-                i = j + k;
-            }
-
-            return 16 + (this.index * 2 + i) * 9;
-        }
-
-        static HeartType forPlayer(Player pPlayer) {
-            HeartType gui$hearttype;
-            if (pPlayer.hasEffect(MobEffects.POISON)) {
-                gui$hearttype = POISIONED;
-            } else if (pPlayer.hasEffect(MobEffects.WITHER)) {
-                gui$hearttype = WITHERED;
-            } else if (pPlayer.isFullyFrozen()) {
-                gui$hearttype = FROZEN;
-            } else {
-                gui$hearttype = NORMAL;
-            }
-
-            return gui$hearttype;
+        //renderHearts(gui,mStack, Minecraft.getInstance().player,left,top,11,-1,healthMax,healthSlices,8,absorb,false);
+        try {
+            renderHearts(guiGraphics,Minecraft.getInstance().player,left,top,11,-1,healthMax,healthSlices,8,absorb,false);
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
         }
     }
 }

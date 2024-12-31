@@ -1,6 +1,5 @@
 package com.dylanpdx.retro64;
 
-import com.dylanpdx.retro64.capabilities.capabilitySyncManager;
 import com.dylanpdx.retro64.sm64.libsm64.AnimInfo;
 import com.dylanpdx.retro64.sm64.libsm64.MChar;
 import com.dylanpdx.retro64.sm64.libsm64.SM64MCharState;
@@ -66,25 +65,28 @@ public class RemoteMCharHandler {
         mChars.get(player).state.position[2] = (float)pos.z;
     }
 
+    public static void mCharOn(Player player){
+        mCharOn(player,true);
+    }
+
     /**
      * Turn on R64 mode for a player
      * @param player Player to turn on
+     * @param playEffect If true, play the toggle particles
      */
-    public static void mCharOn(Player player){
+    public static void mCharOn(Player player,boolean playEffect){
         if (player.isSpectator()) // don't turn on R64 for spectators
             return;
-        var smCap = Utils.getSmc64Capability(player);
-        if (smCap==null) return;
-        boolean isMChar =smCap.getIsEnabled();
+        boolean isMChar =Utils.getIsMario(player);
         if (isMChar) return;
-        smCap.setIsEnabled(true);
+        Utils.setIsMario(player,true);
         if (player== Minecraft.getInstance().player)
         {
             // handle for local player
             if (SM64EnvManager.selfMChar==null)
                 SM64EnvManager.selfMChar = new MChar();
-            capabilitySyncManager.syncClientToServer(smCap,false);
-            wasMCharDimm=player.getLevel().dimension();
+            //capabilitySyncManager.syncClientToServer(smCap,false);
+            wasMCharDimm=player.level().dimension();
         }
         else
         {
@@ -92,7 +94,9 @@ public class RemoteMCharHandler {
             SM64EnvManager.updateSurfs(null, SM64EnvManager.generateSafetyFloor(0,0,0));
             mChars.put(player, new MChar());
         }
-        onMCharToggle(player,true);
+        player.refreshDimensions();
+        if (playEffect)
+            playToggleParticles(player);
     }
 
     /**
@@ -100,45 +104,45 @@ public class RemoteMCharHandler {
      * @param player Player to turn off
      */
     public static void mCharOff(Player player){
-        mCharOff(player,false);
+        mCharOff(player,false,true);
     }
 
     /**
      * Turn off R64 mode for a player
      * @param player Player to turn off
      * @param fatal If true, the player will die; used for when MChar health is 0
+     * @param playEffect If true, play the toggle particles
      */
-    public static void mCharOff(Player player,boolean fatal){
-        var smCap = Utils.getSmc64Capability(player);
-        if (smCap==null) return;
-        boolean isMChar =smCap.getIsEnabled();
+    public static void mCharOff(Player player,boolean fatal,boolean playEffect){
+        boolean isMChar =Utils.getIsMario(player);
         if (!isMChar) return;
-        smCap.setIsEnabled(false);
+        Utils.setIsMario(player,false);
         player.moveTo(player.position().x,Math.round(player.position().y),player.position().z);
         if (player== Minecraft.getInstance().player)
         {
             SM64EnvManager.selfMChar.destroy();
             SM64EnvManager.selfMChar = null;
             wasMCharDimm=null;
-            capabilitySyncManager.syncClientToServer(smCap,fatal);
+            //capabilitySyncManager.syncClientToServer(smCap,fatal);
         }
         else
         {
             mChars.remove(player).destroy();
         }
-        onMCharToggle(player,false);
+        player.refreshDimensions();
+        if (playEffect)
+            playToggleParticles(player);
     }
 
     /**
      * Toggle R64 mode for a player
      * @param player Player to toggle
      */
-    public static void toggleMChar(Player player){
-        var smCap = Utils.getSmc64Capability(player);
-        if (smCap==null) return;
-        boolean isMChar =smCap.getIsEnabled();
+    public static boolean toggleMChar(Player player){
+        boolean isMChar = Utils.getIsMario(player);
         if (isMChar) mCharOff(player);
         else mCharOn(player);
+        return !isMChar;
     }
 
     /**
@@ -147,9 +151,7 @@ public class RemoteMCharHandler {
      * @return True if the player is in R64 mode
      */
     public static boolean getIsMChar(Player player){
-        var smCap = Utils.getSmc64Capability(player);
-        if (smCap==null) return false;
-        return smCap.getIsEnabled();
+        return Utils.getIsMario(player); // TODO: refactor?
     }
 
     /**
@@ -167,11 +169,10 @@ public class RemoteMCharHandler {
 
     /**
      * Called when mChar mode is toggled
+     *
      * @param player Player to toggle
-     * @param isMChar True if the player is in R64 mode
      */
-    public static void onMCharToggle(Player player,boolean isMChar){
-        player.refreshDimensions();
+    public static void playToggleParticles(Player player){
         var pos = player.position();
         for (int i = 0; i < 50; i++) {
             var rx = (Minecraft.getInstance().level.random.nextFloat()-.5f)/3f;

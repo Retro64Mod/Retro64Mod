@@ -7,16 +7,17 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Quaternion;
-import com.mojang.math.Vector3f;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
 // import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
-// import net.minecraftforge.client.gui.ForgeIngameGui;
-// import net.minecraftforge.client.gui.IIngameOverlay;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
+// import net.neoforged.client.gui.ForgeIngameGui;
+// import net.neoforged.client.gui.IIngameOverlay;
 
 public class SMC64DialogOverlay extends Screen {
 
@@ -33,7 +34,7 @@ public class SMC64DialogOverlay extends Screen {
     static final int DIAG_VAL3=132;
     static final int DIAG_VAL4=5;
 
-    public static final ResourceLocation dialogBgLoc = new ResourceLocation(Retro64.MOD_ID,"textures/ui/dialog.png");
+    public static final ResourceLocation dialogBgLoc = ResourceLocation.fromNamespaceAndPath(Retro64.MOD_ID,"textures/ui/dialog.png");
     static float gDialogBoxScale = 19.0f;
     static float gDialogBoxOpenTimer = 90.0f;
     static int gDialogBoxState = DIALOG_STATE_OPENING;
@@ -60,7 +61,7 @@ public class SMC64DialogOverlay extends Screen {
     //gDialogResponse = DIALOG_RESPONSE_NONE;
 
     void create_dl_rotation_matrix(PoseStack mStack, float angle, float x, float y, float z) {
-        Quaternion q = new Quaternion(new Vector3f(0,0,1),angle,true);
+        Quaternionf q = new Quaternionf().setAngleAxis(angle,x,y,z);
         mStack.mulPose(q);
     }
 
@@ -73,9 +74,9 @@ public class SMC64DialogOverlay extends Screen {
     }
 
     @Override
-    public void render(PoseStack pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
-        super.render(pPoseStack, pMouseX, pMouseY, pPartialTick);
-        tickDialog();
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+        super.render(guiGraphics, mouseX, mouseY, partialTick);
+        /*tickDialog();
         RenderSystem.setShaderTexture(0,dialogBgLoc);
         RenderSystem.enableBlend();
         RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
@@ -106,7 +107,7 @@ public class SMC64DialogOverlay extends Screen {
         for (int i = 0; i < splitTxt.size(); i++) {
             this.font.draw(pPoseStack, splitTxt.get(i), 2, 2+(i*10), 0xFFFFFF);
         }
-        pPoseStack.popPose();
+        pPoseStack.popPose();*/
     }
 
     @Override

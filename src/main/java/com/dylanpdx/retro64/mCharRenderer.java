@@ -9,7 +9,7 @@ import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.client.event.RenderPlayerEvent;
+import net.neoforged.neoforge.client.event.RenderPlayerEvent;
 
 public class mCharRenderer {
 
@@ -17,14 +17,14 @@ public class mCharRenderer {
      * Render other player's character
      * @param rpe The render player event
      */
-    public static void renderOtherPlayer(RenderPlayerEvent rpe){
-        Player otherPlr = rpe.getPlayer();
+    public static void renderOtherPlayer(RenderPlayerEvent.Pre rpe){
+        Player otherPlr = rpe.getEntity();
         if (RemoteMCharHandler.mChars.containsKey(otherPlr)){
             // render mChar for other player
             MChar otherMChar = RemoteMCharHandler.mChars.get(otherPlr);
             renderMChar(rpe,otherMChar);
         }
-        rpe.setCanceled(true);
+        //rpe.setCanceled(true);
     }
 
     /**
@@ -42,7 +42,7 @@ public class mCharRenderer {
         ); // lazy fix for vibri model, enable culling
         st.pushPose();
         PoseStack.Pose p = st.last();
-        Player plr = rpe.getPlayer();
+        Player plr = rpe.getEntity();
         if (!plr.isLocalPlayer()){
             st.translate(-plr.getX(),-plr.getY(),-plr.getZ());
         }else{
@@ -52,7 +52,7 @@ public class mCharRenderer {
         if (plr.isCrouching())
             st.translate(0,0.125D,0);
 
-        if (rpe.getPlayer().isPassenger()){
+        if (rpe.getEntity().isPassenger()){
             st.translate(0,.8f,0);
         }
         if (mChar.getVertices()!=null)
@@ -79,7 +79,7 @@ public class mCharRenderer {
                         new float[]{mChar.getNormals()[i], mChar.getNormals()[i + 1], mChar.getNormals()[i + 2]},
                         new float[]{mChar.getNormals()[i + 3], mChar.getNormals()[i + 4], mChar.getNormals()[i + 5]},
                         new float[]{mChar.getNormals()[i + 6], mChar.getNormals()[i + 7], mChar.getNormals()[i + 8]}
-                        ,packedLight,textureManager.getTextureWidth(mChar.state.currentModel),textureManager.getTextureHeight(mChar.state.currentModel), LivingEntityRenderer.getOverlayCoords(rpe.getPlayer(), 0f),
+                        ,packedLight,textureManager.getTextureWidth(mChar.state.currentModel),textureManager.getTextureHeight(mChar.state.currentModel), LivingEntityRenderer.getOverlayCoords(rpe.getEntity(), 0f),
                         (mChar.state.flags & SM64MCharStateFlags.MCHAR_VANISH_CAP.getValue()) == SM64MCharStateFlags.MCHAR_VANISH_CAP.getValue() ? .3f:1f
                 );
                 j+=6;
@@ -137,13 +137,14 @@ public class mCharRenderer {
 
     static void vertex(VertexConsumer vc,PoseStack.Pose p, float pX, float pY, float pZ, float pRed, float pGreen, float pBlue, float pAlpha, float pTexU, float pTexV, int pOverlayUV, int pLightmapUV, float pNormalX, float pNormalY, float pNormalZ) {
         try{
-            vc.vertex(p.pose(),pX, pY, pZ);
-            vc.color(pRed, pGreen, pBlue, pAlpha);
-            vc.uv(pTexU, pTexV);
-            vc.overlayCoords(pOverlayUV);
-            vc.uv2(pLightmapUV);
-            vc.normal(pNormalX, pNormalY, pNormalZ);
-            vc.endVertex();
+            vc.addVertex(p.pose(),pX, pY, pZ);
+            vc.setColor(pRed, pGreen, pBlue, pAlpha);
+            vc.setUv(pTexU, pTexV);
+            vc.setOverlay(pOverlayUV);
+            vc.setLight(pLightmapUV);
+            vc.setNormal(pNormalX, pNormalY, pNormalZ);
+
+            //vc.ver();
         }catch (IllegalStateException e){
             //System.out.println("Invalid render state");
         }

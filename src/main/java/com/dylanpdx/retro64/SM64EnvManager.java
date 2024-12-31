@@ -1,16 +1,15 @@
 package com.dylanpdx.retro64;
 
 import com.dylanpdx.retro64.config.Retro64Config;
-import com.dylanpdx.retro64.events.clientControllerEvents;
 import com.dylanpdx.retro64.sm64.SM64SurfaceType;
 import com.dylanpdx.retro64.sm64.libsm64.*;
-import com.mojang.math.Vector3f;
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.fml.loading.FMLPaths;
+import net.neoforged.fml.loading.FMLPaths;
+import org.joml.Vector3f;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -108,10 +107,10 @@ public class SM64EnvManager {
                     for (int j = 0; j < blockVertices.length; j+=4)
                     {
                         try {
-                            var one = new Vector3f(blockVertices[j]);
-                            var two = new Vector3f(blockVertices[j+1]);
-                            var three = new Vector3f(blockVertices[j+2]);
-                            var four = new Vector3f(blockVertices[j+3]);
+                            var one = Utils.vec3toVector3f(blockVertices[j]);
+                            var two = Utils.vec3toVector3f(blockVertices[j+1]);
+                            var three = Utils.vec3toVector3f(blockVertices[j+2]);
+                            var four = Utils.vec3toVector3f(blockVertices[j+3]);
                             var quads = LibSM64SurfUtils.generateQuad(one,two, three, four,new Vector3f(0,0,0), surfaceItems[i].material.value, surfaceItems[i].terrain);
                             Collections.addAll(surfaces, quads);
                         } catch(IndexOutOfBoundsException e){
@@ -131,9 +130,9 @@ public class SM64EnvManager {
         selfMChar.inputs.stickX=0;
         selfMChar.inputs.stickY=0;
         Vec2 v2=null;
-        if (Retro64.hasControllerSupport && (clientControllerEvents.input.x != 0 || clientControllerEvents.input.y != 0)){
+        /*if (Retro64.hasControllerSupport && (clientControllerEvents.input.x != 0 || clientControllerEvents.input.y != 0)){
             v2 = clientControllerEvents.input;
-        }else{
+        }else*/{
             if (W_pressed) selfMChar.inputs.stickX += 1;
             if (A_pressed) selfMChar.inputs.stickY -= 1;
             if (S_pressed) selfMChar.inputs.stickX -= 1;
@@ -224,8 +223,8 @@ public class SM64EnvManager {
             JDialog dialog = new JDialog();
             // show an error message
             var result = JOptionPane.showConfirmDialog(dialog,
-                    new TranslatableComponent("menu.retro64.warnMissingROM").getString()+"\n"+
-                    new TranslatableComponent("menu.retro64.warnPleaseSelectROM").getString(),
+                    Component.translatable("menu.retro64.warnMissingROM").getString()+"\n"+
+                    Component.translatable("menu.retro64.warnPleaseSelectROM").getString(),
                                 "Error", JOptionPane.OK_CANCEL_OPTION);
             if (result == JOptionPane.OK_OPTION) {
                 boolean valid = false;
@@ -245,8 +244,8 @@ public class SM64EnvManager {
                             return file;
                         }else{
                             JOptionPane.showMessageDialog(dialog,
-                            new TranslatableComponent("menu.retro64.warnInvalidROM").getString()+"\n"+
-                    new TranslatableComponent("menu.retro64.warnPleaseSelectROM").getString(),
+                            Component.translatable("menu.retro64.warnInvalidROM").getString()+"\n"+
+                    Component.translatable("menu.retro64.warnPleaseSelectROM").getString(),
                             "Error", JOptionPane.ERROR_MESSAGE);
                         }
                     }else if (returnVal == JFileChooser.CANCEL_OPTION){

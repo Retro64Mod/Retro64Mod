@@ -9,7 +9,7 @@ import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.client.resources.SkinManager;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
+import net.neoforged.fml.util.ObfuscationReflectionHelper;
 
 import java.io.*;
 import java.nio.file.Paths;
@@ -23,11 +23,11 @@ public class textureManager {
     static NativeImage native_mChar;
     static DynamicTexture mCharTexture;
     static DynamicTexture luigiTexture;
-    static ResourceLocation luigiAtlas = new ResourceLocation(Retro64.MOD_ID,"textures/model/luigi_atlas.png");
-    static ResourceLocation steveAtlas = new ResourceLocation(Retro64.MOD_ID,"textures/model/steve.png");
-    static ResourceLocation necoarcAtlas = new ResourceLocation(Retro64.MOD_ID,"textures/model/necoarc_atlas.png");
-    static ResourceLocation vibriAtlas = new ResourceLocation(Retro64.MOD_ID,"textures/model/vibri_atlas.png");
-    static ResourceLocation sonicAtlas = new ResourceLocation(Retro64.MOD_ID,"textures/model/sonic_atlas.png");
+    static ResourceLocation luigiAtlas = ResourceLocation.fromNamespaceAndPath(Retro64.MOD_ID,"textures/model/luigi_atlas.png");
+    static ResourceLocation steveAtlas = ResourceLocation.fromNamespaceAndPath(Retro64.MOD_ID,"textures/model/steve.png");
+    static ResourceLocation necoarcAtlas = ResourceLocation.fromNamespaceAndPath(Retro64.MOD_ID,"textures/model/necoarc_atlas.png");
+    static ResourceLocation vibriAtlas = ResourceLocation.fromNamespaceAndPath(Retro64.MOD_ID,"textures/model/vibri_atlas.png");
+    static ResourceLocation sonicAtlas = ResourceLocation.fromNamespaceAndPath(Retro64.MOD_ID,"textures/model/sonic_atlas.png");
 
 
     public static AbstractTexture getTextureForModel(int modelID, Player player){
@@ -98,8 +98,8 @@ public class textureManager {
      * @throws IOException if the skin cannot be found/read
      */
     public static InputStream getSkinInputStream(ResourceLocation loc) throws IOException {
-        if (loc==DefaultPlayerSkin.getDefaultSkin())
-            return Minecraft.getInstance().getResourceManager().getResource(DefaultPlayerSkin.getDefaultSkin()).getInputStream();
+        if (loc==DefaultPlayerSkin.getDefaultTexture())
+            return Minecraft.getInstance().getResourceManager().getResource(DefaultPlayerSkin.getDefaultTexture()).get().open();
         // Getting it like this because the skin manager method returns a null value
         var locStr=loc.toString().replace("minecraft:skins/","");
         var first2chars=locStr.substring(0,2);
@@ -134,7 +134,7 @@ public class textureManager {
     public static DynamicTexture getSteveTexture(){
         if (defaultSkin == null) {
             try {
-                defaultSkin = extendSkinTexture(DefaultPlayerSkin.getDefaultSkin());
+                defaultSkin = extendSkinTexture(DefaultPlayerSkin.getDefaultTexture());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -160,7 +160,7 @@ public class textureManager {
 
             // download texture
             var gameProfile= player.getGameProfile();
-            Minecraft.getInstance().getSkinManager().registerSkins(gameProfile, new SkinManager.SkinTextureCallback() {
+            /*Minecraft.getInstance().getSkinManager().registerSkins(gameProfile, new SkinManager.SkinTextureCallback() {
                 @Override
                 public void onSkinTextureAvailable(MinecraftProfileTexture.Type p_118857_, ResourceLocation p_118858_, MinecraftProfileTexture p_118859_) {
                     try {
@@ -174,7 +174,7 @@ public class textureManager {
                         e.printStackTrace();
                     }
                 }
-            },false);
+            },false);*/
             return getSteveTexture();
         }
     }

@@ -2,52 +2,52 @@ package com.dylanpdx.retro64.gui;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.util.FormattedCharSequence;
 
 public class LibLoadWarnScreen extends Screen {
 
     private Button okButton;
-    private TranslatableComponent reason;
+    private MutableComponent reason;
 
     protected LibLoadWarnScreen(Component pTitle) {
         super(pTitle);
     }
 
-    public LibLoadWarnScreen(TranslatableComponent reason) {
-        super(new TextComponent("Warning"));
+    public LibLoadWarnScreen(MutableComponent reason) {
+        super(Component.literal("Warning"));
         this.reason = reason;
     }
 
     protected void init() {
-        okButton = new Button(this.width / 2 - 100, this.height / 2 + 20, 200, 20, new TranslatableComponent("menu.retro64.ok"), (pButton) -> {
-            Minecraft.getInstance().setScreen(new TitleScreen());
-        });
+        okButton = Button.builder(Component.translatable("menu.retro64.ok"),pButton -> {Minecraft.getInstance().setScreen(new TitleScreen());})
+                .pos(this.width / 2 - 100, this.height / 2 + 20)
+                .size(200, 20).build();
         this.addRenderableWidget(okButton);
     }
 
     @Override
-    public void render(PoseStack pPoseStack, int pMouseX, int pMouseY, float pPartialTick) {
-        renderDirtBackground(0);
-        drawTextCentered(pPoseStack, title, width / 2, 20, 0xFFFFFF);
-        drawTextCenteredWrapped(pPoseStack,reason, width / 2, 40, 300,0xFFFFFF);
-        drawTextCenteredWrapped(pPoseStack,new TranslatableComponent("menu.retro64.genericWarn"), width / 2, 60, 300,0xFFFFFF);
-        super.render(pPoseStack, pMouseX, pMouseY, pPartialTick);
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+        renderBackground(guiGraphics,mouseX,mouseY,partialTick);
+        //drawTextCentered(pPoseStack, title, width / 2, 20, 0xFFFFFF);
+        //drawTextCenteredWrapped(pPoseStack,reason, width / 2, 40, 300,0xFFFFFF);
+        //drawTextCenteredWrapped(pPoseStack,Component.translatable("menu.retro64.genericWarn"), width / 2, 60, 300,0xFFFFFF);
+        super.render(guiGraphics, mouseX, mouseY, partialTick);
     }
 
     void drawTextCentered(PoseStack pPoseStack, Component pText, int pX, int pY, int pColor) {
         var lSize = font.width(pText);
-        font.draw(pPoseStack, pText, pX - lSize / 2f, pY, pColor);
+        //font.draw(pPoseStack, pText, pX - lSize / 2f, pY, pColor);
     }
 
     void drawTextCentered(PoseStack pPoseStack, FormattedCharSequence pText, int pX, int pY, int pColor) {
         var lSize = font.width(pText);
-        font.draw(pPoseStack, pText, pX - lSize / 2f, pY, pColor);
+        //font.draw(pPoseStack, pText, pX - lSize / 2f, pY, pColor);
     }
 
     void drawTextCenteredWrapped(PoseStack pPoseStack, Component pText, int pX, int pY, int pWidth, int pColor) {
@@ -60,6 +60,6 @@ public class LibLoadWarnScreen extends Screen {
     }
 
     void drawTextCenteredWrapped(PoseStack pPoseStack, String pText, int pX, int pY, int pWidth, int pColor) {
-        drawTextCenteredWrapped(pPoseStack, new TextComponent(pText), pX, pY, pWidth, pColor);
+        drawTextCenteredWrapped(pPoseStack, Component.literal(pText), pX, pY, pWidth, pColor);
     }
 }

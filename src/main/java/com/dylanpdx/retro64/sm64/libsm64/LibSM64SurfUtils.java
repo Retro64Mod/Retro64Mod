@@ -1,16 +1,16 @@
 package com.dylanpdx.retro64.sm64.libsm64;
 
 import com.dylanpdx.retro64.sm64.SM64SurfaceType;
-import com.mojang.math.Vector3f;
 import net.minecraft.world.phys.Vec3;
+import org.joml.Vector3f;
 
 public class LibSM64SurfUtils {
     public static SM64Surface generateTri(Vector3f point1, Vector3f point2, Vector3f point3, Vector3f translation, short surface, short terrain)
     {
         //translation = translation + new Vector3f(0, -1, 0);
-        Vector3f cp1 = point1.copy();
-        Vector3f cp2 = point2.copy();
-        Vector3f cp3 = point3.copy();
+        Vector3f cp1 = new Vector3f(point1);
+        Vector3f cp2 = new Vector3f(point2);
+        Vector3f cp3 = new Vector3f(point3);
         cp1.add(translation);
         cp2.add(translation);
         cp3.add(translation);

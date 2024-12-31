@@ -1,7 +1,7 @@
 package com.dylanpdx.retro64.sm64.libsm64;
 
-import com.mojang.math.Vector3f;
 import net.minecraft.world.phys.Vec3;
+import org.joml.Vector3f;
 
 public class PUFixer {
 

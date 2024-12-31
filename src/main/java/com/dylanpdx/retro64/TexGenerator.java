@@ -29,7 +29,7 @@ public class TexGenerator {
     public static NativeImage appendSteveStuffToTex(NativeImage input){
         // assumes 320x64 input
         try {
-            var steveAtlasIn = Minecraft.getInstance().getResourceManager().getResource(textureManager.steveAtlas).getInputStream();
+            var steveAtlasIn = Minecraft.getInstance().getResourceManager().getResource(textureManager.steveAtlas).get().open();
             var steveAtlas = NativeImage.read(steveAtlasIn);
             overlayImage(input,steveAtlas,192,0,192,0,128,64);
             return input;
@@ -50,7 +50,7 @@ public class TexGenerator {
         luigiBg.fillRect(0, 0, Libsm64Library.SM64_TEXTURE_WIDTH, Libsm64Library.SM64_TEXTURE_HEIGHT, 0x00000000); // fill entire image with transparent black
         overlayImage(luigiBg, img);
         try {
-            var LAtlasInput = Minecraft.getInstance().getResourceManager().getResource(textureManager.luigiAtlas).getInputStream();
+            var LAtlasInput = Minecraft.getInstance().getResourceManager().getResource(textureManager.luigiAtlas).get().open();
             var LAtlas = NativeImage.read(LAtlasInput);
             overlayImage(luigiBg, LAtlas);
         } catch (IOException e) {
