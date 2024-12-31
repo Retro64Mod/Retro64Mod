@@ -33,7 +33,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.client.event.*;
-import net.neoforged.neoforge.event.entity.EntityEvent;
+import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.joml.Vector3f;
 
@@ -243,16 +243,16 @@ public class clientEvents {
         }
     }
 
-    /*@SubscribeEvent
+    @SubscribeEvent
     public void onPlayerClone(PlayerEvent.Clone event){
         if (event.isWasDeath()) // do not carry over capabilities on death
             return;
         RemoteMCharHandler.setIsMChar(event.getEntity(),RemoteMCharHandler.getIsMChar(event.getOriginal()));
-    }*/
+    }
 
 
     @SubscribeEvent
-    public void onPlayerJoinWorld(EntityEvent.EntityConstructing event){
+    public void onPlayerJoinWorld(net.neoforged.neoforge.event.entity.EntityJoinLevelEvent event){
         if (event.getEntity() instanceof Player){
             Player plr = (Player) event.getEntity();
             if (plr.isLocalPlayer() && RemoteMCharHandler.wasMCharDimm!=null && RemoteMCharHandler.wasMCharDimm!=plr.level().dimension()){
@@ -266,9 +266,20 @@ public class clientEvents {
                             e.printStackTrace();
                         }
                     }
-                    RemoteMCharHandler.mCharOn(plr);
+                    RemoteMCharHandler.mCharOn(plr,false);
                 });
                 t.start();
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onPlayerLeaveWorld(net.neoforged.neoforge.event.entity.EntityLeaveLevelEvent event){
+        if (event.getEntity() instanceof Player){
+            Player plr = (Player) event.getEntity();
+            if (RemoteMCharHandler.getIsMChar(plr) || RemoteMCharHandler.getState(plr) != null){
+                RemoteMCharHandler.mCharOff(plr);
+                System.out.println("Removed mario for player "+plr.getGameProfile().getName());
             }
         }
     }
@@ -411,7 +422,7 @@ public class clientEvents {
         if (SM64EnvManager.selfMChar.deathTime!=0 && Util.getEpochMillis()- SM64EnvManager.selfMChar.deathTime>5000){
             var act = SM64EnvManager.selfMChar.state.action;
             if ((SM64MCharActionFlags.ACT_FLAG_INTANGIBLE.value & act) != 0)
-                RemoteMCharHandler.mCharOff(plr,true);
+                RemoteMCharHandler.mCharOff(plr,true,true);
         }
     }
 

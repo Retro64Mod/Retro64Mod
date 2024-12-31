@@ -61,6 +61,9 @@ public class Retro64
             NeoForge.EVENT_BUS.addListener(cEvent::onScreenShown);
             NeoForge.EVENT_BUS.addListener(cEvent::onPlayerRender);
             NeoForge.EVENT_BUS.addListener(cEvent::worldRender);
+            NeoForge.EVENT_BUS.addListener(cEvent::onPlayerClone);
+            NeoForge.EVENT_BUS.addListener(cEvent::onPlayerJoinWorld);
+            NeoForge.EVENT_BUS.addListener(cEvent::onPlayerLeaveWorld);
         }
         modBus.addListener(bEvent::RegisterPayloadHandlers);
 

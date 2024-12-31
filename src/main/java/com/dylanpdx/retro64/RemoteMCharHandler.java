@@ -65,11 +65,16 @@ public class RemoteMCharHandler {
         mChars.get(player).state.position[2] = (float)pos.z;
     }
 
+    public static void mCharOn(Player player){
+        mCharOn(player,true);
+    }
+
     /**
      * Turn on R64 mode for a player
      * @param player Player to turn on
+     * @param playEffect If true, play the toggle particles
      */
-    public static void mCharOn(Player player){
+    public static void mCharOn(Player player,boolean playEffect){
         if (player.isSpectator()) // don't turn on R64 for spectators
             return;
         boolean isMChar =Utils.getIsMario(player);
@@ -89,7 +94,9 @@ public class RemoteMCharHandler {
             SM64EnvManager.updateSurfs(null, SM64EnvManager.generateSafetyFloor(0,0,0));
             mChars.put(player, new MChar());
         }
-        onMCharToggle(player,true);
+        player.refreshDimensions();
+        if (playEffect)
+            playToggleParticles(player);
     }
 
     /**
@@ -97,15 +104,16 @@ public class RemoteMCharHandler {
      * @param player Player to turn off
      */
     public static void mCharOff(Player player){
-        mCharOff(player,false);
+        mCharOff(player,false,true);
     }
 
     /**
      * Turn off R64 mode for a player
      * @param player Player to turn off
      * @param fatal If true, the player will die; used for when MChar health is 0
+     * @param playEffect If true, play the toggle particles
      */
-    public static void mCharOff(Player player,boolean fatal){
+    public static void mCharOff(Player player,boolean fatal,boolean playEffect){
         boolean isMChar =Utils.getIsMario(player);
         if (!isMChar) return;
         Utils.setIsMario(player,false);
@@ -121,7 +129,9 @@ public class RemoteMCharHandler {
         {
             mChars.remove(player).destroy();
         }
-        onMCharToggle(player,false);
+        player.refreshDimensions();
+        if (playEffect)
+            playToggleParticles(player);
     }
 
     /**
@@ -159,11 +169,10 @@ public class RemoteMCharHandler {
 
     /**
      * Called when mChar mode is toggled
+     *
      * @param player Player to toggle
-     * @param isMChar True if the player is in R64 mode
      */
-    public static void onMCharToggle(Player player,boolean isMChar){
-        player.refreshDimensions();
+    public static void playToggleParticles(Player player){
         var pos = player.position();
         for (int i = 0; i < 50; i++) {
             var rx = (Minecraft.getInstance().level.random.nextFloat()-.5f)/3f;
