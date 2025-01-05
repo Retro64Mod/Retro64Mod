@@ -340,6 +340,7 @@ public class clientEvents {
 
         if (Keybinds.getDebugToggle().consumeClick()){
             debug = !debug;
+            Retro64.LOGGER.info("Debug mode: "+debug);
         }
 
         // sleep handling

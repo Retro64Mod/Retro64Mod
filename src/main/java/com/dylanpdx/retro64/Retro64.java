@@ -3,6 +3,7 @@ package com.dylanpdx.retro64;
 import com.dylanpdx.retro64.config.Retro64Config;
 import com.dylanpdx.retro64.events.bothEvents;
 import com.dylanpdx.retro64.events.clientEvents;
+import com.dylanpdx.retro64.networking.SM64PacketHandler;
 import net.minecraft.world.entity.Entity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -30,13 +31,11 @@ public class Retro64
     public Retro64(FMLJavaModLoadingContext context) {
         var modBus = context.getModEventBus();
         var modContainer = context.getContainer();
+        SM64PacketHandler.registerPackets();
         bothEvents bEvent=new bothEvents();
         // Register the setup method for modloading
         modBus.addListener(this::setup);
-        //modBus.addListener(bEvent::registerCapabilities);
         RegistryHandler.init(modBus);
-        //retro64attachments.register(modBus);
-        //SM64PacketHandler.registerPackets();
 
         modContainer.addConfig(new ModConfig(ModConfig.Type.CLIENT,Retro64Config.CONFIG_SPEC, modContainer));
 

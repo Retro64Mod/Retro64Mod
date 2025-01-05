@@ -3,9 +3,11 @@ package com.dylanpdx.retro64;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 
 public class Keybinds {
     private static KeyMapping[] keyBindings;
+    private static KeyMapping debugKb = new KeyMapping("key."+Retro64.MOD_ID+".debugToggle",InputConstants.KEY_RBRACKET/*Right Bracket*/, "key.categories.retro64");
 
     public static void register(RegisterKeyMappingsEvent event){
         // 263-262
@@ -13,10 +15,13 @@ public class Keybinds {
                 new KeyMapping("key."+Retro64.MOD_ID+".actKey", InputConstants.KEY_LALT/*Left Alt*/, "key.categories.retro64"),
                 new KeyMapping("key."+Retro64.MOD_ID+".mToggle", InputConstants.KEY_M/*M*/, "key.categories.retro64"),
                 new KeyMapping("key."+Retro64.MOD_ID+".mMenu", InputConstants.KEY_Z/*Z*/, "key.categories.retro64"),
-                new KeyMapping("key."+Retro64.MOD_ID+".debugToggle",InputConstants.KEY_RBRACKET/*Right Bracket*/, "key.categories.retro64"),
         };
         for (KeyMapping key : keyBindings) {
             event.register(key);
+        }
+
+        if (!FMLEnvironment.production){
+            event.register(debugKb);
         }
     }
 
@@ -33,7 +38,7 @@ public class Keybinds {
     }
 
     public static KeyMapping getDebugToggle(){
-        return keyBindings[3];
+        return debugKb;
     }
 
 }
