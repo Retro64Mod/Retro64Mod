@@ -13,7 +13,7 @@ public class MetalCap extends Item {
     }
 
     @Override
-    public boolean canEquip(ItemStack stack, EquipmentSlot armorType, LivingEntity entity) {
+    public boolean canEquip(ItemStack stack, EquipmentSlot armorType, Entity entity) {
         return armorType == EquipmentSlot.HEAD && entity instanceof Player;
     }
 }

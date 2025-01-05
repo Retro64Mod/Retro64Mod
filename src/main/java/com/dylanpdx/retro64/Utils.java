@@ -1,5 +1,7 @@
 package com.dylanpdx.retro64;
 
+import com.dylanpdx.retro64.capabilities.smc64Capability;
+import com.dylanpdx.retro64.capabilities.smc64CapabilityInterface;
 import com.dylanpdx.retro64.maps.BlockMatMaps;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.block.model.BakedQuad;
@@ -24,8 +26,6 @@ import java.io.DataInputStream;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.dylanpdx.retro64.attachments.retro64attachments.IS_MARIO;
 
 public class Utils {
 
@@ -191,12 +191,22 @@ public class Utils {
         return  ByteBuffer.wrap(bytes).getInt();
     }
 
+    public static smc64CapabilityInterface getSmc64Capability(Player player){
+        return player.getCapability(smc64Capability.INSTANCE).map(smc64->{
+            return smc64;
+        }).orElse(null);
+    }
+
     public static boolean getIsMario(Player player){
-        return player.getData(IS_MARIO);
+        var cap = getSmc64Capability(player);
+        if (cap==null) return false;
+        return cap.getIsEnabled();
     }
 
     public static void setIsMario(Player player, boolean value){
-        player.setData(IS_MARIO,value);
+        var cap = getSmc64Capability(player);
+        if (cap==null) return;
+        cap.setIsEnabled(value);
     }
 
     public static DataInputStream dataStreamAtPos(byte[] data, int pos, int length){

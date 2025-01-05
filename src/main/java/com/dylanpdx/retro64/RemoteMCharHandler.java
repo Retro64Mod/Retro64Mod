@@ -1,5 +1,6 @@
 package com.dylanpdx.retro64;
 
+import com.dylanpdx.retro64.capabilities.capabilitySyncManager;
 import com.dylanpdx.retro64.sm64.libsm64.AnimInfo;
 import com.dylanpdx.retro64.sm64.libsm64.MChar;
 import com.dylanpdx.retro64.sm64.libsm64.SM64MCharState;

@@ -9,7 +9,7 @@ import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.client.resources.SkinManager;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.neoforged.fml.util.ObfuscationReflectionHelper;
+import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 
 import java.io.*;
 import java.nio.file.Paths;
@@ -98,12 +98,12 @@ public class textureManager {
      * @throws IOException if the skin cannot be found/read
      */
     public static InputStream getSkinInputStream(ResourceLocation loc) throws IOException {
-        if (loc==DefaultPlayerSkin.getDefaultTexture())
-            return Minecraft.getInstance().getResourceManager().getResource(DefaultPlayerSkin.getDefaultTexture()).get().open();
+        if (loc==DefaultPlayerSkin.getDefaultSkin())
+            return Minecraft.getInstance().getResourceManager().getResource(DefaultPlayerSkin.getDefaultSkin()).get().open();
         // Getting it like this because the skin manager method returns a null value
         var locStr=loc.toString().replace("minecraft:skins/","");
         var first2chars=locStr.substring(0,2);
-        var skinFolder=ObfuscationReflectionHelper.getPrivateValue(SkinManager.class,Minecraft.getInstance().getSkinManager(),mappingsConvert.skinsDirectory);;
+        var skinFolder= ObfuscationReflectionHelper.getPrivateValue(SkinManager.class,Minecraft.getInstance().getSkinManager(),mappingsConvert.skinsDirectory);;
         var trueSkinPath = Paths.get(skinFolder.toString(),first2chars,locStr);
 
         return new FileInputStream(trueSkinPath.toFile());
@@ -134,7 +134,7 @@ public class textureManager {
     public static DynamicTexture getSteveTexture(){
         if (defaultSkin == null) {
             try {
-                defaultSkin = extendSkinTexture(DefaultPlayerSkin.getDefaultTexture());
+                defaultSkin = extendSkinTexture(DefaultPlayerSkin.getDefaultSkin());
             } catch (IOException e) {
                 e.printStackTrace();
             }

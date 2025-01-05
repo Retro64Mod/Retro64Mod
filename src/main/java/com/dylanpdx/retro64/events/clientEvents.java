@@ -1,12 +1,13 @@
 package com.dylanpdx.retro64.events;
 
 import com.dylanpdx.retro64.*;
+import com.dylanpdx.retro64.capabilities.smc64Capability;
 import com.dylanpdx.retro64.gui.CharSelectScreen;
 import com.dylanpdx.retro64.gui.LibLoadWarnScreen;
 import com.dylanpdx.retro64.gui.SMC64HeartOverlay;
 import com.dylanpdx.retro64.maps.BlockMatMaps;
-import com.dylanpdx.retro64.networking.Retro64Net;
-import com.dylanpdx.retro64.networking.packets.McharPacket;
+import com.dylanpdx.retro64.networking.SM64PacketHandler;
+import com.dylanpdx.retro64.networking.mCharPacket;
 import com.dylanpdx.retro64.sm64.*;
 import com.dylanpdx.retro64.sm64.libsm64.LibSM64;
 import com.dylanpdx.retro64.sm64.libsm64.Libsm64Library;
@@ -31,10 +32,13 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.bus.api.SubscribeEvent;
-import net.neoforged.neoforge.client.event.*;
-import net.neoforged.neoforge.event.entity.player.PlayerEvent;
-import net.neoforged.neoforge.network.PacketDistributor;
+import net.minecraftforge.client.event.*;
+import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
+import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
+import net.minecraftforge.event.entity.EntityLeaveLevelEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.joml.Vector3f;
 
 import java.io.IOException;
@@ -51,8 +55,8 @@ public class clientEvents {
     static boolean initScreenDone =false;
 
     @SubscribeEvent
-    public void registerOverlays(RegisterGuiLayersEvent event){
-        event.registerAboveAll(ResourceLocation.fromNamespaceAndPath("retro64","sm64_heart_overlay"), new SMC64HeartOverlay());
+    public void registerOverlays(RegisterGuiOverlaysEvent event){
+        event.registerAboveAll("sm64_heart_overlay", new SMC64HeartOverlay());
     }
 
     @SubscribeEvent
@@ -61,9 +65,14 @@ public class clientEvents {
     }
 
     @SubscribeEvent
-    public void gameTick(ClientTickEvent.Pre event){
-        //if (event.phase== TickEvent.Phase.END)
-            //return;
+    public void registerCapabilities(RegisterCapabilitiesEvent event){
+        smc64Capability.register(event);
+    }
+
+    @SubscribeEvent
+    public void gameTick(TickEvent.ClientTickEvent event){
+        if (event.phase== TickEvent.Phase.END)
+            return;
         try{
             if (Minecraft.getInstance().player==null){
                 // If the player is null, we're probably not in-game. There's probably a simpler way of checking for this
@@ -79,15 +88,6 @@ public class clientEvents {
                         return; // don't allow toggling in vanilla servers
                     var result = RemoteMCharHandler.toggleMChar(Minecraft.getInstance().player);
                     clickDebounce=true;
-                    if (!result){
-                        PacketDistributor.sendToServer(new McharPacket(
-                                new Vec3(0,0,0).toVector3f(),
-                                new byte[0],
-                                new Vector3f(0,0,0),
-                                -1, -1, // indicator that the player is not in R64 mode
-                                Minecraft.getInstance().player.getGameProfile()
-                        ));
-                    }
 
                 }else if (!Keybinds.getMToggle().isDown() && clickDebounce)
                     clickDebounce=false;
@@ -133,7 +133,7 @@ public class clientEvents {
             RemoteMCharHandler.tickAll(); // Tick the animation of all remote players
             mCharRenderer.renderOtherPlayer(rpe);
             rpe.setCanceled(true);
-            rpe.getRenderer().renderNameTag((AbstractClientPlayer) rpe.getEntity(), rpe.getEntity().getDisplayName(), rpe.getPoseStack(), rpe.getMultiBufferSource(), rpe.getPackedLight(),rpe.getPartialTick());
+            rpe.getRenderer().renderNameTag((AbstractClientPlayer) rpe.getEntity(), rpe.getEntity().getDisplayName(), rpe.getPoseStack(), rpe.getMultiBufferSource(), rpe.getPackedLight());
         }else{
             // Prevent player from being ticked if rendered in UI
             if (!(rpe.getPackedLight()== 15728880 && rpe.getPartialTick()==1.0F))
@@ -195,18 +195,11 @@ public class clientEvents {
                     cB = 1;
                 }
                 for (int i = 0; i < surf.vertices.length; i += 3)
-                    buffer.addVertex(p.pose(),surf.vertices[i]/LibSM64.SCALE_FACTOR,(surf.vertices[i+1]/LibSM64.SCALE_FACTOR)+0.01f,surf.vertices[i+2]/LibSM64.SCALE_FACTOR).setColor(cR,cG,cB,1f);
+                    buffer.vertex(p.pose(),surf.vertices[i]/LibSM64.SCALE_FACTOR,(surf.vertices[i+1]/LibSM64.SCALE_FACTOR)+0.01f,surf.vertices[i+2]/LibSM64.SCALE_FACTOR).color(cR,cG,cB,1f);
             }
             stack.popPose();
             Minecraft.getInstance().renderBuffers().bufferSource().endBatch(rt);
         }
-    }
-
-    @SubscribeEvent
-    public void onRenderGameUI(RenderGuiLayerEvent event){
-        /*if (RemoteMCharHandler.getIsMChar(Minecraft.getInstance().player) && (event.getOverlay() == GuiOverlayManager.findOverlay() || event.getOverlay() == ForgeIngameGui.FOOD_LEVEL_ELEMENT || event.getOverlay() == ForgeIngameGui.ARMOR_LEVEL_ELEMENT)){
-            event.setCanceled(true);
-        }*/
     }
 
     @SubscribeEvent
@@ -252,7 +245,7 @@ public class clientEvents {
 
 
     @SubscribeEvent
-    public void onPlayerJoinWorld(net.neoforged.neoforge.event.entity.EntityJoinLevelEvent event){
+    public void onPlayerJoinWorld(EntityJoinLevelEvent event){
         if (event.getEntity() instanceof Player){
             Player plr = (Player) event.getEntity();
             if (plr.isLocalPlayer() && RemoteMCharHandler.wasMCharDimm!=null && RemoteMCharHandler.wasMCharDimm!=plr.level().dimension()){
@@ -274,7 +267,7 @@ public class clientEvents {
     }
 
     @SubscribeEvent
-    public void onPlayerLeaveWorld(net.neoforged.neoforge.event.entity.EntityLeaveLevelEvent event){
+    public void onPlayerLeaveWorld(EntityLeaveLevelEvent event){
         if (event.getEntity() instanceof Player){
             Player plr = (Player) event.getEntity();
             if (RemoteMCharHandler.getIsMChar(plr) || RemoteMCharHandler.getState(plr) != null){
@@ -314,7 +307,7 @@ public class clientEvents {
         float joystickMult=1;
         boolean poisoned=false;
         for (var effect : plr.getActiveEffects()){
-            switch (Utils.getRegistryName(effect.getEffect().value())){
+            switch (Utils.getRegistryName(effect.getEffect())){
                 case "minecraft:speed":
                     float extraMult = (effect.getAmplifier()+1)*0.1f;
                     joystickMult+=extraMult;
@@ -345,9 +338,9 @@ public class clientEvents {
         // update movement
         updatePlayerMovement(plr,joystickMult);
 
-        /*if (Keybinds.getDebugToggle().consumeClick()){
+        if (Keybinds.getDebugToggle().consumeClick()){
             debug = !debug;
-        }*/
+        }
 
         // sleep handling
         updatePlayerSleep(plr,mchar);
@@ -400,17 +393,13 @@ public class clientEvents {
             plr.setDeltaMovement(0,-0.01f,0);
         }
         // tell the server about the player's position. In the future this should be checked to prevent exploits
-        try{
-            PacketDistributor.sendToServer(new McharPacket(
-                    new Vec3(SM64EnvManager.selfMChar.x(), SM64EnvManager.selfMChar.y(), SM64EnvManager.selfMChar.z()).toVector3f(),
-                    SM64EnvManager.selfMChar.animInfo.serialize(),
-                    new Vector3f(SM64EnvManager.selfMChar.animXRot, SM64EnvManager.selfMChar.animYRot, SM64EnvManager.selfMChar.animZRot), // animation rotations
-                    SM64EnvManager.selfMChar.state.action, SM64EnvManager.selfMChar.state.currentModel,
-                    plr.getGameProfile()
-            ));
-        }catch (IOException e){
-            e.printStackTrace();
-        }
+        SM64PacketHandler.INSTANCE.sendToServer(new mCharPacket(
+                new Vec3(SM64EnvManager.selfMChar.x(), SM64EnvManager.selfMChar.y(), SM64EnvManager.selfMChar.z()),
+                SM64EnvManager.selfMChar.animInfo,
+                SM64EnvManager.selfMChar.animXRot, SM64EnvManager.selfMChar.animYRot, SM64EnvManager.selfMChar.animZRot, // animation rotations
+                SM64EnvManager.selfMChar.state.action, SM64EnvManager.selfMChar.state.currentModel,
+                plr
+        ));
     }
 
     /**

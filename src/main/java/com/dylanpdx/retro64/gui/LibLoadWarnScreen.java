@@ -33,7 +33,7 @@ public class LibLoadWarnScreen extends Screen {
 
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        renderBackground(guiGraphics,mouseX,mouseY,partialTick);
+        renderBackground(guiGraphics);
         //drawTextCentered(pPoseStack, title, width / 2, 20, 0xFFFFFF);
         //drawTextCenteredWrapped(pPoseStack,reason, width / 2, 40, 300,0xFFFFFF);
         //drawTextCenteredWrapped(pPoseStack,Component.translatable("menu.retro64.genericWarn"), width / 2, 60, 300,0xFFFFFF);
