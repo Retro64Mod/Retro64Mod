@@ -131,13 +131,17 @@ public class Utils {
                 trueMaxY = Math.max(trueMaxY, parts.maxY);
                 trueMaxZ = Math.max(trueMaxZ, parts.maxZ);
             } else {
-                vecList.addAll(createVectors(parts.minX, parts.minY, parts.minZ, parts.maxX, parts.maxY, parts.maxZ));
+                vecList.addAll(AABBToVec3List(parts));
             }
         }
 
         // System.out.println(trueMinX + " " + trueMinY + " " + trueMinZ + " " + trueMaxX + " " + trueMaxY + " " + trueMaxZ);
 
         if (maxHitbox) return createVectors(trueMinX, trueMinY, trueMinZ, trueMaxX, trueMaxY, trueMaxZ); else return vecList;
+    }
+
+    public static List<Vec3> AABBToVec3List(AABB aabb){
+        return createVectors(aabb.minX, aabb.minY, aabb.minZ, aabb.maxX, aabb.maxY, aabb.maxZ);
     }
 
     private static List<Vec3> createVectors(double minX, double minY, double minZ, double maxX, double maxY, double maxZ){
