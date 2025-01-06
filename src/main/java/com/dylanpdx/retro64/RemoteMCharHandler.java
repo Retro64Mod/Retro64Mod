@@ -192,7 +192,7 @@ public class RemoteMCharHandler {
         verifyInitialized();
         if (mChars.containsKey(p)){
             return mChars.get(p).state;
-        }else if (p==Minecraft.getInstance().player){
+        }else if (p==Minecraft.getInstance().player && SM64EnvManager.selfMChar != null){
             return SM64EnvManager.selfMChar.state;
         }
         return null;
