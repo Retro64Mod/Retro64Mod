@@ -2,6 +2,7 @@ package com.dylanpdx.retro64.events;
 
 import com.dylanpdx.retro64.*;
 import com.dylanpdx.retro64.capabilities.smc64Capability;
+import com.dylanpdx.retro64.compatibility.GeneralCompat;
 import com.dylanpdx.retro64.gui.CharSelectScreen;
 import com.dylanpdx.retro64.gui.LibLoadWarnScreen;
 import com.dylanpdx.retro64.gui.SMC64HeartOverlay;
@@ -12,6 +13,7 @@ import com.dylanpdx.retro64.sm64.*;
 import com.dylanpdx.retro64.sm64.libsm64.LibSM64;
 import com.dylanpdx.retro64.sm64.libsm64.Libsm64Library;
 import com.dylanpdx.retro64.sm64.libsm64.MChar;
+import com.dylanpdx.retro64.sm64.libsm64.SM64Surface;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.Util;
 import net.minecraft.client.CameraType;
@@ -25,7 +27,6 @@ import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -161,7 +162,7 @@ public class clientEvents {
             }
         }
         // render debug
-        if (isDebug()){
+        if (isDebug() && event.getStage() == RenderLevelStageEvent.Stage.AFTER_ENTITIES){
             var stack = event.getPoseStack();
             var rt = RenType.getDebugRenderType();
             var buffer = Minecraft.getInstance().renderBuffers().bufferSource().getBuffer(rt);
@@ -195,10 +196,72 @@ public class clientEvents {
                     cB = 1;
                 }
                 for (int i = 0; i < surf.vertices.length; i += 3)
-                    buffer.vertex(p.pose(),surf.vertices[i]/LibSM64.SCALE_FACTOR,(surf.vertices[i+1]/LibSM64.SCALE_FACTOR)+0.01f,surf.vertices[i+2]/LibSM64.SCALE_FACTOR).color(cR,cG,cB,1f);
+                    buffer.vertex(p.pose(),
+                            surf.vertices[i]/LibSM64.SCALE_FACTOR,
+                            (surf.vertices[i+1]/LibSM64.SCALE_FACTOR)+0.01f,
+                            surf.vertices[i+2]/LibSM64.SCALE_FACTOR
+                    ).color(cR,cG,cB,1f).endVertex();
             }
+
+            // render moving objects
+
+            for (var obj : LibSM64.surfaceObjects.values()){
+                stack.pushPose();
+                var surfaces = (SM64Surface[])new SM64Surface(obj.surfaces).toArray(obj.surfaceCount);
+                surfaces[0].read();
+                var anchor = new float[]{
+                        obj.transform.position[0]/LibSM64.SCALE_FACTOR,
+                        obj.transform.position[1]/LibSM64.SCALE_FACTOR,
+                        obj.transform.position[2]/LibSM64.SCALE_FACTOR
+                };
+                stack.rotateAround(Utils.quaternionFromXYZ(
+                        (float) Math.toRadians(obj.transform.eulerRotation[0]),
+                        (float) -Math.toRadians(obj.transform.eulerRotation[1]),
+                        (float) Math.toRadians(obj.transform.eulerRotation[2])),
+                        anchor[0],anchor[1],anchor[2]
+                );
+                for (int i = 0; i < obj.surfaceCount; i++){
+                    var surf = surfaces[i];
+                    surf.read();
+                    float cR=0;
+                    float cG=0;
+                    float cB=0;
+                    if (surf.type == (short) SM64SurfaceType.SURFACE_BURNING.value) {
+                        cR = 1;
+                        cG = 0;
+                        cB = 0;
+                    } else if (surf.type == (short) SM64SurfaceType.SURFACE_HANGABLE.value) {
+                        cR = 1;
+                        cG = 0;
+                        cB = 1;
+                    } else if (surf.type == (short) SM64SurfaceType.SURFACE_ICE.value) {
+                        cR = 0;
+                        cG = 1;
+                        cB = 1;
+                    } else if (surf.type == (short) SM64SurfaceType.SURFACE_SHALLOW_QUICKSAND.value) {
+                        cR = .3f;
+                        cG = .3f;
+                        cB = .3f;
+                    } else {
+                        cR = 1;
+                        cG = 1;
+                        cB = 1;
+                    }
+
+                    for (int j = 0; j < surf.vertices.length; j += 3)
+                        buffer.vertex(stack.last().pose(),
+                                (surf.vertices[j]/LibSM64.SCALE_FACTOR)+anchor[0],
+                                (surf.vertices[j+1]/LibSM64.SCALE_FACTOR)+0.01f+anchor[1],
+                                (surf.vertices[j+2]/LibSM64.SCALE_FACTOR)+anchor[2]
+                        ).color(cR,cG,cB,1f).endVertex();
+
+                }
+                stack.popPose();
+            }
+
             stack.popPose();
             Minecraft.getInstance().renderBuffers().bufferSource().endBatch(rt);
+
         }
     }
 
@@ -275,6 +338,7 @@ public class clientEvents {
                 System.out.println("Removed mario for player "+plr.getGameProfile().getName());
             }
         }
+        GeneralCompat.handleEntityLeave(event);
     }
 
     public static boolean isDebug(){
@@ -538,6 +602,9 @@ public class clientEvents {
         surfaceItem[] surfItems = new surfaceItem[surfaces.size()];
         surfaces.toArray(surfItems);
         SM64EnvManager.updateSurfs(surfItems);
+
+        GeneralCompat.onUpdateWorldGeometry(plr);
+
     }
 
     /**

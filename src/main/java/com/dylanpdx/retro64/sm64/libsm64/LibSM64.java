@@ -12,6 +12,7 @@ import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 import static com.dylanpdx.retro64.sm64.libsm64.Libsm64Library.SM64_TEXTURE_HEIGHT;
 import static com.dylanpdx.retro64.sm64.libsm64.Libsm64Library.SM64_TEXTURE_WIDTH;
@@ -25,6 +26,8 @@ public class LibSM64 {
     static final int supportedVer=5;
 
     public final int SM64_MAX_HEALTH = 8;
+
+    public static HashMap<Integer,SM64SurfaceObject> surfaceObjects = new HashMap<>();
 
     public static class mCharState
     {
@@ -111,6 +114,19 @@ public class LibSM64 {
             surfs[i].vertices= surfaces[i].vertices;
         }
         Libsm64Library.INSTANCE.sm64_static_surfaces_load(surfs, surfaces.length); // may not work due to JNA
+    }
+
+    public static int MovingSurfacesLoad(SM64SurfaceObject surfaceObject){
+        var id = Libsm64Library.INSTANCE.sm64_surface_object_create(surfaceObject);
+        surfaceObjects.put(id,surfaceObject);
+        return id;
+    }
+
+    public static void MovingSurfacesRemove(int surfaceObjectId){
+        if (surfaceObjects.containsKey(surfaceObjectId)){
+            surfaceObjects.remove(surfaceObjectId);
+        }
+        Libsm64Library.INSTANCE.sm64_surface_object_delete(surfaceObjectId);
     }
 
     public static int MCharCreate(Vector3f pos){

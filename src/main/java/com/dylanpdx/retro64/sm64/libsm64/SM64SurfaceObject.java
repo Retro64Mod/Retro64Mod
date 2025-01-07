@@ -1,4 +1,5 @@
 package com.dylanpdx.retro64.sm64.libsm64;
+import com.sun.jna.Pointer;
 import com.sun.jna.Structure;
 import java.util.Arrays;
 import java.util.List;
@@ -8,7 +9,7 @@ public class SM64SurfaceObject extends Structure {
 	public SM64ObjectTransform transform;
 	public int surfaceCount;
 	/** C type : SM64Surface* */
-	public SM64Surface.ByReference surfaces;
+	public Pointer surfaces; // SM64Surface*
 	public SM64SurfaceObject() {
 		super();
 	}
@@ -16,7 +17,7 @@ public class SM64SurfaceObject extends Structure {
 		return Arrays.asList("transform", "surfaceCount", "surfaces");
 	}
 
-	public SM64SurfaceObject(SM64ObjectTransform transform, int surfaceCount, SM64Surface.ByReference surfaces) {
+	public SM64SurfaceObject(SM64ObjectTransform transform, int surfaceCount, Pointer surfaces) {
 		super();
 		this.transform = transform;
 		this.surfaceCount = surfaceCount;

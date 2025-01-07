@@ -1,4 +1,5 @@
 package com.dylanpdx.retro64.sm64.libsm64;
+import com.sun.jna.Pointer;
 import com.sun.jna.Structure;
 import java.util.Arrays;
 import java.util.List;
@@ -25,6 +26,12 @@ public class SM64Surface extends Structure {
 			throw new IllegalArgumentException("Wrong array size !");
 		this.vertices = vertices;
 	}
+
+	public SM64Surface(Pointer peer) {
+		super(peer);
+		read();
+	}
+
 	public static class ByReference extends SM64Surface implements Structure.ByReference {
 		
 	};
