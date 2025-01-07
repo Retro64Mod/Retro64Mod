@@ -1,5 +1,8 @@
 {
   "itemGroup.retro64Tab": "Retro64",
+  "item.retro64.wing_cap": "Czapka ze Skrzydłami",
+  "item.retro64.vanish_cap": "Czapka Niewidzialności",
+  "item.retro64.metal_cap": "Czapka Metalu",
   "block.retro64.castlestairs": "Schody Zamku",
   "block.retro64.deep_quicksand": "Głęboki Ruchomy Piasek",
   "block.retro64.instant_quicksand": "Natychmiastowy Ruchomy Piasek",
@@ -10,12 +13,12 @@
   "key.categories.retro64": "Retro64",
   "charSelect.retro64.name": "Wybrana postać: $1",
   "charSelect.retro64.prev": "Poprzedni",
-  "charSelect.retro64.next": "Dalej",
+  "charSelect.retro64.next": "Następny",
   "menu.retro64.ok": "Rozumiem",
   "menu.retro64.genericWarn": "Proszę zapoznać się z instrukcją instalacji. Mod może nie działać poprawnie w tym stanie, lub gra może się crashować.",
   "menu.retro64.warnNoDLL": "Brakuje pliku sm64.dll.",
   "menu.retro64.warnWrongVersion": "Masz złą wersje sm64.dll, możliwe że musisz go skompilować ponownie.",
-  "menu.retro64.warnMissingROM": "Brakuje pliku rom.",
+  "menu.retro64.warnMissingROM": "Brakuje pliku ROM.",
   "menu.retro64.warnPleaseSelectROM": "Proszę wybierz prawidłowy US/USA .z64 ROM. \n(SHA1 hash MUSI być równy 9bef1128717f958171a4afac3ed78ee2bb4e86ce)",
   "menu.retro64.warnInvalidROM": "Wybrany ROM jest nieprawidłowy"
 }

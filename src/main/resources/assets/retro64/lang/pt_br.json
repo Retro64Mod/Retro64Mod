@@ -15,7 +15,7 @@
   "charSelect.retro64.prev": "Anterior",
   "charSelect.retro64.next": "Próximo",
   "menu.retro64.ok": "Eu entendo",
-  "menu.retro64.genericWarn": "Por favor veja as instruções de instalação. O mod pode não funcionar nesse estado, ou o jogo pode travar.",
+  "menu.retro64.genericWarn": "Por favor, veja as instruções de instalação. O mod pode não funcionar nesse estado, ou o jogo pode travar.",
   "menu.retro64.warnNoDLL": "sm64.dll não está disponível.",
   "menu.retro64.warnWrongVersion": "Você tem a versão errada de sm64.dll, poderá precisar compilar novamente.",
   "menu.retro64.warnMissingROM": "Arquivo ROM não está disponível.",

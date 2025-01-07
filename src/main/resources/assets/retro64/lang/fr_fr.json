@@ -1,5 +1,7 @@
 {
   "itemGroup.retro64Tab": "Retro64",
+  "item.retro64.wing_cap": "Casquette ailée",
+  "item.retro64.vanish_cap": "Casquette d'invisibilité",
   "item.retro64.wing_cap": "Casquettes ailées",
   "item.retro64.vanish_cap": "Casquettes d'invisibilité",
   "item.retro64.metal_cap": "Casquette de métal",
@@ -20,5 +22,6 @@
   "menu.retro64.warnWrongVersion": "Vous avez la mauvaise version de sm64.dll, vous devriez peut-être le recompiler.",
   "menu.retro64.warnMissingROM": "Le fichier ROM est manquant.",
   "menu.retro64.warnPleaseSelectROM": "Veuillez sélectionner un fichier ROM valide en format US/USA .z64. \n(La somme de contrôle SHA1 DOIT être 9bef1128717f958171a4afac3ed78ee2bb4e86ce)",
+  "menu.retro64.warnInvalidROM": "Le fichier ROM sélectionné est invalide"
   "menu.retro64.warnInvalidROM": "Le fichier ROM sélectionné n'est pas valide"
 }

@@ -1,15 +1,24 @@
 {
+  "itemGroup.retro64Tab": "Retro64",
+  "item.retro64.wing_cap": "Flügelkappe", // Federkappe? Flügelkappe? Flugkappe?
+  "item.retro64.vanish_cap": "Tarnkappe",
+  "item.retro64.metal_cap": "Metallkappe", // Metallkappe? Titankappe?
   "block.retro64.castlestairs": "Schlosstreppe",
-  "key.retro64.actKey": "Action Key",
-  "key.retro64.mMenu": "Retro64 Menü",
-  "key.retro64.mToggle": "Retro64 Modus auslösen",
+  "block.retro64.deep_quicksand": "Tiefer Treibsand",
+  "block.retro64.instant_quicksand": "Sofortiger Treibsand",
+  "gamerule.forceMario": "Mario-Modus erzwingen",
+  "key.retro64.actKey": "Aktionstaste",
+  "key.retro64.mMenu": "Retro64-Menü",
+  "key.retro64.mToggle": "Retro64-Modus umschalten",
   "key.categories.retro64": "Retro64",
-  "charSelect.retro64.name": "Ausgewählter Charakter: $1",
+  "charSelect.retro64.name": "Gewählter Charakter: $1",
   "charSelect.retro64.prev": "Vorheriger",
   "charSelect.retro64.next": "Nächster",
-  "menu.retro64.ok": "Ich Verstehe",
-  "menu.retro64.genericWarn": "Bitte beachte die Installationsanleitung. Die Mod funktioniert in diesem Zustand möglicherweise nicht richtig oder das Spiel stürzt ab.",
+  "menu.retro64.ok": "Ich verstehe",
+  "menu.retro64.genericWarn": "Bitte beachte die Installationsanleitung. Möglicherweise funktioniert die Mod in diesem Zustand nicht richtig oder das Spiel stürzt ab.",
   "menu.retro64.warnNoDLL": "Dir fehlt sm64.dll.",
-  "menu.retro64.warnWrongVersion": "Du hast die falsche Version von sm64.dll, du musst sie vielleicht neu Kompilieren.",
-  "menu.retro64.warnMissingROM": "Du hast die falsche ROM Datei."
+  "menu.retro64.warnWrongVersion": "Du hast die falsche Version von sm64.dll, du musst sie vielleicht neu kompilieren.",
+  "menu.retro64.warnMissingROM": "Dir fehlt die ROM-Datei.",
+  "menu.retro64.warnPleaseSelectROM": "Bitte wähle eine gültige US/USA .z64 ROM-Datei aus.\n(SHA1-Hash MUSS 9bef1128717f958171a4afac3ed78ee2bb4e86ce sein)",
+  "menu.retro64.warnInvalidROM": "Die ausgewählte ROM-Datei ist ungültig"
 }
