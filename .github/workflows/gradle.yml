@@ -22,7 +22,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v3
         with:
           arguments: build
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: retro64-mod-jar
           path: build/libs/retro64*.jar
