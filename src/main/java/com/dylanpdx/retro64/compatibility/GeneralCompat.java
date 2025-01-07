@@ -1,6 +1,6 @@
 package com.dylanpdx.retro64.compatibility;
 
-import com.dylanpdx.retro64.compatibility.create.CreateCompat;
+//import com.dylanpdx.retro64.compatibility.create.CreateCompat;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.entity.EntityLeaveLevelEvent;

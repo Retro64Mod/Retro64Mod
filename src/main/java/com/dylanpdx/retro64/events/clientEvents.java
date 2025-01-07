@@ -308,7 +308,7 @@ public class clientEvents {
 
 
     @SubscribeEvent
-    public void onPlayerJoinWorld(EntityJoinLevelEvent event){
+    public void onEntityJoinWorld(EntityJoinLevelEvent event){
         if (event.getEntity() instanceof Player){
             Player plr = (Player) event.getEntity();
             if (plr.isLocalPlayer() && RemoteMCharHandler.wasMCharDimm!=null && RemoteMCharHandler.wasMCharDimm!=plr.level().dimension()){
@@ -330,7 +330,7 @@ public class clientEvents {
     }
 
     @SubscribeEvent
-    public void onPlayerLeaveWorld(EntityLeaveLevelEvent event){
+    public void onEntityLeaveWorld(EntityLeaveLevelEvent event){
         if (event.getEntity() instanceof Player){
             Player plr = (Player) event.getEntity();
             if (RemoteMCharHandler.getIsMChar(plr) || RemoteMCharHandler.getState(plr) != null){

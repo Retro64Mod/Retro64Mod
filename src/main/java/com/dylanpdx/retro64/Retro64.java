@@ -7,8 +7,6 @@ import com.dylanpdx.retro64.networking.SM64PacketHandler;
 import net.minecraft.world.entity.Entity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -63,8 +61,8 @@ public class Retro64
             MinecraftForge.EVENT_BUS.addListener(cEvent::onPlayerRender);
             MinecraftForge.EVENT_BUS.addListener(cEvent::worldRender);
             MinecraftForge.EVENT_BUS.addListener(cEvent::onPlayerClone);
-            MinecraftForge.EVENT_BUS.addListener(cEvent::onPlayerJoinWorld);
-            MinecraftForge.EVENT_BUS.addListener(cEvent::onPlayerLeaveWorld);
+            MinecraftForge.EVENT_BUS.addListener(cEvent::onEntityJoinWorld);
+            MinecraftForge.EVENT_BUS.addListener(cEvent::onEntityLeaveWorld);
         }
         modBus.addListener(bEvent::registerCapabilities);
         MinecraftForge.EVENT_BUS.addGenericListener(Entity.class,bEvent::attachCapabilitiesEntity);
