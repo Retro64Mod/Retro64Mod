@@ -122,13 +122,6 @@ public class LibSM64 {
         return id;
     }
 
-    public static void MovingSurfacesRemove(int surfaceObjectId){
-        if (surfaceObjects.containsKey(surfaceObjectId)){
-            surfaceObjects.remove(surfaceObjectId);
-        }
-        Libsm64Library.INSTANCE.sm64_surface_object_delete(surfaceObjectId);
-    }
-
     public static int MCharCreate(Vector3f pos){
         pos = PUFixer.convertToSM64(pos);
         return Libsm64Library.INSTANCE.sm64_mChar_create(pos.x(),pos.y(),pos.z());
@@ -165,6 +158,9 @@ public class LibSM64 {
     }
 
     public static void SurfaceObjectDelete(int surfaceObjectId){
+        if (surfaceObjects.containsKey(surfaceObjectId)){
+            surfaceObjects.remove(surfaceObjectId);
+        }
         Libsm64Library.INSTANCE.sm64_surface_object_delete(surfaceObjectId);
     }
 
