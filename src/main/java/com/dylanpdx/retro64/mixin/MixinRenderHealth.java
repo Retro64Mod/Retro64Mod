@@ -23,4 +23,13 @@ public class MixinRenderHealth {
             ci.cancel();
         }
     }
+
+    @Inject(at=@At("HEAD"),method="Lnet/minecraft/client/gui/Gui;renderArmorLevel(Lnet/minecraft/client/gui/GuiGraphics;)V", cancellable = true)
+    private void renderArmorLevel(GuiGraphics p_283143_, CallbackInfo ci){ // Armor doesn't affect Mario anyways!
+        var gui = ((net.minecraft.client.gui.Gui)(Object)this);
+        var player = Minecraft.getInstance().player;
+        if (RemoteMCharHandler.getIsMChar(player)){
+            ci.cancel();
+        }
+    }
 }
