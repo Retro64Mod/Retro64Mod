@@ -2,10 +2,12 @@ package com.dylanpdx.retro64;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
+import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 
 public class Keybinds {
     private static KeyMapping[] keyBindings;
+    private static KeyMapping debugKb = new KeyMapping("key."+Retro64.MOD_ID+".debugToggle",InputConstants.KEY_RBRACKET/*Right Bracket*/, "key.categories.retro64");
 
     public static void register(RegisterKeyMappingsEvent event){
         // 263-262
@@ -17,6 +19,10 @@ public class Keybinds {
         };
         for (KeyMapping key : keyBindings) {
             event.register(key);
+        }
+
+        if (!FMLEnvironment.production){
+            event.register(debugKb);
         }
     }
 
@@ -32,8 +38,8 @@ public class Keybinds {
         return keyBindings[2];
     }
 
-    /*public static KeyMapping getDebugToggle(){
-        return keyBindings[3];
-    }*/
+    public static KeyMapping getDebugToggle(){
+        return debugKb;
+    }
 
 }

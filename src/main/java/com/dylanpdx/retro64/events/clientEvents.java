@@ -345,9 +345,9 @@ public class clientEvents {
         // update movement
         updatePlayerMovement(plr,joystickMult);
 
-        /*if (Keybinds.getDebugToggle().consumeClick()){
+        if (Keybinds.getDebugToggle().consumeClick()){
             debug = !debug;
-        }*/
+        }
 
         // sleep handling
         updatePlayerSleep(plr,mchar);
