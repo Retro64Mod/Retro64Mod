@@ -137,8 +137,8 @@ public class LibSM64 {
         Libsm64Library.INSTANCE.sm64_mChar_delete(mCharId);
     }
 
-    public static void MCharTeleport(int mCharId, Vec3 pos){
-        Libsm64Library.INSTANCE.sm64_mChar_teleport(mCharId,(float)pos.x()*SCALE_FACTOR,(float)pos.y()*SCALE_FACTOR,(float)pos.z()*SCALE_FACTOR);
+    public static void MCharTeleport(int mCharId, Vector3f pos){
+        Libsm64Library.INSTANCE.sm64_mChar_teleport(mCharId,pos.x()*SCALE_FACTOR,pos.y()*SCALE_FACTOR,pos.z()*SCALE_FACTOR);
     }
 
     public static void MCharChangeState(int mCharId, int stateID){

@@ -151,6 +151,10 @@ public class MChar {
     }
 
     public void teleport(Vec3 pos){
+        LibSM64.MCharTeleport(id,pos.toVector3f());
+    }
+
+    public void teleport(Vector3f pos){
         LibSM64.MCharTeleport(id,pos);
     }
 
@@ -174,6 +178,11 @@ public class MChar {
 
     public Vector3f velocity(){
         Vector3f v = new Vector3f(state.velocity[0],state.velocity[1],state.velocity[2]);
+        return PUFixer.convertToMC(v);
+    }
+
+    public Vector3f position(){
+        Vector3f v = new Vector3f(state.position[0],state.position[1],state.position[2]);
         return PUFixer.convertToMC(v);
     }
 
