@@ -3,6 +3,7 @@ package com.dylanpdx.retro64;
 import com.dylanpdx.retro64.capabilities.smc64Capability;
 import com.dylanpdx.retro64.capabilities.smc64CapabilityInterface;
 import com.dylanpdx.retro64.maps.BlockMatMaps;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.resources.model.BakedModel;
@@ -18,6 +19,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.network.NetworkHooks;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
@@ -247,6 +249,6 @@ public class Utils {
     }
 
     public static boolean isConnectedToVanillaServer(){
-        return false; // NetworkHooks.isVanillaConnection(Minecraft.getInstance().player.connection.getConnection())
+        return NetworkHooks.isVanillaConnection(Minecraft.getInstance().player.connection.getConnection());
     }
 }
