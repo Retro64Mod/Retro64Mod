@@ -86,7 +86,7 @@ public class RemoteMCharHandler {
             // handle for local player
             if (SM64EnvManager.selfMChar==null)
                 SM64EnvManager.selfMChar = new MChar();
-            //capabilitySyncManager.syncClientToServer(smCap,false);
+            capabilitySyncManager.syncClientToServer(Utils.getSmc64Capability(player),false);
             wasMCharDimm=player.level().dimension();
         }
         else
@@ -124,7 +124,7 @@ public class RemoteMCharHandler {
             SM64EnvManager.selfMChar.destroy();
             SM64EnvManager.selfMChar = null;
             wasMCharDimm=null;
-            //capabilitySyncManager.syncClientToServer(smCap,fatal);
+            capabilitySyncManager.syncClientToServer(Utils.getSmc64Capability(player),fatal);
         }
         else
         {

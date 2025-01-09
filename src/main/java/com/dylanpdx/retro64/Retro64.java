@@ -3,6 +3,7 @@ package com.dylanpdx.retro64;
 import com.dylanpdx.retro64.config.Retro64Config;
 import com.dylanpdx.retro64.events.bothEvents;
 import com.dylanpdx.retro64.events.clientEvents;
+import com.dylanpdx.retro64.events.serverEvents;
 import com.dylanpdx.retro64.networking.SM64PacketHandler;
 import net.minecraft.world.entity.Entity;
 import net.minecraftforge.api.distmarker.Dist;
@@ -64,6 +65,13 @@ public class Retro64
             MinecraftForge.EVENT_BUS.addListener(cEvent::onEntityJoinWorld);
             MinecraftForge.EVENT_BUS.addListener(cEvent::onEntityLeaveWorld);
         }
+
+        // server
+        MinecraftForge.EVENT_BUS.addListener(serverEvents::onPlayerJoin);
+        MinecraftForge.EVENT_BUS.addListener(serverEvents::onPlayerPickupXP);
+        MinecraftForge.EVENT_BUS.addListener(serverEvents::playerAttack);
+
+        // both
         modBus.addListener(bEvent::registerCapabilities);
         MinecraftForge.EVENT_BUS.addGenericListener(Entity.class,bEvent::attachCapabilitiesEntity);
 
