@@ -13,14 +13,14 @@ import java.lang.reflect.InvocationTargetException;
 
 import static com.dylanpdx.retro64.mappingsConvert.m_tryCheckInsideBlocks;
 
-@Mixin(net.minecraft.client.gui.Gui.class)
+@Mixin(net.minecraftforge.client.gui.overlay.ForgeGui.class)
 public class MixinRenderHealth {
-    @Inject(at=@At("HEAD"),method="Lnet/minecraft/client/gui/Gui;renderHealthLevel(Lnet/minecraft/client/gui/GuiGraphics;)V", cancellable = true)
-    private void renderHealthLevel(GuiGraphics p_283143_, CallbackInfo ci){
-        var gui = ((net.minecraft.client.gui.Gui)(Object)this);
+    @Inject(at=@At("HEAD"),method="Lnet/minecraftforge/client/gui/overlay/ForgeGui;renderHealth(IILnet/minecraft/client/gui/GuiGraphics;)V", cancellable = true)
+    private void renderHealthLevel(int width, int height, GuiGraphics guiGraphics, CallbackInfo ci){
         var player = Minecraft.getInstance().player;
         if (RemoteMCharHandler.getIsMChar(player)){
             ci.cancel();
         }
+
     }
 }

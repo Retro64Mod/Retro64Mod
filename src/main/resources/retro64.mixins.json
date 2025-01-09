@@ -5,7 +5,8 @@
   "refmap": "retro64.refmap.json",
   "mixins": [
     "MixinPlayerTravel",
-    "MixinRenderHealth"
+    "MixinRenderHealth",
+    "MixinEntityMove"
   ],
   "client": [
   ],
