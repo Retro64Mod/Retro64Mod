@@ -11,7 +11,7 @@ import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 public class Retro64Net {
     @SubscribeEvent
     public static void register(final RegisterPayloadHandlersEvent event) {
-        final PayloadRegistrar registrar = event.registrar("1");
+        final PayloadRegistrar registrar = event.registrar("2");
         registrar.playBidirectional(McharPacket.TYPE, McharPacket.STREAM_CODEC,
         new DirectionalPayloadHandler<>(
                 ClientPayloadHandler::handleMcharPacket,
