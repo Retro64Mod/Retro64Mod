@@ -23,11 +23,11 @@ public class textureManager {
     static NativeImage native_mChar;
     static DynamicTexture mCharTexture;
     static DynamicTexture luigiTexture;
-    static ResourceLocation luigiAtlas = ResourceLocation.fromNamespaceAndPath(Retro64.MOD_ID,"textures/model/luigi_atlas.png");
-    static ResourceLocation steveAtlas = ResourceLocation.fromNamespaceAndPath(Retro64.MOD_ID,"textures/model/steve.png");
-    static ResourceLocation necoarcAtlas = ResourceLocation.fromNamespaceAndPath(Retro64.MOD_ID,"textures/model/necoarc_atlas.png");
-    static ResourceLocation vibriAtlas = ResourceLocation.fromNamespaceAndPath(Retro64.MOD_ID,"textures/model/vibri_atlas.png");
-    static ResourceLocation sonicAtlas = ResourceLocation.fromNamespaceAndPath(Retro64.MOD_ID,"textures/model/sonic_atlas.png");
+    static ResourceLocation luigiAtlas = Utils.resourceLocationFromNamespaceAndPath(Retro64.MOD_ID,"textures/model/luigi_atlas.png");
+    static ResourceLocation steveAtlas = Utils.resourceLocationFromNamespaceAndPath(Retro64.MOD_ID,"textures/model/steve.png");
+    static ResourceLocation necoarcAtlas = Utils.resourceLocationFromNamespaceAndPath(Retro64.MOD_ID,"textures/model/necoarc_atlas.png");
+    static ResourceLocation vibriAtlas = Utils.resourceLocationFromNamespaceAndPath(Retro64.MOD_ID,"textures/model/vibri_atlas.png");
+    static ResourceLocation sonicAtlas = Utils.resourceLocationFromNamespaceAndPath(Retro64.MOD_ID,"textures/model/sonic_atlas.png");
 
 
     public static AbstractTexture getTextureForModel(int modelID, Player player){

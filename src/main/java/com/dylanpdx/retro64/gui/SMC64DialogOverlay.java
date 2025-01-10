@@ -1,6 +1,7 @@
 package com.dylanpdx.retro64.gui;
 
 import com.dylanpdx.retro64.Retro64;
+import com.dylanpdx.retro64.Utils;
 import com.dylanpdx.retro64.sm64.libsm64.Libsm64Library;
 import com.dylanpdx.retro64.sm64.libsm64.SM64Sounds;
 import com.mojang.blaze3d.platform.GlStateManager;
@@ -34,7 +35,7 @@ public class SMC64DialogOverlay extends Screen {
     static final int DIAG_VAL3=132;
     static final int DIAG_VAL4=5;
 
-    public static final ResourceLocation dialogBgLoc = ResourceLocation.fromNamespaceAndPath(Retro64.MOD_ID,"textures/ui/dialog.png");
+    public static final ResourceLocation dialogBgLoc = Utils.resourceLocationFromNamespaceAndPath(Retro64.MOD_ID,"textures/ui/dialog.png");
     static float gDialogBoxScale = 19.0f;
     static float gDialogBoxOpenTimer = 90.0f;
     static int gDialogBoxState = DIALOG_STATE_OPENING;

@@ -1,6 +1,7 @@
 package com.dylanpdx.retro64.sm64;
 
 
+import com.dylanpdx.retro64.Utils;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -173,7 +174,7 @@ public enum SM64SurfaceType {
           public static TagKey<Block> very_slippery = tag("surface/very_slippery");
 
           private static TagKey<Block> tag(String name) {
-               return TagKey.create(BuiltInRegistries.BLOCK.key(), ResourceLocation.fromNamespaceAndPath("retro64", name));
+               return TagKey.create(BuiltInRegistries.BLOCK.key(), Utils.resourceLocationFromNamespaceAndPath("retro64", name));
           }
 
      }

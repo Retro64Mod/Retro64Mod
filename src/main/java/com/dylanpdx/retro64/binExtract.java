@@ -30,7 +30,7 @@ public class binExtract {
             }
             libsm64 = "libsm64.dylib";
         }
-        ResourceLocation libsm64Loc = ResourceLocation.fromNamespaceAndPath(Retro64.MOD_ID,"binary/"+arch+"/"+os+"/"+libsm64);
+        ResourceLocation libsm64Loc = Utils.resourceLocationFromNamespaceAndPath(Retro64.MOD_ID,"binary/"+arch+"/"+os+"/"+libsm64);
         Retro64.LOGGER.info("libsm64 location identified as "+libsm64Loc.toString());
         // extract into temp dir
         var tempDir = Files.createTempDirectory("retro64_bin");

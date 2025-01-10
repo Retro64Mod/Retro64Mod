@@ -10,6 +10,7 @@ import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffect;
@@ -250,5 +251,9 @@ public class Utils {
 
     public static boolean isConnectedToVanillaServer(){
         return NetworkHooks.isVanillaConnection(Minecraft.getInstance().player.connection.getConnection());
+    }
+
+    public static ResourceLocation resourceLocationFromNamespaceAndPath(String namespace, String path){ // for compat with forge 47.3.0
+        return new ResourceLocation(namespace,path);
     }
 }

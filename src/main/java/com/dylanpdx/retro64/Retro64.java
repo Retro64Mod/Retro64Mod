@@ -8,6 +8,7 @@ import com.dylanpdx.retro64.networking.SM64PacketHandler;
 import net.minecraft.world.entity.Entity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -27,9 +28,10 @@ public class Retro64
     public static final Logger LOGGER = Logger.getLogger(MOD_ID);
     public static Method optifineGetShaderpackNameMethod;
 
-    public Retro64(FMLJavaModLoadingContext context) {
+    public Retro64() {
+        var context = FMLJavaModLoadingContext.get();
         var modBus = context.getModEventBus();
-        var modContainer = context.getContainer();
+        var modContainer = ModLoadingContext.get().getActiveContainer();
         SM64PacketHandler.registerPackets();
         bothEvents bEvent=new bothEvents();
         // Register the setup method for modloading

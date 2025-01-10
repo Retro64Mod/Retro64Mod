@@ -1,5 +1,6 @@
 package com.dylanpdx.retro64.maps;
 
+import com.dylanpdx.retro64.Utils;
 import com.dylanpdx.retro64.sm64.SM64SurfaceType;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -12,12 +13,12 @@ import net.minecraft.world.level.block.state.BlockState;
  * Maps a material to a block property.
  */
 public class BlockMatMaps {
-    public static final TagKey<Block> isCubic = TagKey.create(BuiltInRegistries.BLOCK.key(), ResourceLocation.fromNamespaceAndPath("retro64", "collision/is_cubic"));
-    public static final TagKey<Block> isFlat = TagKey.create(BuiltInRegistries.BLOCK.key(), ResourceLocation.fromNamespaceAndPath("retro64", "collision/is_flat"));
-    public static final TagKey<Block> useModel = TagKey.create(BuiltInRegistries.BLOCK.key(), ResourceLocation.fromNamespaceAndPath("retro64", "collision/use_model"));
-    public static final TagKey<Block> maxHitbox = TagKey.create(BuiltInRegistries.BLOCK.key(), ResourceLocation.fromNamespaceAndPath("retro64", "collision/max_hitbox"));
-    public static final TagKey<Block> vanishable = TagKey.create(BuiltInRegistries.BLOCK.key(), ResourceLocation.fromNamespaceAndPath("retro64", "collision/vanishable"));
-    public static final TagKey<Block> intangible = TagKey.create(BuiltInRegistries.BLOCK.key(), ResourceLocation.fromNamespaceAndPath("retro64", "collision/intangible"));
+    public static final TagKey<Block> isCubic = TagKey.create(BuiltInRegistries.BLOCK.key(), Utils.resourceLocationFromNamespaceAndPath("retro64", "collision/is_cubic"));
+    public static final TagKey<Block> isFlat = TagKey.create(BuiltInRegistries.BLOCK.key(), Utils.resourceLocationFromNamespaceAndPath("retro64", "collision/is_flat"));
+    public static final TagKey<Block> useModel = TagKey.create(BuiltInRegistries.BLOCK.key(), Utils.resourceLocationFromNamespaceAndPath("retro64", "collision/use_model"));
+    public static final TagKey<Block> maxHitbox = TagKey.create(BuiltInRegistries.BLOCK.key(), Utils.resourceLocationFromNamespaceAndPath("retro64", "collision/max_hitbox"));
+    public static final TagKey<Block> vanishable = TagKey.create(BuiltInRegistries.BLOCK.key(), Utils.resourceLocationFromNamespaceAndPath("retro64", "collision/vanishable"));
+    public static final TagKey<Block> intangible = TagKey.create(BuiltInRegistries.BLOCK.key(), Utils.resourceLocationFromNamespaceAndPath("retro64", "collision/intangible"));
 
     /**
      * Get material property for a block depending on it's tag.
