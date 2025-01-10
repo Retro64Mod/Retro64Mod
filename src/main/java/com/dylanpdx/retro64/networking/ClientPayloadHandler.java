@@ -2,6 +2,8 @@ package com.dylanpdx.retro64.networking;
 
 import com.dylanpdx.retro64.RemoteMCharHandler;
 import com.dylanpdx.retro64.SM64EnvManager;
+import com.dylanpdx.retro64.networking.packets.DamagePacket;
+import com.dylanpdx.retro64.networking.packets.HealPacket;
 import com.dylanpdx.retro64.networking.packets.McharPacket;
 import com.dylanpdx.retro64.sm64.libsm64.AnimInfo;
 import net.minecraft.world.phys.Vec3;
@@ -31,5 +33,15 @@ public class ClientPayloadHandler {
                 throw new RuntimeException(e);
             }
         }
+    }
+
+    public static void handleDamagePacket(final DamagePacket data, final IPayloadContext context) {
+        if (SM64EnvManager.selfMChar!=null)
+            SM64EnvManager.selfMChar.damage(data.damage(),data.pos());
+    }
+
+    public static void handleHealPacket(final HealPacket data, final IPayloadContext context) {
+        if (SM64EnvManager.selfMChar!=null)
+            SM64EnvManager.selfMChar.heal(data.amount());
     }
 }

@@ -77,9 +77,9 @@ public class RemoteMCharHandler {
     public static void mCharOn(Player player,boolean playEffect){
         if (player.isSpectator()) // don't turn on R64 for spectators
             return;
-        boolean isMChar =Utils.getIsMario(player);
+        boolean isMChar =Utils.getIsMarioData(player);
         if (isMChar) return;
-        Utils.setIsMario(player,true);
+        Utils.setIsMarioData(player,true);
         if (player== Minecraft.getInstance().player)
         {
             // handle for local player
@@ -114,9 +114,9 @@ public class RemoteMCharHandler {
      * @param playEffect If true, play the toggle particles
      */
     public static void mCharOff(Player player,boolean fatal,boolean playEffect){
-        boolean isMChar =Utils.getIsMario(player);
+        boolean isMChar =Utils.getIsMarioData(player);
         if (!isMChar) return;
-        Utils.setIsMario(player,false);
+        Utils.setIsMarioData(player,false);
         player.moveTo(player.position().x,Math.round(player.position().y),player.position().z);
         if (player== Minecraft.getInstance().player)
         {
@@ -139,7 +139,7 @@ public class RemoteMCharHandler {
      * @param player Player to toggle
      */
     public static boolean toggleMChar(Player player){
-        boolean isMChar = Utils.getIsMario(player);
+        boolean isMChar = Utils.getIsMarioData(player);
         if (isMChar) mCharOff(player);
         else mCharOn(player);
         return !isMChar;
@@ -151,7 +151,7 @@ public class RemoteMCharHandler {
      * @return True if the player is in R64 mode
      */
     public static boolean getIsMChar(Player player){
-        return Utils.getIsMario(player); // TODO: refactor?
+        return Utils.getIsMarioData(player); // TODO: refactor?
     }
 
     /**

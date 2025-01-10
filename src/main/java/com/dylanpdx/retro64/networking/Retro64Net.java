@@ -1,5 +1,7 @@
 package com.dylanpdx.retro64.networking;
 
+import com.dylanpdx.retro64.networking.packets.DamagePacket;
+import com.dylanpdx.retro64.networking.packets.HealPacket;
 import com.dylanpdx.retro64.networking.packets.McharPacket;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
@@ -14,6 +16,14 @@ public class Retro64Net {
         new DirectionalPayloadHandler<>(
                 ClientPayloadHandler::handleMcharPacket,
                 ServerPayloadHandler::handleMcharPacket)
+        );
+
+        registrar.playToClient(DamagePacket.TYPE, DamagePacket.STREAM_CODEC,
+                ClientPayloadHandler::handleDamagePacket
+        );
+
+        registrar.playToClient(HealPacket.TYPE, HealPacket.STREAM_CODEC,
+                ClientPayloadHandler::handleHealPacket
         );
     }
 }

@@ -32,6 +32,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.client.event.*;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
@@ -285,7 +286,7 @@ public class clientEvents {
     }
 
     public static boolean isDebug(){
-        return debug;
+        return !FMLEnvironment.production && debug;
     }
 
     /**

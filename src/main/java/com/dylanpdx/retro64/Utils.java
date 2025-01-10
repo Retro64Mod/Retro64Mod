@@ -195,11 +195,11 @@ public class Utils {
         return  ByteBuffer.wrap(bytes).getInt();
     }
 
-    public static boolean getIsMario(Player player){
+    public static boolean getIsMarioData(Player player){
         return player.getData(IS_MARIO);
     }
 
-    public static void setIsMario(Player player, boolean value){
+    public static void setIsMarioData(Player player, boolean value){
         player.setData(IS_MARIO,value);
     }
 

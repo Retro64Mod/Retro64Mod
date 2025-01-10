@@ -89,7 +89,7 @@ public class MChar {
 
         LibSM64.MCharTick(id,inputs,state,outGeometry);
         if (y()<-70)
-            damage(8,Vec3.ZERO);
+            damage(8,new Vector3f(0,0,0));
         geomPos=outGeometry.position.getFloatArray(0,outGeometry.numTrianglesUsed*9);
         geomNorms=outGeometry.normal.getFloatArray(0,outGeometry.numTrianglesUsed*9);
         geomColors=outGeometry.color.getFloatArray(0,outGeometry.numTrianglesUsed*9);
@@ -158,8 +158,8 @@ public class MChar {
         LibSM64.MCharTeleport(id,pos);
     }
 
-    public void damage(int amount,Vec3 pos){
-        Libsm64Library.INSTANCE.sm64_mChar_apply_damage(id,amount,0,(float)pos.x(),(float)pos.y(),(float)pos.z());
+    public void damage(int amount,Vector3f pos){
+        Libsm64Library.INSTANCE.sm64_mChar_apply_damage(id,amount,0,pos.x(),pos.y(),pos.z());
     }
 
     static Pointer allocateVector3Array(int size){
