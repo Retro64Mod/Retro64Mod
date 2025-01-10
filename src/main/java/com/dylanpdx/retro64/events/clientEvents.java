@@ -40,6 +40,7 @@ import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.EntityLeaveLevelEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import org.joml.Vector3f;
 
 import java.io.IOException;
@@ -342,7 +343,7 @@ public class clientEvents {
     }
 
     public static boolean isDebug(){
-        return debug;
+        return !FMLEnvironment.production && debug;
     }
 
     /**
