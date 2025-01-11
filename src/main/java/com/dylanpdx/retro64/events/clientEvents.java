@@ -124,8 +124,24 @@ public class clientEvents {
     }
 
     @SubscribeEvent
-    public void onPlayerRender(RenderPlayerEvent.Pre rpe){
+    public void onPlayerHandRender(RenderHandEvent event){
+        LocalPlayer plr = Minecraft.getInstance().player;
+        if (plr.isAlive() && RemoteMCharHandler.getIsMChar(plr)){
+            if (Minecraft.getInstance().options.getCameraType() == CameraType.FIRST_PERSON){ // just double check
+                mCharTick();
+            }
+        }
+        // Don't render the hand if in MChar mode
+        if (RemoteMCharHandler.getIsMChar(Minecraft.getInstance().player)){
+            event.setCanceled(true);
+        }
+    }
 
+    @SubscribeEvent
+    public void onPlayerRender(RenderPlayerEvent.Pre rpe){
+        if (Minecraft.getInstance().options.getCameraType() == CameraType.THIRD_PERSON_FRONT){
+            Minecraft.getInstance().options.setCameraType(CameraType.FIRST_PERSON);
+        }
         if (!RemoteMCharHandler.getIsMChar(rpe.getEntity())) // don't render if not in R64 mode
             return;
 
@@ -153,15 +169,6 @@ public class clientEvents {
 
     //@SubscribeEvent
     public void worldRender(RenderLevelStageEvent event){
-        LocalPlayer plr = Minecraft.getInstance().player;
-        if (plr.isAlive() && RemoteMCharHandler.getIsMChar(plr)){
-            if (Minecraft.getInstance().options.getCameraType() == CameraType.FIRST_PERSON){
-                mCharTick();
-            }
-            if (Minecraft.getInstance().options.getCameraType() == CameraType.THIRD_PERSON_FRONT){
-                Minecraft.getInstance().options.setCameraType(CameraType.FIRST_PERSON);
-            }
-        }
         // render debug
         if (isDebug() && event.getStage() == RenderLevelStageEvent.Stage.AFTER_ENTITIES){
             var stack = event.getPoseStack();

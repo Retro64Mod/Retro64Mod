@@ -62,6 +62,7 @@ public class Retro64
             MinecraftForge.EVENT_BUS.addListener(cEvent::gameTick);
             MinecraftForge.EVENT_BUS.addListener(cEvent::onScreenShown);
             MinecraftForge.EVENT_BUS.addListener(cEvent::onPlayerRender);
+            MinecraftForge.EVENT_BUS.addListener(cEvent::onPlayerHandRender);
             MinecraftForge.EVENT_BUS.addListener(cEvent::worldRender);
             MinecraftForge.EVENT_BUS.addListener(cEvent::onPlayerClone);
             MinecraftForge.EVENT_BUS.addListener(cEvent::onEntityJoinWorld);

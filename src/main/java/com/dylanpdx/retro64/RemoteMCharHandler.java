@@ -128,7 +128,9 @@ public class RemoteMCharHandler {
         }
         else
         {
-            mChars.remove(player).destroy();
+            var rmPlr = mChars.remove(player);
+            if (rmPlr!=null)
+                rmPlr.destroy();
         }
         player.refreshDimensions();
         if (playEffect)
