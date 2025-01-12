@@ -14,7 +14,6 @@ import java.lang.reflect.Method;
 
 public class mappingsConvert {
 
-    public static final String skinsDirectory = "f_118808_";
     public static final String tryCheckInsideBlocks = "tryCheckInsideBlocks";
 
     public static final Method m_tryCheckInsideBlocks = ObfuscationReflectionHelper.findMethod(Entity.class,mappingsConvert.tryCheckInsideBlocks);
