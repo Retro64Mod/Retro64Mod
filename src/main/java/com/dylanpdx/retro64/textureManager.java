@@ -6,12 +6,14 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.resources.DefaultPlayerSkin;
+import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.client.resources.SkinManager;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 
 import java.io.*;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 
@@ -98,15 +100,15 @@ public class textureManager {
      * @throws IOException if the skin cannot be found/read
      */
     public static InputStream getSkinInputStream(ResourceLocation loc) throws IOException {
-        if (loc==DefaultPlayerSkin.getDefaultSkin())
-            return Minecraft.getInstance().getResourceManager().getResource(DefaultPlayerSkin.getDefaultSkin()).get().open();
-        // Getting it like this because the skin manager method returns a null value
-        var locStr=loc.toString().replace("minecraft:skins/","");
-        var first2chars=locStr.substring(0,2);
-        var skinFolder= ObfuscationReflectionHelper.getPrivateValue(SkinManager.class,Minecraft.getInstance().getSkinManager(),mappingsConvert.skinsDirectory);;
-        var trueSkinPath = Paths.get(skinFolder.toString(),first2chars,locStr);
-
-        return new FileInputStream(trueSkinPath.toFile());
+        var res = Minecraft.getInstance().getResourceManager().getResource(loc);
+        if (!res.isEmpty()){
+            return res.get().open();
+        }
+        // manually find the skin
+        var s = loc.getPath().substring(6);
+        var skinsRoot = Minecraft.getInstance().getSkinManager().skinTextures.root;
+        Path skinPath = skinsRoot.resolve(s.length() > 2 ? s.substring(0, 2) : "xx").resolve(s);
+        return new FileInputStream(skinPath.toFile());
     }
 
     public static DynamicTexture extendSkinTexture(ResourceLocation skinLoc) throws IOException {
@@ -160,21 +162,16 @@ public class textureManager {
 
             // download texture
             var gameProfile= player.getGameProfile();
-            /*Minecraft.getInstance().getSkinManager().registerSkins(gameProfile, new SkinManager.SkinTextureCallback() {
-                @Override
-                public void onSkinTextureAvailable(MinecraftProfileTexture.Type p_118857_, ResourceLocation p_118858_, MinecraftProfileTexture p_118859_) {
-                    try {
-                        if (p_118857_ != MinecraftProfileTexture.Type.SKIN)
-                            return;
-                        var etex=extendSkinTexture(p_118858_);
-                        if (etex==null)
-                            etex=getSteveTexture();
-                        textureMap.put(pname,etex);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+            Minecraft.getInstance().getSkinManager().getOrLoad(gameProfile).thenApply(PlayerSkin::texture).thenAccept((skin)->{
+                try {
+                    var etex=extendSkinTexture(skin);
+                    if (etex==null)
+                        etex=getSteveTexture();
+                    textureMap.put(pname,etex);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            },false);*/
+            });
             return getSteveTexture();
         }
     }
