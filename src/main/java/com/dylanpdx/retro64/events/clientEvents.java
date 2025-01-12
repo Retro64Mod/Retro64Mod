@@ -109,7 +109,10 @@ public class clientEvents {
                         var check=Utils.getRegistryName(Minecraft.getInstance().player.getInventory().armor.get(3).getItem()).equals(capRegNames[i]);
                         if (check && (SM64EnvManager.selfMChar.state.flags & capFlags[i]) != capFlags[i])
                             LibSM64.MCharChangeState(SM64EnvManager.selfMChar.id, SM64EnvManager.selfMChar.state.flags | capFlags[i]);
-                        else if (!check && (SM64EnvManager.selfMChar.state.flags & capFlags[i]) == capFlags[i])
+                    }
+                    for (int i = 0;i<capFlags.length;i++){
+                        var check=Utils.getRegistryName(Minecraft.getInstance().player.getInventory().armor.get(3).getItem()).equals(capRegNames[i]);
+                        if (!check && (SM64EnvManager.selfMChar.state.flags & capFlags[i]) == capFlags[i])
                             LibSM64.MCharChangeState(SM64EnvManager.selfMChar.id, SM64EnvManager.selfMChar.state.flags & ~capFlags[i]);
                     }
                     //var eState = (SM64MCharStateFlags.MCHAR_CAP_ON_HEAD.getValue() | SM64MCharStateFlags.MCHAR_WING_CAP.getValue());
