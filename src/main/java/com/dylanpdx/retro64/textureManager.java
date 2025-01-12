@@ -6,11 +6,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.resources.DefaultPlayerSkin;
-import net.minecraft.client.resources.PlayerSkin;
-import net.minecraft.client.resources.SkinManager;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 
 import java.io.*;
 import java.nio.file.Path;
@@ -106,7 +103,7 @@ public class textureManager {
         }
         // manually find the skin
         var s = loc.getPath().substring(6);
-        var skinsRoot = Minecraft.getInstance().getSkinManager().skinTextures.root;
+        var skinsRoot = Minecraft.getInstance().getSkinManager().skinsDirectory.toPath();
         Path skinPath = skinsRoot.resolve(s.length() > 2 ? s.substring(0, 2) : "xx").resolve(s);
         return new FileInputStream(skinPath.toFile());
     }
@@ -162,7 +159,7 @@ public class textureManager {
 
             // download texture
             var gameProfile= player.getGameProfile();
-            Minecraft.getInstance().getSkinManager().getOrLoad(gameProfile).thenApply(PlayerSkin::texture).thenAccept((skin)->{
+            var skin = Minecraft.getInstance().getSkinManager().getInsecureSkinLocation(gameProfile);
                 try {
                     var etex=extendSkinTexture(skin);
                     if (etex==null)
@@ -171,7 +168,6 @@ public class textureManager {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            });
             return getSteveTexture();
         }
     }
