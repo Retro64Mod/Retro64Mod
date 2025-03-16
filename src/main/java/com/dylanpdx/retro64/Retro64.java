@@ -3,12 +3,14 @@ package com.dylanpdx.retro64;
 import com.dylanpdx.retro64.attachments.retro64attachments;
 import com.dylanpdx.retro64.config.Retro64Config;
 import com.dylanpdx.retro64.events.bothEvents;
+import com.dylanpdx.retro64.events.clientControllerEvents;
 import com.dylanpdx.retro64.events.clientEvents;
 import com.dylanpdx.retro64.events.serverEvents;
 import com.dylanpdx.retro64.networking.Retro64Net;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.ModList;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -41,11 +43,10 @@ public class Retro64
 
         if (FMLLoader.getDist() == Dist.CLIENT){
             clientEvents cEvent=new clientEvents();
-            /*if (ModList.get().isLoaded("controllable")){
-                clientControllerEvents cControllerEvent=new clientControllerEvents();
-                NeoForge.EVENT_BUS.register(cControllerEvent);
+            if (ModList.get().isLoaded("controllable")){
+                clientControllerEvents.register();
                 hasControllerSupport=true;
-            }*/
+            }
             // optifine check, find "net.optifine.shaders" class through reflection
             try {
                 var optiShaders = Class.forName("net.optifine.shaders.Shaders");

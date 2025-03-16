@@ -146,6 +146,8 @@ dependencies {
     // For more info:
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
+    implementation "curse.maven:controllable-317269:6277379"
+    implementation "curse.maven:framework-549225:5911998"
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.
