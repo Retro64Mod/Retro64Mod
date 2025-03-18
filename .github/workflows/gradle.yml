@@ -6,10 +6,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
@@ -36,4 +32,4 @@ jobs:
         uses: tsickert/discord-webhook@v7.0.0
         with:
           webhook-url: ${{ secrets.WEBHOOK_URL }}
-          content: "A new beta version has been built for the **${{ github.ref_name }}** branch: ${{ github.workflow }}\n\n${{ steps.artifact-upload-step.outputs.artifact-url }}"
+          content: "A new beta version has been built for the **${{ github.ref_name }}** branch: ${{ github.event.head_commit.message }}\n\n${{ steps.artifact-upload-step.outputs.artifact-url }}"
