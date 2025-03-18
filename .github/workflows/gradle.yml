@@ -32,4 +32,4 @@ jobs:
         uses: tsickert/discord-webhook@v7.0.0
         with:
           webhook-url: ${{ secrets.WEBHOOK_URL }}
-          content: "A new beta version has been built for the **${{ github.ref_name }}** branch: ${{ github.event.push.head_commit.message }}\n\n${{ steps.artifact-upload-step.outputs.artifact-url }}"
+          content: "A new beta version has been built for the **${{ github.ref_name }}** branch: ${{ github.workflow }}\n\n${{ steps.artifact-upload-step.outputs.artifact-url }}"
