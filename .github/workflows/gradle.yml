@@ -23,6 +23,13 @@ jobs:
         with:
           arguments: build
       - uses: actions/upload-artifact@v4
+        id: artifact-upload-step
         with:
           name: retro64-mod-jar
           path: build/libs/retro64*.jar
+      - name: Discord Webhook Action
+        if: ${{ github.event_name == 'push' }}
+        uses: tsickert/discord-webhook@v7.0.0
+        with:
+          webhook-url: ${{ secrets.WEBHOOK_URL }}
+          content: "A new beta version has been built for the **${{ github.ref_name }}** branch: ${{ github.event.push.head_commit.message }}\n\n${{ steps.artifact-upload-step.outputs.artifact-url }}"
