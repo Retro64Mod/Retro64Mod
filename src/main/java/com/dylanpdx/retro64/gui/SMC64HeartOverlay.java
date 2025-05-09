@@ -23,6 +23,8 @@ public class SMC64HeartOverlay implements LayeredDraw.Layer {
     private void renderHearts(GuiGraphics guiGraphics, Player player, int x, int y, int height, int offsetHeartIndex, float maxHealth, int currentHealth, int displayHealth, int absorptionAmount, boolean renderHighlight) throws InvocationTargetException, IllegalAccessException {
         if (forPlayerMethod==null)
             forPlayerMethod = ObfuscationReflectionHelper.findMethod(Gui.HeartType.class,"forPlayer",Player.class);
+        if (Minecraft.getInstance().options.hideGui)
+            return;
         Gui.HeartType gui$hearttype = (Gui.HeartType) forPlayerMethod.invoke(null,player);
         boolean flag = player.level().getLevelData().isHardcore();
         int i = Mth.ceil((double)maxHealth / 2.0);
