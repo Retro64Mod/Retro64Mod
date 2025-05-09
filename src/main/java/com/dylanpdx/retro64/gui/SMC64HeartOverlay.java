@@ -20,7 +20,7 @@ public class SMC64HeartOverlay implements IGuiOverlay {
 
     @Override
     public void render(ForgeGui forgeGui, GuiGraphics guiGraphics, float v, int i, int i1) {
-        if (!RemoteMCharHandler.getIsMChar(Minecraft.getInstance().player) || SM64EnvManager.selfMChar.state==null)
+        if (!RemoteMCharHandler.getIsMChar(Minecraft.getInstance().player) || SM64EnvManager.selfMChar.state==null || Minecraft.getInstance().options.hideGui)
             return;
         if (Minecraft.getInstance().player.isUnderWater())
             return; // will be handled by MC's default air overlay

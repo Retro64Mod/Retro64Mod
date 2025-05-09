@@ -125,12 +125,6 @@ public class clientEvents {
 
     @SubscribeEvent
     public void onPlayerHandRender(RenderHandEvent event){
-        LocalPlayer plr = Minecraft.getInstance().player;
-        if (plr.isAlive() && RemoteMCharHandler.getIsMChar(plr)){
-            if (Minecraft.getInstance().options.getCameraType() == CameraType.FIRST_PERSON){ // just double check
-                mCharTick();
-            }
-        }
         // Don't render the hand if in MChar mode
         if (RemoteMCharHandler.getIsMChar(Minecraft.getInstance().player)){
             event.setCanceled(true);
@@ -169,6 +163,13 @@ public class clientEvents {
 
     //@SubscribeEvent
     public void worldRender(RenderLevelStageEvent event){
+        LocalPlayer plr = Minecraft.getInstance().player;
+        if (plr.isAlive() && RemoteMCharHandler.getIsMChar(plr)){
+            if (Minecraft.getInstance().options.getCameraType() == CameraType.FIRST_PERSON){ // just double check
+                mCharTick();
+            }
+        }
+
         // render debug
         if (isDebug() && event.getStage() == RenderLevelStageEvent.Stage.AFTER_ENTITIES){
             var stack = event.getPoseStack();
