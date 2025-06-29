@@ -7,11 +7,12 @@ import net.minecraftforge.event.entity.EntityLeaveLevelEvent;
 import net.minecraftforge.fml.ModList;
 
 public class GeneralCompat {
-    static byte createStatus=0;
+    private static byte createStatus=0;
     public static boolean hasCreate() {
-        if (createStatus==0)
+        return false; // Currently disabled due to bugs; TODO: Fix Invalid memory access on contraption destroy
+        /*if (createStatus==0)
             createStatus = ModList.get().isLoaded("create") ? (byte)2 : (byte)1;
-        return createStatus==2;
+        return createStatus==2;*/
     }
 
     public static void handleEntityLeave(EntityLeaveLevelEvent event){
