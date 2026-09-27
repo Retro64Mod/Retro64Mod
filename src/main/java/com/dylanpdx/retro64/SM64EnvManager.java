@@ -198,7 +198,7 @@ public class SM64EnvManager {
      * find a file that matches the ROM_HASH"
      * @return the file that matches the SHA1 hash, or null if no file matches
      */
-    public static File getROMFile(){
+    public static File getROMFile(boolean promptToLoad){
 
         try{
             File configuredROMPath=new File(Retro64Config.ROM_PATH.get());
@@ -218,44 +218,48 @@ public class SM64EnvManager {
                 return false;
             }
         });
-        if (files == null || files.length == 0) {
-            System.setProperty("java.awt.headless","false"); // This is probably a really bad idea, but MC's internal GUI system doesn't have an east way to create a file browser.
-            // PR's are welcome if anyone wants to implement this using MC code.
-            JDialog dialog = new JDialog();
-            // show an error message
-            var result = JOptionPane.showConfirmDialog(dialog,
-                    Component.translatable("menu.retro64.warnMissingROM").getString()+"\n"+
-                    Component.translatable("menu.retro64.warnPleaseSelectROM").getString(),
-                                "Error", JOptionPane.OK_CANCEL_OPTION);
-            if (result == JOptionPane.OK_OPTION) {
-                boolean valid = false;
-                while (!valid){
-                    // open file chooser
-                    JFileChooser fileChooser = new JFileChooser();
-                    fileChooser.setFileFilter(new FileNameExtensionFilter("Z64 ROM", "z64"));
-                    fileChooser.setDialogTitle("Select a ROM");
-                    fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-                    fileChooser.setMultiSelectionEnabled(false);
-                    int returnVal = fileChooser.showOpenDialog(dialog);
-                    if (returnVal == JFileChooser.APPROVE_OPTION) {
-                        File file = fileChooser.getSelectedFile();
-                        if (createSha1String(file).equals(ROM_HASH)) {
-                            Retro64Config.ROM_PATH.set(file.getAbsolutePath());
-                            Retro64Config.ROM_PATH.save();
-                            return file;
-                        }else{
-                            JOptionPane.showMessageDialog(dialog,
-                            Component.translatable("menu.retro64.warnInvalidROM").getString()+"\n"+
-                    Component.translatable("menu.retro64.warnPleaseSelectROM").getString(),
-                            "Error", JOptionPane.ERROR_MESSAGE);
+        if (promptToLoad)
+        {
+            if (files == null || files.length == 0) {
+                System.setProperty("java.awt.headless","false"); // This is probably a really bad idea, but MC's internal GUI system doesn't have an east way to create a file browser.
+                // PR's are welcome if anyone wants to implement this using MC code.
+                JDialog dialog = new JDialog();
+                // show an error message
+                var result = JOptionPane.showConfirmDialog(dialog,
+                        Component.translatable("menu.retro64.warnMissingROM").getString()+"\n"+
+                                Component.translatable("menu.retro64.warnPleaseSelectROM").getString(),
+                        "Error", JOptionPane.OK_CANCEL_OPTION);
+                if (result == JOptionPane.OK_OPTION) {
+                    boolean valid = false;
+                    while (!valid){
+                        // open file chooser
+                        JFileChooser fileChooser = new JFileChooser();
+                        fileChooser.setFileFilter(new FileNameExtensionFilter("Z64 ROM", "z64"));
+                        fileChooser.setDialogTitle("Select a ROM");
+                        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+                        fileChooser.setMultiSelectionEnabled(false);
+                        int returnVal = fileChooser.showOpenDialog(dialog);
+                        if (returnVal == JFileChooser.APPROVE_OPTION) {
+                            File file = fileChooser.getSelectedFile();
+                            if (createSha1String(file).equals(ROM_HASH)) {
+                                Retro64Config.ROM_PATH.set(file.getAbsolutePath());
+                                Retro64Config.ROM_PATH.save();
+                                return file;
+                            }else{
+                                JOptionPane.showMessageDialog(dialog,
+                                        Component.translatable("menu.retro64.warnInvalidROM").getString()+"\n"+
+                                                Component.translatable("menu.retro64.warnPleaseSelectROM").getString(),
+                                        "Error", JOptionPane.ERROR_MESSAGE);
+                            }
+                        }else if (returnVal == JFileChooser.CANCEL_OPTION){
+                            valid = true;
                         }
-                    }else if (returnVal == JFileChooser.CANCEL_OPTION){
-                        valid = true;
                     }
                 }
+                return null;//throw new FileNotFoundException("Could not find valid ROM");
             }
-
-            return null;//throw new FileNotFoundException("Could not find valid ROM");
+        }else{
+            return null;
         }
         Retro64Config.ROM_PATH.set(files[0].toPath().toString());
         Retro64Config.ROM_PATH.save();
@@ -270,7 +274,7 @@ public class SM64EnvManager {
         if (initialized)
             return;
         Retro64.LOGGER.info("Initializing Retro64. LibSM64 version: " + LibSM64.getVersion());
-        var romFile = getROMFile();
+        var romFile = getROMFile(true);
         if (romFile == null) {
             return;
         }

@@ -78,8 +78,12 @@ public class clientEvents {
                 if (Keybinds.getMToggle().isDown() && !clickDebounce){
                     if (Utils.isConnectedToVanillaServer())
                         return; // don't allow toggling in vanilla servers
-                    var result = RemoteMCharHandler.toggleMChar(Minecraft.getInstance().player);
                     clickDebounce=true;
+                    if (SM64EnvManager.getROMFile(false) == null){
+                        Minecraft.getInstance().gui.getChat().addMessage(Component.translatable("menu.retro64.warnMissingROM"));
+                        return;
+                    }
+                    var result = RemoteMCharHandler.toggleMChar(Minecraft.getInstance().player);
                     if (!result){
                         PacketDistributor.sendToServer(new McharPacket(
                                 new Vec3(0,0,0).toVector3f(),
@@ -648,7 +652,7 @@ public class clientEvents {
     public void onScreenShown(ScreenEvent.Opening event){
         if (initScreenDone)
             return;
-        var rom = SM64EnvManager.getROMFile();
+        var rom = SM64EnvManager.getROMFile(true);
         if (event.getScreen() instanceof TitleScreen){
             if (!LibSM64.libFileExists() || !LibSM64.isSupportedVersion() || rom==null){
                 MutableComponent reason;
